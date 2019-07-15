@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.usinasantafe.pru">
+
+    <application
+        android:name=".PRUContext"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".TurmaActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".OSActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MenuPrincipalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MenuParadaActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ListaFuncActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ListaFuncApontActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ListaAtivActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FuncionarioActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DescricaoOSActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ConfiguracaoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PrincipalActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
