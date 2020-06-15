@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pru;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +7,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
-import br.com.usinasantafe.pru.bo.ConexaoWeb;
-import br.com.usinasantafe.pru.bo.ManipDadosVerif;
-import br.com.usinasantafe.pru.to.tb.estaticas.OSTO;
-import br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivTO;
+import br.com.usinasantafe.pru.util.ConexaoWeb;
+import br.com.usinasantafe.pru.util.VerifDadosServ;
 
 public class OSActivity extends ActivityGeneric {
 
@@ -35,12 +32,12 @@ public class OSActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
                 if (!editTextPadrao.getText().toString().equals("")) {
 
-                    OSTO osTO = new OSTO();
+                    br.com.usinasantafe.pru.to.tb.estaticas.OSBean osTO = new br.com.usinasantafe.pru.to.tb.estaticas.OSBean();
                     if(pruContext.getVerPosTelaPrinc() == 1){
-                        pruContext.getBoletimTO().setOsBoletim(Long.parseLong(editTextPadrao.getText().toString()));
+                        pruContext.getBoletimBean().setOsBoletim(Long.parseLong(editTextPadrao.getText().toString()));
                         osTO.deleteAll();
-                        ROSAtivTO rosAtivTO = new ROSAtivTO();
-                        rosAtivTO.deleteAll();
+                        br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean rosAtivBean = new br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean();
+                        rosAtivBean.deleteAll();
                     }
                     else{
                         pruContext.getApontamentoTO().setOsAponta(Long.parseLong(editTextPadrao.getText().toString()));
@@ -65,7 +62,7 @@ public class OSActivity extends ActivityGeneric {
 
                             customHandler.postDelayed(updateTimerThread, 10000);
 
-                            ManipDadosVerif.getInstance().verDados(editTextPadrao.getText().toString(), "OS"
+                            VerifDadosServ.getInstance().verDados(editTextPadrao.getText().toString(), "OS"
                                     , OSActivity.this, ListaAtivActivity.class, progressBar);
 
                         } else {
@@ -97,12 +94,12 @@ public class OSActivity extends ActivityGeneric {
 
     public void onBackPressed()  {
         if(pruContext.getVerPosTelaPrinc() == 1){
-            Intent it = new Intent(OSActivity.this, PrincipalActivity.class);
+            Intent it = new Intent(OSActivity.this, MenuInicialActivity.class);
             startActivity(it);
             finish();
         }
         else{
-            Intent it = new Intent(OSActivity.this, MenuPrincipalActivity.class);
+            Intent it = new Intent(OSActivity.this, MenuMotoMecActivity.class);
             startActivity(it);
             finish();
         }
@@ -112,9 +109,9 @@ public class OSActivity extends ActivityGeneric {
 
         public void run() {
 
-            if(!ManipDadosVerif.getInstance().isVerTerm()) {
+            if(!VerifDadosServ.getInstance().isVerTerm()) {
 
-                ManipDadosVerif.getInstance().cancelVer();
+                VerifDadosServ.getInstance().cancelVer();
                 if (progressBar.isShowing()) {
                     progressBar.dismiss();
                 }

@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pru;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,15 +11,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.bo.ManipDadosEnvio;
-import br.com.usinasantafe.pru.to.tb.estaticas.FuncTO;
-import br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimTO;
+import br.com.usinasantafe.pru.util.EnvioDadosServ;
 
 public class ListaFuncApontActivity extends ActivityGeneric {
 
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;
-    private ListView lista;
+    private ListView funcListView;
     private List funcList;
     private PRUContext pruContext;
 
@@ -37,29 +34,29 @@ public class ListaFuncApontActivity extends ActivityGeneric {
         pruContext = (PRUContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
 
-        FuncBoletimTO funcBoletimTO = new FuncBoletimTO();
-        List funcBolList = funcBoletimTO.all();
+        br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
+        List funcBolList = funcBoletimBean.all();
         ArrayList<Long> rLista = new ArrayList<Long>();
 
         for (int i = 0; i < funcBolList.size(); i++) {
-            funcBoletimTO = (FuncBoletimTO) funcBolList.get(i);
-            rLista.add(funcBoletimTO.getCodFuncBoletim());
+            funcBoletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean) funcBolList.get(i);
+            rLista.add(funcBoletimBean.getCodFuncBoletim());
         }
 
-        FuncTO funcTO = new FuncTO();
-        funcList = funcTO.inAndOrderBy("codFunc", rLista, "nomeFunc", true);
+        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
+        funcList = funcBean.inAndOrderBy("codFunc", rLista, "nomeFunc", true);
 
         for (int i = 0; i < funcList.size(); i++) {
-            funcTO = (FuncTO) funcList.get(i);
+            funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             viewHolderChoice.setSelected(false);
-            viewHolderChoice.setDescrCheckBox(funcTO.getNomeFunc());
+            viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
             itens.add(viewHolderChoice);
         }
 
         adapterListChoice = new AdapterListChoice(this, itens);
-        lista = (ListView) findViewById(R.id.listFuncAloc);
-        lista.setAdapter(adapterListChoice);
+        funcListView = (ListView) findViewById(R.id.listFuncAloc);
+        funcListView.setAdapter(adapterListChoice);
 
         buttonDesmarcarTodos.setOnClickListener(new View.OnClickListener() {
 
@@ -68,18 +65,18 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                FuncTO funcTO = new FuncTO();
+                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
                 for (int i = 0; i < funcList.size(); i++) {
-                    funcTO = (FuncTO) funcList.get(i);
+                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
-                    viewHolderChoice.setDescrCheckBox(funcTO.getNomeFunc());
+                    viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
                     itens.add(viewHolderChoice);
                 }
 
                 adapterListChoice = new AdapterListChoice( ListaFuncApontActivity.this, itens);
-                lista = (ListView) findViewById(R.id.listFuncAloc);
-                lista.setAdapter(adapterListChoice);
+                funcListView = (ListView) findViewById(R.id.listFuncAloc);
+                funcListView.setAdapter(adapterListChoice);
 
             }
         });
@@ -91,18 +88,18 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                FuncTO funcTO = new FuncTO();
+                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
                 for (int i = 0; i < funcList.size(); i++) {
-                    funcTO = (FuncTO) funcList.get(i);
+                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
-                    viewHolderChoice.setDescrCheckBox(funcTO.getNomeFunc());
+                    viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
                     itens.add(viewHolderChoice);
                 }
 
                 adapterListChoice = new AdapterListChoice(ListaFuncApontActivity.this, itens);
-                lista = (ListView) findViewById(R.id.listFuncAloc);
-                lista.setAdapter(adapterListChoice);
+                funcListView = (ListView) findViewById(R.id.listFuncAloc);
+                funcListView.setAdapter(adapterListChoice);
 
             }
         });
@@ -119,7 +116,7 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                     finish();
                 }
                 else if(pruContext.getVerPosTelaPrinc() == 3L){
-                    Intent it = new Intent(ListaFuncApontActivity.this, MenuParadaActivity.class);
+                    Intent it = new Intent(ListaFuncApontActivity.this, ListaParadaActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -139,17 +136,17 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                     ViewHolderChoice viewHolderChoice = itens.get(i);
 
                     if(viewHolderChoice.isSelected()){
-                        FuncTO funcTO = (FuncTO) funcList.get(i);
-                        funcSelectedList.add(funcTO.getCodFunc());
+                        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+                        funcSelectedList.add(funcBean.getCodFunc());
                     }
 
                 }
 
                 if(funcSelectedList.size() > 0){
 
-                    ManipDadosEnvio.getInstance().salvaAponta(pruContext.getApontamentoTO(), funcSelectedList);
+                    EnvioDadosServ.getInstance().salvaAponta(pruContext.getApontamentoTO(), funcSelectedList);
 
-                    Intent it = new Intent(ListaFuncApontActivity.this, MenuPrincipalActivity.class);
+                    Intent it = new Intent(ListaFuncApontActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
 

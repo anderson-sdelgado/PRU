@@ -36,4 +36,6 @@
     <string name="texto_titulo_desc_os">DESCRIÇÃO DA OS</string>
     <string name="texto_descr_os">OS 100580\nSEÇÃO 700\nFRANCISCO C. R. DE CAMARGO</string>
     <string name="texto_num_linha_config">NUM. LINHA:</string>
+    <string name="texto_senha">DIGITE A SENHA:</string>
+    <string name="texto_senha_config">SENHA:</string>
 </resources>

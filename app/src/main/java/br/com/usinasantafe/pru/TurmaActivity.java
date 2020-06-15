@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pru;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.usinasantafe.pru.to.tb.estaticas.TurmaTO;
 
 public class TurmaActivity extends ActivityGeneric {
 
@@ -30,12 +27,12 @@ public class TurmaActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        TurmaTO turmaTO = new TurmaTO();
-        turmaList = turmaTO.all();
+        br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean turmaBean = new br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean();
+        turmaList = turmaBean.all();
 
         for (int i = 0; i < turmaList.size(); i++) {
-            turmaTO = (TurmaTO) turmaList.get(i);
-            itens.add(turmaTO.getDescrTurma());
+            turmaBean = (br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean) turmaList.get(i);
+            itens.add(turmaBean.getDescrTurma());
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
@@ -49,9 +46,9 @@ public class TurmaActivity extends ActivityGeneric {
                                     long id) {
                 // TODO Auto-generated method stub
 
-                TurmaTO turmaTO = (TurmaTO) turmaList.get(position);
+                br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean turmaBean = (br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean) turmaList.get(position);
 
-                pruContext.getBoletimTO().setIdTurmaBoletim(turmaTO.getIdTurma());
+                pruContext.getBoletimBean().setIdTurmaBoletim(turmaBean.getIdTurma());
 
                 Intent it = new Intent(TurmaActivity.this, ListaFuncActivity.class);
                 startActivity(it);

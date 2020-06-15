@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
-import br.com.usinasantafe.pru.pst.DatabaseHelper;
+import br.com.usinasantafe.pru.model.pst.DatabaseHelper;
 
 public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 

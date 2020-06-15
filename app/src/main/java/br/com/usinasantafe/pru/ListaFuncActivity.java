@@ -11,10 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.bo.ManipDadosEnvio;
-import br.com.usinasantafe.pru.to.tb.estaticas.FuncTO;
-import br.com.usinasantafe.pru.to.tb.variaveis.ConfiguracaoTO;
-import br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimTO;
+import br.com.usinasantafe.pru.util.EnvioDadosServ;
 
 public class ListaFuncActivity extends ActivityGeneric {
 
@@ -23,7 +20,7 @@ public class ListaFuncActivity extends ActivityGeneric {
     private List funcList;
     private AdapterListChoice adapterListChoice;
     private ArrayList<ViewHolderChoice> itens;
-    private ConfiguracaoTO configuracaoTO;
+    private br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +34,22 @@ public class ListaFuncActivity extends ActivityGeneric {
         Button buttonRetListaFunc = (Button) findViewById(R.id.buttonRetListaFunc);
         Button buttonSalvarListaFunc = (Button) findViewById(R.id.buttonSalvarListaFunc);
 
-        configuracaoTO = new ConfiguracaoTO();
-        List configList = configuracaoTO.all();
-        configuracaoTO = (ConfiguracaoTO) configList.get(0);
+        configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
+        List configList = configBean.all();
+        configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
 
         itens = new ArrayList<ViewHolderChoice>();
 
-        FuncTO funcTO = new FuncTO();
-        funcList =  funcTO.getAndOrderBy("idTurma", configuracaoTO.getIdTurma(), "nomeFunc", true);
+        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
+        funcList =  funcBean.getAndOrderBy("idTurma", configBean.getIdTurma(), "nomeFunc", true);
 
         if(pruContext.getVerPosTelaPrinc() == 1) {
 
             for (int i = 0; i < funcList.size(); i++) {
-                funcTO = (FuncTO) funcList.get(i);
+                funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
                 ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                 viewHolderChoice.setSelected(false);
-                viewHolderChoice.setDescrCheckBox(funcTO.getNomeFunc());
+                viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
                 itens.add(viewHolderChoice);
             }
 
@@ -60,9 +57,9 @@ public class ListaFuncActivity extends ActivityGeneric {
         else if(pruContext.getVerPosTelaPrinc() == 4) {
 
             for (int i = 0; i < funcList.size(); i++) {
-                funcTO = (FuncTO) funcList.get(i);
-                FuncBoletimTO funcBoletimTO = new FuncBoletimTO();
-                List funcBoletimList = funcBoletimTO.get("codFuncBoletim", funcTO.getCodFunc());
+                funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+                br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
+                List funcBoletimList = funcBoletimBean.get("codFuncBoletim", funcBean.getCodFunc());
                 ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                 if(funcBoletimList.size() == 0) {
                     viewHolderChoice.setSelected(false);
@@ -70,7 +67,7 @@ public class ListaFuncActivity extends ActivityGeneric {
                 else{
                     viewHolderChoice.setSelected(true);
                 }
-                viewHolderChoice.setDescrCheckBox(funcTO.getNomeFunc());
+                viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
                 itens.add(viewHolderChoice);
             }
 
@@ -87,12 +84,12 @@ public class ListaFuncActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                FuncTO funcTO = new FuncTO();
+                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
                 for (int i = 0; i < funcList.size(); i++) {
-                    funcTO = (FuncTO) funcList.get(i);
+                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
-                    viewHolderChoice.setDescrCheckBox(funcTO.getNomeFunc());
+                    viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
                     itens.add(viewHolderChoice);
                 }
 
@@ -110,12 +107,12 @@ public class ListaFuncActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                FuncTO funcTO = new FuncTO();
+                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
                 for (int i = 0; i < funcList.size(); i++) {
-                    funcTO = (FuncTO) funcList.get(i);
+                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
-                    viewHolderChoice.setDescrCheckBox(funcTO.getNomeFunc());
+                    viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
                     itens.add(viewHolderChoice);
                 }
 
@@ -133,12 +130,12 @@ public class ListaFuncActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 if(pruContext.getVerPosTelaPrinc() == 1) {
-                    Intent it = new Intent(ListaFuncActivity.this, MenuPrincipalActivity.class);
+                    Intent it = new Intent(ListaFuncActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else if(pruContext.getVerPosTelaPrinc() == 4) {
-                    Intent it = new Intent(ListaFuncActivity.this, MenuPrincipalActivity.class);
+                    Intent it = new Intent(ListaFuncActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -158,8 +155,8 @@ public class ListaFuncActivity extends ActivityGeneric {
                     ViewHolderChoice viewHolderChoice = itens.get(i);
 
                     if(viewHolderChoice.isSelected()){
-                        FuncTO funcTO = (FuncTO) funcList.get(i);
-                        funcSelectedList.add(funcTO.getCodFunc());
+                        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+                        funcSelectedList.add(funcBean.getCodFunc());
                     }
 
                 }
@@ -168,36 +165,36 @@ public class ListaFuncActivity extends ActivityGeneric {
 
                     if(pruContext.getVerPosTelaPrinc() == 1) {
 
-                        pruContext.getBoletimTO().setIdLiderBoletim(configuracaoTO.getCodFunc());
-                        ManipDadosEnvio.getInstance().salvaBoletimAberto(pruContext.getBoletimTO());
+                        pruContext.getBoletimBean().setIdLiderBoletim(configBean.getCodFunc());
+                        EnvioDadosServ.getInstance().salvaBoletimAberto(pruContext.getBoletimBean());
 
-                        FuncBoletimTO funcBoletimTO = new FuncBoletimTO();
-                        funcBoletimTO.deleteAll();
+                        br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
+                        funcBoletimBean.deleteAll();
 
                         for (int i = 0; i < funcSelectedList.size(); i++) {
-                            ManipDadosEnvio.getInstance().salvaFuncBoletim(funcSelectedList.get(i), 1L);
-                            funcBoletimTO.setCodFuncBoletim(funcSelectedList.get(i));
-                            funcBoletimTO.insert();
+                            EnvioDadosServ.getInstance().salvaFuncBoletim(funcSelectedList.get(i), 1L);
+                            funcBoletimBean.setCodFuncBoletim(funcSelectedList.get(i));
+                            funcBoletimBean.insert();
                         }
 
                     }
                     else if(pruContext.getVerPosTelaPrinc() == 4) {
 
-                        FuncBoletimTO funcBoletimTO = new FuncBoletimTO();
-                        List funcBoletimList = funcBoletimTO.all();
+                        br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
+                        List funcBoletimList = funcBoletimBean.all();
 
                         for (int i = 0; i < funcBoletimList.size(); i++) {
-                            funcBoletimTO = (FuncBoletimTO) funcBoletimList.get(i);
+                            funcBoletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean) funcBoletimList.get(i);
                             int cont = 0;
                             for (int j = 0; j < funcSelectedList.size(); j++) {
-                                if(funcBoletimTO.getCodFuncBoletim().equals(funcSelectedList.get(j))){
+                                if(funcBoletimBean.getCodFuncBoletim().equals(funcSelectedList.get(j))){
                                     cont = cont + 1;
                                 }
                             }
 
                             if(cont == 0){
-                                ManipDadosEnvio.getInstance().salvaFuncBoletim(funcBoletimTO.getCodFuncBoletim(), 2L);
-                                funcBoletimTO.delete();
+                                EnvioDadosServ.getInstance().salvaFuncBoletim(funcBoletimBean.getCodFuncBoletim(), 2L);
+                                funcBoletimBean.delete();
                             }
 
                         }
@@ -205,16 +202,16 @@ public class ListaFuncActivity extends ActivityGeneric {
                         for (int i = 0; i < funcSelectedList.size(); i++) {
                             int cont = 0;
                             for (int j = 0; j < funcBoletimList.size(); j++) {
-                                funcBoletimTO = (FuncBoletimTO) funcBoletimList.get(j);
-                                if(funcBoletimTO.getCodFuncBoletim().equals(funcSelectedList.get(i))){
+                                funcBoletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean) funcBoletimList.get(j);
+                                if(funcBoletimBean.getCodFuncBoletim().equals(funcSelectedList.get(i))){
                                     cont = cont + 1;
                                 }
                             }
 
                             if(cont == 0){
-                                ManipDadosEnvio.getInstance().salvaFuncBoletim(funcSelectedList.get(i), 1L);
-                                funcBoletimTO.setCodFuncBoletim(funcSelectedList.get(i));
-                                funcBoletimTO.insert();
+                                EnvioDadosServ.getInstance().salvaFuncBoletim(funcSelectedList.get(i), 1L);
+                                funcBoletimBean.setCodFuncBoletim(funcSelectedList.get(i));
+                                funcBoletimBean.insert();
                             }
 
                         }
@@ -224,8 +221,8 @@ public class ListaFuncActivity extends ActivityGeneric {
                     }
 
 
-                    ManipDadosEnvio.getInstance().envioDadosPrinc();
-                    Intent it = new Intent(ListaFuncActivity.this, MenuPrincipalActivity.class);
+                    EnvioDadosServ.getInstance().envioDadosPrinc();
+                    Intent it = new Intent(ListaFuncActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
 

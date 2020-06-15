@@ -2,15 +2,16 @@ package br.com.usinasantafe.pru;
 
 import android.app.Application;
 
-import br.com.usinasantafe.pru.to.tb.variaveis.ApontTO;
-import br.com.usinasantafe.pru.to.tb.variaveis.BoletimTO;
+import br.com.usinasantafe.pru.control.ConfigCTR;
+import br.com.usinasantafe.pru.control.RuricolaCTR;
 
 public class PRUContext extends Application {
 
-    private BoletimTO boletimTO;
-    private ApontTO apontamentoTO;
+    private ConfigCTR configCTR;
     private int verPosTelaPrinc;  //1 - Inicio do Boletim; 2 - Trabalhando; 3 - Parada; 4 - Aloca Funcionario
     public static String versaoAplic = "1.0";
+    private String verAtualCL;
+    private RuricolaCTR ruricolaCTR;
 
     @Override
     public void onCreate() {
@@ -18,16 +19,16 @@ public class PRUContext extends Application {
         super.onCreate();
     }
 
-    public ApontTO getApontamentoTO() {
-        if (apontamentoTO == null)
-            apontamentoTO = new ApontTO();
-        return apontamentoTO;
+    public ConfigCTR getConfigCTR() {
+        if (configCTR == null)
+            configCTR = new ConfigCTR();
+        return configCTR;
     }
 
-    public BoletimTO getBoletimTO() {
-        if (boletimTO == null)
-            boletimTO = new BoletimTO();
-        return boletimTO;
+    public RuricolaCTR getRuricolaCTR() {
+        if (ruricolaCTR == null)
+            ruricolaCTR = new RuricolaCTR();
+        return ruricolaCTR;
     }
 
     public int getVerPosTelaPrinc() {
@@ -38,4 +39,11 @@ public class PRUContext extends Application {
         this.verPosTelaPrinc = verPosTelaPrinc;
     }
 
+    public String getVerAtualCL() {
+        return verAtualCL;
+    }
+
+    public void setVerAtualCL(String verAtualCL) {
+        this.verAtualCL = verAtualCL;
+    }
 }

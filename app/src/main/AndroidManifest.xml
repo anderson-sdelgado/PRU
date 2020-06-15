@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.usinasantafe.pru">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".PRUContext"
         android:allowBackup="true"
@@ -10,33 +21,54 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TurmaActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".OSActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MenuPrincipalActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MenuParadaActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ListaFuncActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ListaFuncApontActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ListaAtivActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FuncionarioActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DescricaoOSActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ConfiguracaoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PrincipalActivity"
+        <activity android:name=".SenhaActivity"></activity>
+        <activity
+            android:name=".TurmaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OSActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MenuMotoMecActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListaParadaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListaFuncActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListaFuncApontActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListaAtivActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FuncionarioActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DescricaoOSActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ConfigActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MenuInicialActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".ReceberAlarme">
+            <intent-filter>
+                <action android:name="EXECUTAR_ALARME" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

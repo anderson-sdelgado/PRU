@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.usinasantafe.pru.to.tb.estaticas.OSTO;
-
 public class DescricaoOSActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
@@ -25,16 +23,16 @@ public class DescricaoOSActivity extends ActivityGeneric {
         Button buttonCancDescrOS = (Button) findViewById(R.id.buttonCancDescrOS);
         Button buttonOkDescrOS = (Button) findViewById(R.id.buttonOkDescrOS);
 
-        OSTO osTO = new OSTO();
+        br.com.usinasantafe.pru.to.tb.estaticas.OSBean osTO = new br.com.usinasantafe.pru.to.tb.estaticas.OSBean();
         List osList;
         if(pruContext.getVerPosTelaPrinc() == 1){
-            osList = osTO.get("nroOS", pruContext.getBoletimTO().getOsBoletim());
+            osList = osTO.get("nroOS", pruContext.getBoletimBean().getOsBoletim());
         }
         else{
             osList = osTO.get("nroOS", pruContext.getApontamentoTO().getOsAponta());
         }
 
-        osTO = (OSTO) osList.get(0);
+        osTO = (br.com.usinasantafe.pru.to.tb.estaticas.OSBean) osList.get(0);
 
         textViewNroOS.setText("OS: " + osTO.getNroOS() + "\nSEÇÃO: " + osTO.getCodSecao() + "\n" + osTO.getDescrSecao());
 

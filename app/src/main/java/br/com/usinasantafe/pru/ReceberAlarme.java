@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import br.com.usinasantafe.pru.bo.ManipDadosEnvio;
-import br.com.usinasantafe.pru.bo.Tempo;
-import br.com.usinasantafe.pru.pst.DatabaseHelper;
+import br.com.usinasantafe.pru.util.EnvioDadosServ;
+import br.com.usinasantafe.pru.util.Tempo;
+import br.com.usinasantafe.pru.model.pst.DatabaseHelper;
 
 public class ReceberAlarme extends BroadcastReceiver {
 
@@ -23,9 +23,9 @@ public class ReceberAlarme extends BroadcastReceiver {
         }
 
         Log.i("PRU", "DATA HORA = " + Tempo.getInstance().data());
-        if(ManipDadosEnvio.getInstance().verifDadosEnvio()){
+        if(EnvioDadosServ.getInstance().verifDadosEnvio()){
             Log.i("PRU", "ENVIANDO");
-            ManipDadosEnvio.getInstance().envioDados(context);
+            EnvioDadosServ.getInstance().envioDados(context);
         }
     }
 
