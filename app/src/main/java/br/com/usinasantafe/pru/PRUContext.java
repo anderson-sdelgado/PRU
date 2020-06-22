@@ -8,7 +8,7 @@ import br.com.usinasantafe.pru.control.RuricolaCTR;
 public class PRUContext extends Application {
 
     private ConfigCTR configCTR;
-    private int verPosTelaPrinc;  //1 - Inicio do Boletim; 2 - Trabalhando; 3 - Parada; 4 - Aloca Funcionario
+    private int verVerPosTela;  //1 - Inicio do Boletim; 2 - Trabalhando; 3 - Parada; 4 - Aloca Funcionario
     public static String versaoAplic = "1.0";
     private String verAtualCL;
     private RuricolaCTR ruricolaCTR;
@@ -31,12 +31,12 @@ public class PRUContext extends Application {
         return ruricolaCTR;
     }
 
-    public int getVerPosTelaPrinc() {
-        return verPosTelaPrinc;
+    public int getVerPosTela() {
+        return verVerPosTela;
     }
 
-    public void setVerPosTelaPrinc(int verPosTelaPrinc) {
-        this.verPosTelaPrinc = verPosTelaPrinc;
+    public void setVerPosTela(int verPosTelaPrinc) {
+        this.verVerPosTela = verPosTelaPrinc;
     }
 
     public String getVerAtualCL() {

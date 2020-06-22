@@ -21,14 +21,15 @@ import android.util.Log;
 
 public class AtualDadosServ {
 
-	private ArrayList tabelaAtualizar;
+	private ArrayList tabAtualArrayList;
 	private static AtualDadosServ instance = null;
-	private int contAtualizaBD = 0;
+	private int contAtualBD = 0;
 	private String classe = "";
 	private ProgressDialog progressDialog;
 	private int qtdeBD = 0;
 	private GenericRecordable genericRecordable;
-	private Context context;
+	private Context telaAtual;
+	private Class telaProx;
 	private int tipoReceb;
 	private UrlsConexaoHttp urlsConexaoHttp;
 	private String versao;
@@ -77,7 +78,7 @@ public class AtualDadosServ {
 
 					Log.i("PMM", " SALVOU DADOS ");
 
-					if(contAtualizaBD > 0){
+					if(contAtualBD > 0){
 						atualizandoBD();
 					}
 
@@ -103,23 +104,23 @@ public class AtualDadosServ {
 			
 			this.tipoReceb = 1;
 			this.progressDialog = progressDialog;
-			tabelaAtualizar = new ArrayList();
+			tabAtualArrayList = new ArrayList();
 	        Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl); 
 
 	        for (Field field : retClasse.getDeclaredFields()) {
 	            String campo = field.getName();
 	            Log.i("PMM", "Campo = " + campo);
 	            if(campo.contains("TO")){
-	            	tabelaAtualizar.add(campo);
+	            	tabAtualArrayList.add(campo);
 	            }
 	            
 	        }
 	        
-	        classe = (String) tabelaAtualizar.get(contAtualizaBD);
+	        classe = (String) tabAtualArrayList.get(contAtualBD);
 			
 	        String[] url = {classe};
 			
-		    contAtualizaBD++;
+		    contAtualBD++;
 
 	        GetBDGenerico getBDGenerico = new GetBDGenerico();
 	        getBDGenerico.execute(url);
@@ -136,23 +137,23 @@ public class AtualDadosServ {
 		try {
 
 			this.tipoReceb = 2;
-			tabelaAtualizar = new ArrayList();
+			tabAtualArrayList = new ArrayList();
 			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
 
 			for (Field field : retClasse.getDeclaredFields()) {
 				String campo = field.getName();
 				Log.i("PMM", "Campo = " + campo);
 				if (campo.contains("TO")) {
-					tabelaAtualizar.add(campo);
+					tabAtualArrayList.add(campo);
 				}
 
 			}
 
-			classe = (String) tabelaAtualizar.get(contAtualizaBD);
+			classe = (String) tabAtualArrayList.get(contAtualBD);
 
 			String[] url = {classe};
 
-			contAtualizaBD++;
+			contAtualBD++;
 
 			GetBDGenerico getBDGenerico = new GetBDGenerico();
 			getBDGenerico.execute(url);
@@ -168,14 +169,14 @@ public class AtualDadosServ {
 
 		if(this.tipoReceb == 1){
 		
-			qtdeBD = tabelaAtualizar.size();
+			qtdeBD = tabAtualArrayList.size();
 			
-			if(contAtualizaBD < tabelaAtualizar.size()){
+			if(contAtualBD < tabAtualArrayList.size()){
 				
-				this.progressDialog.setProgress((contAtualizaBD * 100) / qtdeBD);
-		        classe = (String) tabelaAtualizar.get(contAtualizaBD);
+				this.progressDialog.setProgress((contAtualBD * 100) / qtdeBD);
+		        classe = (String) tabAtualArrayList.get(contAtualBD);
 				String[] url = {classe};
-				contAtualizaBD++;
+				contAtualBD++;
 
 				GetBDGenerico getBDGenerico = new GetBDGenerico();
 		        getBDGenerico.execute(url);
@@ -184,8 +185,8 @@ public class AtualDadosServ {
 			else
 			{
 				this.progressDialog.dismiss();
-				contAtualizaBD = 0;
-				AlertDialog.Builder alerta = new AlertDialog.Builder(this.context);
+				contAtualBD = 0;
+				AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
 				alerta.setTitle("ATENCAO");
 				alerta.setMessage("FOI ATUALIZADO COM SUCESSO OS DADOS.");
 				alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -201,13 +202,13 @@ public class AtualDadosServ {
 		}
 		else if(this.tipoReceb == 2){
 			
-			qtdeBD = tabelaAtualizar.size();
+			qtdeBD = tabAtualArrayList.size();
 			
-			if(contAtualizaBD < tabelaAtualizar.size()){
+			if(contAtualBD < tabAtualArrayList.size()){
 				
-		        classe = (String) tabelaAtualizar.get(contAtualizaBD);
+		        classe = (String) tabAtualArrayList.get(contAtualBD);
 				String[] url = {classe};
-				contAtualizaBD++;
+				contAtualBD++;
 
 				GetBDGenerico getBDGenerico = new GetBDGenerico();
 		        getBDGenerico.execute(url);
@@ -215,7 +216,7 @@ public class AtualDadosServ {
 			}
 			else
 			{
-				contAtualizaBD = 0;
+				contAtualBD = 0;
 			}
 			
 		}
@@ -227,7 +228,7 @@ public class AtualDadosServ {
 		if(this.tipoReceb == 1){
 			
 			this.progressDialog.dismiss();
-			AlertDialog.Builder alerta = new AlertDialog.Builder(this.context);
+			AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
 			alerta.setTitle("ATENCAO");
 			alerta.setMessage("FALHA NA CONEXAO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
 			alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -250,19 +251,19 @@ public class AtualDadosServ {
 			dataHoraBean.deleteAll();
 
 			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
-			tabelaAtualizar = new ArrayList();
+			tabAtualArrayList = new ArrayList();
 
 			for (Field field : retClasse.getDeclaredFields()) {
 				String campo = field.getName();
 				Log.i("PMM", "Campo = " + campo);
 				if (campo.equals("datahorahttp")) {
 					Log.i("PMM", "Campo = " + campo);
-					tabelaAtualizar.add(campo);
+					tabAtualArrayList.add(campo);
 				}
 
 			}
 
-			classe = (String) tabelaAtualizar.get(contAtualizaBD);
+			classe = (String) tabAtualArrayList.get(contAtualBD);
 
 			String[] url = {classe};
 
@@ -285,19 +286,19 @@ public class AtualDadosServ {
 		try {
 
 			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
-			tabelaAtualizar = new ArrayList();
+			tabAtualArrayList = new ArrayList();
 
 			for (Field field : retClasse.getDeclaredFields()) {
 				String campo = field.getName();
 				Log.i("PMM", "Campo = " + campo);
 				if (campo.equals("atualizaaplichttp")) {
 					Log.i("PMM", "Campo = " + campo);
-					tabelaAtualizar.add(campo);
+					tabAtualArrayList.add(campo);
 				}
 
 			}
 
-			classe = (String) tabelaAtualizar.get(contAtualizaBD);
+			classe = (String) tabAtualArrayList.get(contAtualBD);
 
 			String[] url = {classe};
 
@@ -321,8 +322,42 @@ public class AtualDadosServ {
 		return classe;
 	}
 	
-	public void setContext(Context context){
-		this.context = context;
+	public void setTelaAtual(Context telaAtual){
+		this.telaAtual = telaAtual;
 	}
-	
+
+	public void atualTodasTabBD(Context telaAtual, ProgressDialog progressDialog){
+
+		try {
+
+			this.tipoReceb = 1;
+			this.telaAtual = telaAtual;
+			this.progressDialog = progressDialog;
+			tabAtualArrayList = new ArrayList();
+			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
+
+			for (Field field : retClasse.getDeclaredFields()) {
+				String campo = field.getName();
+				Log.i("ERRO", "Campo = " + campo);
+				if(campo.contains("Bean")){
+					tabAtualArrayList.add(campo);
+				}
+
+			}
+
+			classe = (String) tabAtualArrayList.get(contAtualBD);
+
+			String[] url = {classe};
+
+			contAtualBD++;
+
+			GetBDGenerico getBDGenerico = new GetBDGenerico();
+			getBDGenerico.execute(url);
+
+		} catch (Exception e) {
+			Log.i("ERRO", "Erro Manip2 = " + e);
+		}
+
+	}
+
 }

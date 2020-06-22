@@ -33,7 +33,7 @@ public class ListaAtivActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        if(pruContext.getVerPosTelaPrinc() == 1){
+        if(pruContext.getVerPosTela() == 1){
             nroOS = pruContext.getBoletimBean().getOsBoletim();
         }
         else{
@@ -125,7 +125,7 @@ public class ListaAtivActivity extends ActivityGeneric {
                 br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean atividadeBean = new br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean();
                 atividadeBean = (br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean) lAtivExib.get(position);
 
-                if(pruContext.getVerPosTelaPrinc() == 1){
+                if(pruContext.getVerPosTela() == 1){
 
                     pruContext.getBoletimBean().setAtivPrincBoletim(atividadeBean.getIdAtiv());
 
@@ -154,7 +154,7 @@ public class ListaAtivActivity extends ActivityGeneric {
                     finish();
 
                 }
-                else if (pruContext.getVerPosTelaPrinc() == 2) {
+                else if (pruContext.getVerPosTela() == 2) {
 
                     pruContext.getApontamentoTO().setAtivAponta(atividadeBean.getIdAtiv());
                     pruContext.getApontamentoTO().setParadaAponta(0L);
@@ -184,7 +184,7 @@ public class ListaAtivActivity extends ActivityGeneric {
                     finish();
 
 
-                } else if (pruContext.getVerPosTelaPrinc() == 3) {
+                } else if (pruContext.getVerPosTela() == 3) {
 
                     pruContext.getApontamentoTO().setAtivAponta(atividadeBean.getIdAtiv());
                     Intent it = new Intent(ListaAtivActivity.this, ListaParadaActivity.class);

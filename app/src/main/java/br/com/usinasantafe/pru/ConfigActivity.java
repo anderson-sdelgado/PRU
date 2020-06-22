@@ -17,20 +17,20 @@ import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.util.ConexaoWeb;
-import br.com.usinasantafe.pru.util.AtualDadosServ;
 
 public class ConfigActivity extends ActivityGeneric {
 
     private ProgressDialog progressBar;
     private AdapterList adapterList;
     private AlertDialog alerta;
-    private List tipoList;
+    private List tipoApontList;
     private List turmaList;
     private TextView textViewTipoConfig;
     private TextView textViewTurmaConfig;
     private TextView textViewFuncConfig;
     private EditText editTextFuncConfig;
     private EditText editTextNLinhaConfig;
+    private EditText editTextSenhaConfig;
     private PRUContext pruContext;
     private ConfigBean configBean;
 
@@ -47,36 +47,40 @@ public class ConfigActivity extends ActivityGeneric {
         textViewFuncConfig = (TextView) findViewById(R.id.textViewFuncConfig);
         editTextFuncConfig = (EditText) findViewById(R.id.editTextFuncConfig);
         editTextNLinhaConfig = (EditText) findViewById(R.id.editTextNLinhaConfig);
+        editTextSenhaConfig = (EditText) findViewById(R.id.editTextSenhaConfig);
+
+        pruContext = (PRUContext) getApplication();
 
         if(!pruContext.getConfigCTR().hasElements()) {
             textViewFuncConfig.setText("");
             textViewFuncConfig.setEnabled(false);
             editTextFuncConfig.setEnabled(false);
-            configBean.setIdTipo(0L);
-            configBean.setIdTurma(0L);
+            configBean.setIdTipoConfig(0L);
+            configBean.setIdTurmaConfig(0L);
         }
         else{
 
             configBean = pruContext.getConfigCTR().getConfig();
 
-            TipoApontBean tipoApontBean = pruContext.getConfigCTR().getTipoApont(configBean.getIdTipo());
+            TipoApontBean tipoApontBean = pruContext.getConfigCTR().getTipoApont(configBean.getIdTipoConfig());
             textViewTipoConfig.setText(tipoApontBean.getIdTipo() + " - " + tipoApontBean.getDescrTipo());
 
-            TurmaBean turmaBean = pruContext.getConfigCTR().getTurma(configBean.getIdTurma());
+            TurmaBean turmaBean = pruContext.getConfigCTR().getTurma(configBean.getIdTurmaConfig());
             textViewTurmaConfig.setText(turmaBean.getCodTurma() + " - " + turmaBean.getDescrTurma());
 
-            editTextNLinhaConfig.setText(String.valueOf(configBean.getNumLinha()));
+            editTextNLinhaConfig.setText(String.valueOf(configBean.getNumLinhaConfig()));
+            editTextSenhaConfig.setText(configBean.getSenhaConfig());
 
-            switch ((int) configBean.getIdTipo().longValue()) {
+            switch ((int) configBean.getIdTipoConfig().longValue()) {
                 case 1:
                     textViewFuncConfig.setText("LÍDER:");
-                    editTextFuncConfig.setText(String.valueOf(configBean.getCodFunc()));
+                    editTextFuncConfig.setText(String.valueOf(configBean.getMatricFuncConfig()));
                     textViewFuncConfig.setEnabled(true);
                     editTextFuncConfig.setEnabled(true);
                     break;
                 case 2:
                     textViewFuncConfig.setText("COLAB.:");
-                    editTextFuncConfig.setText(String.valueOf(configBean.getCodFunc()));
+                    editTextFuncConfig.setText(String.valueOf(configBean.getMatricFuncConfig()));
                     textViewFuncConfig.setEnabled(true);
                     editTextFuncConfig.setEnabled(true);
                     break;
@@ -99,9 +103,10 @@ public class ConfigActivity extends ActivityGeneric {
 
                 if(pruContext.getConfigCTR().hasElementsTipoApont()) {
 
+                    tipoApontList = pruContext.getConfigCTR().allTipoApont();
                     ArrayList<String> itens = new ArrayList<String>();
-                    for (int i = 0; i < tipoList.size(); i++) {
-                        tipoApontBean = (br.com.usinasantafe.pru.to.tb.estaticas.TipoApontBean) tipoList.get(i);
+                    for (int i = 0; i < tipoApontList.size(); i++) {
+                        TipoApontBean tipoApontBean = (TipoApontBean) tipoApontList.get(i);
                         itens.add(tipoApontBean.getIdTipo() + " - " + tipoApontBean.getDescrTipo());
                     }
 
@@ -113,9 +118,9 @@ public class ConfigActivity extends ActivityGeneric {
                         public void onClick(DialogInterface arg0, int arg1) {
 
                             editTextFuncConfig.setText("");
-                            br.com.usinasantafe.pru.to.tb.estaticas.TipoApontBean tipoApontBean = (br.com.usinasantafe.pru.to.tb.estaticas.TipoApontBean) tipoList.get(arg1);
+                            TipoApontBean tipoApontBean = (TipoApontBean) tipoApontList.get(arg1);
                             textViewTipoConfig.setText(tipoApontBean.getIdTipo() + " - " + tipoApontBean.getDescrTipo());
-                            configBean.setIdTipo(tipoApontBean.getIdTipo());
+                            configBean.setIdTipoConfig(tipoApontBean.getIdTipo());
 
                             switch ((int) tipoApontBean.getIdTipo().longValue()) {
                                 case 1:
@@ -154,15 +159,13 @@ public class ConfigActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean turmaBean = new br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean();
-                turmaList = turmaBean.orderBy("codTurma", true);
-
+                turmaList = pruContext.getConfigCTR().allTurma();
                 if(turmaList.size() > 0) {
 
                     ArrayList<String> itens = new ArrayList<String>();
 
                     for (int i = 0; i < turmaList.size(); i++) {
-                        turmaBean = (br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean) turmaList.get(i);
+                        TurmaBean turmaBean = (TurmaBean) turmaList.get(i);
                         itens.add(turmaBean.getCodTurma() + " - " + turmaBean.getDescrTurma());
                     }
 
@@ -173,9 +176,9 @@ public class ConfigActivity extends ActivityGeneric {
                     builder.setSingleChoiceItems(adapterList, 0, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface arg0, int arg1) {
 
-                            br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean turmaBean = (br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean) turmaList.get(arg1);
+                            TurmaBean turmaBean = (TurmaBean) turmaList.get(arg1);
                             textViewTurmaConfig.setText(turmaBean.getCodTurma() + " - " + turmaBean.getDescrTurma());
-                            configBean.setIdTurma(turmaBean.getIdTurma());
+                            configBean.setIdTurmaConfig(turmaBean.getIdTurma());
 
                             alerta.dismiss();
                         }
@@ -209,8 +212,7 @@ public class ConfigActivity extends ActivityGeneric {
                     progressBar.setMax(100);
                     progressBar.show();
 
-                    AtualDadosServ.getInstance().atualizarBD(progressBar);
-                    AtualDadosServ.getInstance().setContext(ConfigActivity.this);
+                    pruContext.getConfigCTR().atualTodasTabelas(ConfigActivity.this, progressBar);
 
                 }
                 else{
@@ -237,13 +239,14 @@ public class ConfigActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                if(configBean.getIdTurma() > 0) {
+                if(configBean.getIdTurmaConfig() > 0) {
 
                     AlertDialog.Builder alerta;
 
-                    if(!editTextNLinhaConfig.getText().toString().equals("")) {
+                    if(!editTextNLinhaConfig.getText().toString().equals("")
+                            && !editTextSenhaConfig.getText().toString().equals("")) {
 
-                        switch ((int) configBean.getIdTipo().longValue()) {
+                        switch ((int) configBean.getIdTipoConfig().longValue()) {
                             case 0:
                                 alerta = new AlertDialog.Builder(ConfigActivity.this);
                                 alerta.setTitle("ATENÇÃO");
@@ -261,19 +264,9 @@ public class ConfigActivity extends ActivityGeneric {
 
                                 if (!editTextFuncConfig.getText().toString().equals("")) {
 
-                                    configBean.deleteAll();
+                                    if (pruContext.getConfigCTR().verLider(Long.valueOf(editTextFuncConfig.getText().toString()))){
 
-                                    br.com.usinasantafe.pru.to.tb.estaticas.LiderBean liderBean = new br.com.usinasantafe.pru.to.tb.estaticas.LiderBean();
-                                    List liderList = liderBean.get("codLider", Long.valueOf(editTextFuncConfig.getText().toString()));
-
-                                    if (liderList.size() > 0){
-
-                                        configBean.deleteAll();
-                                        configBean.setCodFunc(Long.valueOf(editTextFuncConfig.getText().toString()));
-
-                                        Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
-                                        startActivity(it);
-                                        finish();
+                                        configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
 
                                     } else {
                                         alerta = new AlertDialog.Builder(ConfigActivity.this);
@@ -310,17 +303,9 @@ public class ConfigActivity extends ActivityGeneric {
 
                                 if (!editTextFuncConfig.getText().toString().equals("")) {
 
-                                    br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-                                    List funcList = funcBean.get("codFunc", Long.valueOf(editTextFuncConfig.getText().toString()));
+                                    if (pruContext.getConfigCTR().verFunc(Long.valueOf(editTextFuncConfig.getText().toString()))){
 
-                                    if (funcList.size() > 0) {
-
-                                        configBean.deleteAll();
-                                        configBean.setCodFunc(Long.valueOf(editTextFuncConfig.getText().toString()));
-
-                                        Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
-                                        startActivity(it);
-                                        finish();
+                                        configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
 
                                     } else {
                                         alerta = new AlertDialog.Builder(ConfigActivity.this);
@@ -352,25 +337,27 @@ public class ConfigActivity extends ActivityGeneric {
                                 break;
                             case 3:
 
-                                configBean.deleteAll();
-                                configBean.setCodFunc(0L);
-
-                                Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
-                                startActivity(it);
-                                finish();
+                                configBean.setMatricFuncConfig(0L);
 
                                 break;
                         }
 
                         configBean.setDtUltApontConfig("nulo");
-                        configBean.setNumLinha(Long.valueOf(editTextNLinhaConfig.getText().toString()));
+                        configBean.setNumLinhaConfig(Long.valueOf(editTextNLinhaConfig.getText().toString()));
+                        configBean.deleteAll();
                         configBean.insert();
 
-                    }else{
+                        Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
+                        startActivity(it);
+                        finish();
+
+
+                    }
+                    else{
 
                         alerta = new AlertDialog.Builder(ConfigActivity.this);
                         alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("POR FAVOR! SELECIONE ALGUMA TURMA.");
+                        alerta.setMessage("POR FAVOR! DIGITE O NUMERO DA LINHA DO TELEFONE E A SENHA.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

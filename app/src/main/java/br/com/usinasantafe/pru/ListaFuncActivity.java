@@ -43,7 +43,7 @@ public class ListaFuncActivity extends ActivityGeneric {
         br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
         funcList =  funcBean.getAndOrderBy("idTurma", configBean.getIdTurma(), "nomeFunc", true);
 
-        if(pruContext.getVerPosTelaPrinc() == 1) {
+        if(pruContext.getVerPosTela() == 1) {
 
             for (int i = 0; i < funcList.size(); i++) {
                 funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
@@ -54,7 +54,7 @@ public class ListaFuncActivity extends ActivityGeneric {
             }
 
         }
-        else if(pruContext.getVerPosTelaPrinc() == 4) {
+        else if(pruContext.getVerPosTela() == 4) {
 
             for (int i = 0; i < funcList.size(); i++) {
                 funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
@@ -129,12 +129,12 @@ public class ListaFuncActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                if(pruContext.getVerPosTelaPrinc() == 1) {
+                if(pruContext.getVerPosTela() == 1) {
                     Intent it = new Intent(ListaFuncActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(pruContext.getVerPosTelaPrinc() == 4) {
+                else if(pruContext.getVerPosTela() == 4) {
                     Intent it = new Intent(ListaFuncActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
@@ -163,7 +163,7 @@ public class ListaFuncActivity extends ActivityGeneric {
 
                 if(funcSelectedList.size() > 0){
 
-                    if(pruContext.getVerPosTelaPrinc() == 1) {
+                    if(pruContext.getVerPosTela() == 1) {
 
                         pruContext.getBoletimBean().setIdLiderBoletim(configBean.getCodFunc());
                         EnvioDadosServ.getInstance().salvaBoletimAberto(pruContext.getBoletimBean());
@@ -178,7 +178,7 @@ public class ListaFuncActivity extends ActivityGeneric {
                         }
 
                     }
-                    else if(pruContext.getVerPosTelaPrinc() == 4) {
+                    else if(pruContext.getVerPosTela() == 4) {
 
                         br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
                         List funcBoletimList = funcBoletimBean.all();

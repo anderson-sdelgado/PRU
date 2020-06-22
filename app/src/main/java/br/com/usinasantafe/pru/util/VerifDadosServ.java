@@ -227,7 +227,7 @@ public class VerifDadosServ {
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();
         ConfigCTR configCTR = new ConfigCTR();
-        atualAplicBean.setIdCelularAtual(configCTR.getConfig().getNumLinha());
+        atualAplicBean.setIdCelularAtual(configCTR.getConfig().getNumLinhaConfig());
         atualAplicBean.setVersaoAtual(versaoAplic);
 
         urlsConexaoHttp = new UrlsConexaoHttp();

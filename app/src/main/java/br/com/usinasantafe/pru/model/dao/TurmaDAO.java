@@ -14,7 +14,12 @@ public class TurmaDAO {
         List turmaList = turmaBean.get("idTurma", idTurma);
         turmaBean = (TurmaBean) turmaList.get(0);
         turmaList.clear();
-        return  turmaBean
+        return  turmaBean;
+    }
+
+    public List allTurma(){
+        TurmaBean turmaBean = new TurmaBean();
+        return turmaBean.orderBy("codTurma", true);
     }
 
 }

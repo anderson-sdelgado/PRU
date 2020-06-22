@@ -101,7 +101,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                     if(pruContext.getConfigCTR().hasElements()){
 
-                        pruContext.setVerPosTelaPrinc(1);
+                        pruContext.setVerPosTela(1);
                         Intent it = new Intent(MenuInicialActivity.this, OSActivity.class);
                         startActivity(it);
                         finish();

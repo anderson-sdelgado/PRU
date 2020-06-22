@@ -110,12 +110,12 @@ public class ListaFuncApontActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                if(pruContext.getVerPosTelaPrinc() == 2L){
+                if(pruContext.getVerPosTela() == 2L){
                     Intent it = new Intent(ListaFuncApontActivity.this, ListaAtivActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(pruContext.getVerPosTelaPrinc() == 3L){
+                else if(pruContext.getVerPosTela() == 3L){
                     Intent it = new Intent(ListaFuncApontActivity.this, ListaParadaActivity.class);
                     startActivity(it);
                     finish();

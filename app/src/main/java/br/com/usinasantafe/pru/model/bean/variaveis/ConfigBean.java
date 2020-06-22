@@ -13,42 +13,50 @@ public class ConfigBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
-    @DatabaseField(id=true)
-    private Long idTipo;
+    @DatabaseField(generatedId=true)
+    private Long idConfig;
     @DatabaseField
-    private Long idTurma;
+    private Long idTipoConfig;
     @DatabaseField
-    private Long codFunc;
+    private Long idTurmaConfig;
+    @DatabaseField
+    private Long matricFuncConfig;
     @DatabaseField
     private String dtUltApontConfig;
     @DatabaseField
-    private Long numLinha;
+    private Long numLinhaConfig;
+    @DatabaseField
+    private String senhaConfig;
+    @DatabaseField
+    private Long nroOSConfig;
+    @DatabaseField
+    private Long idAtivConfig;
 
     public ConfigBean() {
     }
 
-    public Long getIdTipo() {
-        return idTipo;
+    public Long getIdTipoConfig() {
+        return idTipoConfig;
     }
 
-    public void setIdTipo(Long idTipo) {
-        this.idTipo = idTipo;
+    public void setIdTipoConfig(Long idTipoConfig) {
+        this.idTipoConfig = idTipoConfig;
     }
 
-    public Long getIdTurma() {
-        return idTurma;
+    public Long getIdTurmaConfig() {
+        return idTurmaConfig;
     }
 
-    public void setIdTurma(Long idTurma) {
-        this.idTurma = idTurma;
+    public void setIdTurmaConfig(Long idTurmaConfig) {
+        this.idTurmaConfig = idTurmaConfig;
     }
 
-    public Long getCodFunc() {
-        return codFunc;
+    public Long getMatricFuncConfig() {
+        return matricFuncConfig;
     }
 
-    public void setCodFunc(Long codFunc) {
-        this.codFunc = codFunc;
+    public void setMatricFuncConfig(Long matricFuncConfig) {
+        this.matricFuncConfig = matricFuncConfig;
     }
 
     public String getDtUltApontConfig() {
@@ -59,11 +67,35 @@ public class ConfigBean extends Entidade {
         this.dtUltApontConfig = dtUltApontConfig;
     }
 
-    public Long getNumLinha() {
-        return numLinha;
+    public Long getNumLinhaConfig() {
+        return numLinhaConfig;
     }
 
-    public void setNumLinha(Long numLinha) {
-        this.numLinha = numLinha;
+    public void setNumLinhaConfig(Long numLinhaConfig) {
+        this.numLinhaConfig = numLinhaConfig;
+    }
+
+    public String getSenhaConfig() {
+        return senhaConfig;
+    }
+
+    public void setSenhaConfig(String senhaConfig) {
+        this.senhaConfig = senhaConfig;
+    }
+
+    public Long getNroOSConfig() {
+        return nroOSConfig;
+    }
+
+    public void setNroOSConfig(Long nroOSConfig) {
+        this.nroOSConfig = nroOSConfig;
+    }
+
+    public Long getIdAtivConfig() {
+        return idAtivConfig;
+    }
+
+    public void setIdAtivConfig(Long idAtivConfig) {
+        this.idAtivConfig = idAtivConfig;
     }
 }

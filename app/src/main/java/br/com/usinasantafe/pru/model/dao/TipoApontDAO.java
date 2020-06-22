@@ -21,5 +21,9 @@ public class TipoApontDAO {
         return new TipoApontBean().hasElements();
     }
 
+    public List allTipoApont(){
+        TipoApontBean tipoApontBean = new TipoApontBean();
+        return tipoApontBean.all();
+    }
 
 }

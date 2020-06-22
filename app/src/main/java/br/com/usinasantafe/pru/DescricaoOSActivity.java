@@ -25,7 +25,7 @@ public class DescricaoOSActivity extends ActivityGeneric {
 
         br.com.usinasantafe.pru.to.tb.estaticas.OSBean osTO = new br.com.usinasantafe.pru.to.tb.estaticas.OSBean();
         List osList;
-        if(pruContext.getVerPosTelaPrinc() == 1){
+        if(pruContext.getVerPosTela() == 1){
             osList = osTO.get("nroOS", pruContext.getBoletimBean().getOsBoletim());
         }
         else{

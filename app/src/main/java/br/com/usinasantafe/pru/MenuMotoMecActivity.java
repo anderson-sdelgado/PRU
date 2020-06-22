@@ -62,12 +62,12 @@ public class MenuMotoMecActivity extends ActivityGeneric {
                 configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
 
                 if (position == 0) {
-                    pruContext.setVerPosTelaPrinc(2);
+                    pruContext.setVerPosTela(2);
                     Intent it = new Intent(MenuMotoMecActivity.this, OSActivity.class);
                     startActivity(it);
                     finish();
                 } else if (position == 1) {
-                    pruContext.setVerPosTelaPrinc(3);
+                    pruContext.setVerPosTela(3);
                     Intent it = new Intent(MenuMotoMecActivity.this, OSActivity.class);
                     startActivity(it);
                     finish();
@@ -78,7 +78,7 @@ public class MenuMotoMecActivity extends ActivityGeneric {
                     finish();
                 }
                 else if (position == 3) {
-                    pruContext.setVerPosTelaPrinc(4);
+                    pruContext.setVerPosTela(4);
                     Intent it = new Intent(MenuMotoMecActivity.this, ListaFuncActivity.class);
                     startActivity(it);
                     finish();

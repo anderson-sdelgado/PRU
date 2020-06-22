@@ -1,13 +1,19 @@
 package br.com.usinasantafe.pru.control;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.dao.ConfigDAO;
+import br.com.usinasantafe.pru.model.dao.FuncDAO;
+import br.com.usinasantafe.pru.model.dao.LiderDAO;
 import br.com.usinasantafe.pru.model.dao.TipoApontDAO;
 import br.com.usinasantafe.pru.model.dao.TurmaDAO;
+import br.com.usinasantafe.pru.util.AtualDadosServ;
 
 public class ConfigCTR {
 
@@ -26,9 +32,24 @@ public class ConfigCTR {
         return configDAO.getConfig();
     }
 
+    public boolean hasElementsTipoApont(){
+        TipoApontDAO tipoApontDAO = new TipoApontDAO();
+        return tipoApontDAO.hasElementsTipoApont();
+    }
+
     public void salvarConfig(String senha){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.salvarConfig(senha);
+    }
+
+    public boolean verLider(Long codLider){
+        LiderDAO liderDAO = new LiderDAO();
+        return liderDAO.verLider(codLider);
+    }
+
+    public boolean verFunc(Long codFunc){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.verFunc(codFunc);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,33 +72,23 @@ public class ConfigCTR {
         return turmaDAO.getTurma(idTurma);
     }
 
-    public boolean hasElementsTipoApont(){
+    public List allTipoApont(){
         TipoApontDAO tipoApontDAO = new TipoApontDAO();
-        return tipoApontDAO.hasElementsTipoApont();
+        return tipoApontDAO.allTipoApont();
+    }
+
+    public List allTurma(){
+        TurmaDAO turmaDAO = new TurmaDAO();
+        return turmaDAO.allTurma();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////// SET CAMPOS ////////////////////////////////////////////
 
-    public void setCheckListConfig(Long idTurno){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setCheckListConfig(idTurno);
-    }
-
-    public void setDifDthrConfig(Long status){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setDifDthrConfig(status);
-    }
-
     public void setStatusConConfig(Long status){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.setStatusConConfig(status);
-    }
-
-    public void setHorimetroConfig(Double horimetro){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setHorimetroConfig(horimetro);
     }
 
     public void setDtUltApontConfig(String data){
@@ -95,19 +106,17 @@ public class ConfigCTR {
         configDAO.setAtivConfig(idAtiv);
     }
 
-    public void setVerInforConfig(Long tipo){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setVerInforConfig(tipo);
-    }
-
     public void setDtServConfig(String dtServConfig){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.setDtServConfig(dtServConfig);
     }
 
-    public void setStatusApontConfig(Long statusApont){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setStatusApontConfig(statusApont);
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////// ATUALIZAÇÃO DE DADOS ////////////////////////////////////////////
+
+    public void atualTodasTabelas(Context tela, ProgressDialog progressDialog){
+        AtualDadosServ.getInstance().atualTodasTabBD(tela, progressDialog);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
