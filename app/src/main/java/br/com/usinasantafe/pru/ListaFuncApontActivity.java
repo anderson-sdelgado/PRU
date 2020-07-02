@@ -111,7 +111,7 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 if(pruContext.getVerPosTela() == 2L){
-                    Intent it = new Intent(ListaFuncApontActivity.this, ListaAtivActivity.class);
+                    Intent it = new Intent(ListaFuncApontActivity.this, ListaAtividadeActivity.class);
                     startActivity(it);
                     finish();
                 }

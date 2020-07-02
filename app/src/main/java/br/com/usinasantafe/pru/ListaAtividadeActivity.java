@@ -12,33 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
 import br.com.usinasantafe.pru.util.ConexaoWeb;
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
 
-public class ListaAtivActivity extends ActivityGeneric {
+public class ListaAtividadeActivity extends ActivityGeneric {
 
-    private ListView lista;
+    private ListView ativListView;
     private PRUContext pruContext;
-    private List ativList;
     private ProgressDialog progressBar;
     private Long nroOS = 0L;
-    private List listAtiv;
-    private ArrayList lAtivExib;
+    private ArrayList ativArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_ativ);
+        setContentView(R.layout.activity_lista_atividade);
 
         pruContext = (PRUContext) getApplication();
-
-        if(pruContext.getVerPosTela() == 1){
-            nroOS = pruContext.getBoletimBean().getOsBoletim();
-        }
-        else{
-            nroOS = pruContext.getApontamentoTO().getOsAponta();
-        }
 
         Button buttonAtualAtividade = (Button) findViewById(R.id.buttonAtualAtividade);
         Button buttonRetAtividade = (Button) findViewById(R.id.buttonRetAtividade);
@@ -51,7 +43,7 @@ public class ListaAtivActivity extends ActivityGeneric {
 
                 ConexaoWeb conexaoWeb = new ConexaoWeb();
 
-                if (conexaoWeb.verificaConexao(ListaAtivActivity.this)) {
+                if (conexaoWeb.verificaConexao(ListaAtividadeActivity.this)) {
 
                     progressBar = new ProgressDialog(v.getContext());
                     progressBar.setCancelable(true);
@@ -59,7 +51,7 @@ public class ListaAtivActivity extends ActivityGeneric {
                     progressBar.show();
 
                     VerifDadosServ.getInstance().verDados(String.valueOf(nroOS), "OS"
-                            , ListaAtivActivity.this, ListaAtivActivity.class, progressBar);
+                            , ListaAtividadeActivity.this, ListaAtividadeActivity.class, progressBar);
 
                 }
 
@@ -70,83 +62,48 @@ public class ListaAtivActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                Intent it = new Intent(ListaAtivActivity.this, OSActivity.class);
+                Intent it = new Intent(ListaAtividadeActivity.this, OSActivity.class);
                 startActivity(it);
             }
         });
 
+        ativArrayList = pruContext.getRuricolaCTR().getAtivArrayList(nroOS);
+
         ArrayList<String> itens = new ArrayList<String>();
-
-        br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean atividadeBean = new br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean();
-        listAtiv = atividadeBean.all();
-
-        lAtivExib = new ArrayList();
-
-        br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean rOSAtivBean = new br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean();
-        List lroa = rOSAtivBean.get("nroOS", nroOS);
-
-        if(lroa.size() > 0){
-
-            for (int i = 0; i < listAtiv.size(); i++) {
-                atividadeBean = (br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean) listAtiv.get(i);
-                for (int j = 0; j < lroa.size(); j++) {
-                    rOSAtivBean = (br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean) lroa.get(j);
-                    if (Objects.equals(atividadeBean.getCodAtiv(), rOSAtivBean.getCodAtiv())) {
-                        lAtivExib.add(atividadeBean);
-                    }
-                }
-            }
-
-        } else {
-
-            for (int i = 0; i < listAtiv.size(); i++) {
-                atividadeBean = (br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean) listAtiv.get(i);
-                lAtivExib.add(atividadeBean);
-            }
-
-        }
-
-        for (int i = 0; i < lAtivExib.size(); i++) {
-            atividadeBean = (br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean) lAtivExib.get(i);
+        for (int i = 0; i < ativArrayList.size(); i++) {
+            AtividadeBean atividadeBean = (AtividadeBean) ativArrayList.get(i);
             itens.add(atividadeBean.getCodAtiv() + " - " + atividadeBean.getDescrAtiv());
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
-        lista = (ListView) findViewById(R.id.listAtividade);
-        lista.setAdapter(adapterList);
+        ativListView = (ListView) findViewById(R.id.listAtividade);
+        ativListView.setAdapter(adapterList);
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ativListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
                 // TODO Auto-generated method stub
 
-                br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean atividadeBean = new br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean();
-                atividadeBean = (br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean) lAtivExib.get(position);
+                AtividadeBean atividadeBean = new AtividadeBean();
+                atividadeBean = (AtividadeBean) ativArrayList.get(position);
+
+                pruContext.getConfigCTR().setAtivConfig(atividadeBean.getIdAtiv());
 
                 if(pruContext.getVerPosTela() == 1){
 
-                    pruContext.getBoletimBean().setAtivPrincBoletim(atividadeBean.getIdAtiv());
-
-                    br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
-                    List configList = configBean.all();
-                    configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
-
                     Intent it;
-                    switch ((int) configBean.getIdTipo().longValue()) {
+                    switch ((int) pruContext.getConfigCTR().getConfig().getIdTipoConfig().longValue()) {
                         case 1:
-                            it = new Intent(ListaAtivActivity.this, ListaFuncActivity.class);
+                            it = new Intent(ListaAtividadeActivity.this, ListaFuncActivity.class);
                             break;
                         case 2:
-                            pruContext.getBoletimBean().setIdLiderBoletim(configBean.getCodFunc());
-                            EnvioDadosServ.getInstance().salvaBoletimAberto(pruContext.getBoletimBean());
-                            EnvioDadosServ.getInstance().salvaFuncBoletim(configBean.getCodFunc(), 1L);
-                            EnvioDadosServ.getInstance().envioDadosPrinc();
-                            it = new Intent(ListaAtivActivity.this, MenuMotoMecActivity.class);
+                            pruContext.getRuricolaCTR().salvarBolAberto1Colab();
+                            it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
                             break;
                         default:
-                            it = new Intent(ListaAtivActivity.this, FuncionarioActivity.class);
+                            it = new Intent(ListaAtividadeActivity.this, FuncionarioActivity.class);
                             break;
                     }
 
@@ -166,7 +123,7 @@ public class ListaAtivActivity extends ActivityGeneric {
                     Intent it;
                     switch ((int) configBean.getIdTipo().longValue()) {
                         case 1:
-                            it = new Intent(ListaAtivActivity.this, ListaFuncApontActivity.class);
+                            it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
                             break;
                         default:
 
@@ -176,7 +133,7 @@ public class ListaAtivActivity extends ActivityGeneric {
 
                             EnvioDadosServ.getInstance().salvaAponta(pruContext.getApontamentoTO(), boletimBean.getIdLiderBoletim());
 
-                            it = new Intent(ListaAtivActivity.this, MenuMotoMecActivity.class);
+                            it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
                             break;
                     }
 
@@ -187,7 +144,7 @@ public class ListaAtivActivity extends ActivityGeneric {
                 } else if (pruContext.getVerPosTela() == 3) {
 
                     pruContext.getApontamentoTO().setAtivAponta(atividadeBean.getIdAtiv());
-                    Intent it = new Intent(ListaAtivActivity.this, ListaParadaActivity.class);
+                    Intent it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
                     startActivity(it);
                     finish();
 

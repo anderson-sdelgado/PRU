@@ -6,9 +6,18 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.variaveis.BoletimBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
+import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
+import br.com.usinasantafe.pru.model.dao.AtividadeDAO;
 import br.com.usinasantafe.pru.model.dao.BoletimDAO;
+import br.com.usinasantafe.pru.model.dao.FuncDAO;
+import br.com.usinasantafe.pru.model.dao.LiderDAO;
+import br.com.usinasantafe.pru.model.dao.OSDAO;
 
 public class RuricolaCTR {
+
+    private BoletimBean boletimBean;
 
     public RuricolaCTR() {
     }
@@ -41,19 +50,9 @@ public class RuricolaCTR {
 //        boletimMMBean.setIdTurnoBolMM(idTurno);
 //    }
 
-    public void setOSBol(Long os){
-        boletimBean.setOsBol(os);
-    }
-
-    public void setAtivBol(Long ativ){
-        ConfigCTR configCTR = new ConfigCTR();
-        boletimMMBean.setAtivPrincBolMM(ativ);
-        boletimMMBean.setStatusConBolMM(configCTR.getConfig().getStatusConConfig());
-    }
-
-    public void setMotoMecBean(MotoMecBean motoMecBean) {
-        this.motoMecBean = motoMecBean;
-    }
+//    public void setMotoMecBean(MotoMecBean motoMecBean) {
+//        this.motoMecBean = motoMecBean;
+//    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,27 +71,49 @@ public class RuricolaCTR {
 //        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
 //        return boletimMMDAO.getMatricNomeFunc();
 //    }
-//
-//    public List getMotoMecList(Long aplic) {
-//        MotoMecDAO motoMecDAO = new MotoMecDAO();
-//        return motoMecDAO.getMotoMecList(aplic);
-//    }
-//
-//    public List getParadaList(Long aplic) {
-//        MotoMecDAO motoMecDAO = new MotoMecDAO();
-//        return motoMecDAO.getParadaList(aplic);
-//    }
+
+    public List getFuncAlocList() {
+        ConfigCTR configCTR = new ConfigCTR();
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.getFuncAlocList(configCTR.getConfig().getIdTurmaConfig());
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////
 
-    //////////////////////// MANIPULAR DADOS MOTOMEC BOLETIM //////////////////////////////////////
+    //////////////////////// MANIPULAR DADOS BOLETIM //////////////////////////////////////
 
     ///////////// SALVAR DADOS ///////////////
-//
-//    public void salvarBolAbertoMM(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        boletimMMDAO.salvarBolAberto(boletimMMBean);
-//    }
+
+    public void salvarBolAberto(){
+        ConfigCTR configCTR = new ConfigCTR();
+        ConfigBean configBean = configCTR.getConfig();
+        BoletimBean boletimBean = new BoletimBean();
+        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
+        boletimBean.setIdLiderBol(configBean.getMatricFuncConfig());
+        boletimBean = salvarBolAberto(boletimBean, configBean);
+        alocaFuncDAO.alocaFunc(boletimBean);
+    }
+
+    public void salvarBolAberto(Long matricColab){
+        ConfigCTR configCTR = new ConfigCTR();
+        ConfigBean configBean = configCTR.getConfig();
+        BoletimBean boletimBean = new BoletimBean();
+        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
+        boletimBean.setIdLiderBol(matricColab);
+        boletimBean = salvarBolAberto(boletimBean, configBean);
+        alocaFuncDAO.alocaFunc(boletimBean);
+    }
+
+    private BoletimBean salvarBolAberto(BoletimBean boletimBean, ConfigBean configBean){
+        boletimBean.setOsBol(configBean.getNroOSConfig());
+        boletimBean.setAtivPrincBol(configBean.getIdAtivConfig());
+        boletimBean.setIdTurmaBol(configBean.getIdTurmaConfig());
+        boletimBean.setTipoFuncBol(configBean.getIdTipoConfig());
+        BoletimDAO boletimDAO = new BoletimDAO();
+        boletimDAO.salvarBolAberto1Colab(boletimBean);
+        return boletimDAO.getBolAberto();
+    }
+
 //
 //    public void salvarBolFechadoMM(){
 //        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
@@ -184,11 +205,11 @@ public class RuricolaCTR {
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////// VERIFICAÇÃO E ATUALIZAÇÃO DE DADOS ////////////////////////////
-//
-//    public void verOS(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-//        OSDAO osDAO = new OSDAO();
-//        osDAO.verOS(dado, telaAtual, telaProx, progressDialog);
-//    }
+
+    public void verOS(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        OSDAO osDAO = new OSDAO();
+        osDAO.verOS(dado, telaAtual, telaProx, progressDialog);
+    }
 //
 //    public void verAtiv(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
 //        ConfigCTR configCTR = new ConfigCTR();
@@ -196,15 +217,26 @@ public class RuricolaCTR {
 //        atividadeDAO.verAtiv(dado  + "_" + configCTR.getEquip().getNroEquip(), telaAtual, telaProx, progressDialog);
 //    }
 
+    public boolean verLider(Long matricLider){
+        LiderDAO liderDAO = new LiderDAO();
+        return liderDAO.verLider(matricLider);
+    }
+
+    public boolean verFunc(Long matricFunc){
+        FuncDAO funcDAO = new FuncDAO();
+        ConfigCTR configCTR = new ConfigCTR();
+        return funcDAO.verFunc(matricFunc, configCTR.getConfig().getIdTurmaConfig());
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////// RETORNO DE LISTA DAS ATIVIDADES DA OS /////////////////////////////
-//
-//    public ArrayList getAtivArrayList(Long nroOS){
-//        ConfigCTR configCTR = new ConfigCTR();
-//        AtividadeDAO atividadeDAO = new AtividadeDAO();
-//        return atividadeDAO.retAtivArrayList(configCTR.getEquip().getIdEquip(), nroOS);
-//    }
+
+        public ArrayList getAtivArrayList(Long nroOS){
+            ConfigCTR configCTR = new ConfigCTR();
+            AtividadeDAO atividadeDAO = new AtividadeDAO();
+            return atividadeDAO.retAtivArrayList(nroOS);
+        }
 
     //////////////////////////////////////////////////////////////////////////////////////
 
@@ -239,6 +271,7 @@ public class RuricolaCTR {
 //    }
 
     ////////////////////////////////////////////////////////////////////////////////////
+
 
 
 }

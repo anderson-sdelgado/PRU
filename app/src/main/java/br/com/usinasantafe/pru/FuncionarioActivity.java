@@ -33,43 +33,16 @@ public class FuncionarioActivity extends ActivityGeneric {
 
                 if (!editTextPadrao.getText().toString().equals("")) {
 
-                    br.com.usinasantafe.pru.to.tb.estaticas.LiderBean liderBean = new br.com.usinasantafe.pru.to.tb.estaticas.LiderBean();
-                    List liderList = liderBean.get("codLider", Long.parseLong(editTextPadrao.getText().toString()));
+                    Long matricFunc = Long.parseLong(editTextPadrao.getText().toString();
 
-                    br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
-                    List configList = configBean.all();
-                    configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
-                    configList.clear();
+                    if (pruContext.getRuricolaCTR().verLider(matricFunc) && (pruContext.getRuricolaCTR().verFunc(matricFunc))){
 
-                    br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-                    ArrayList listaPesq = new ArrayList();
-                    EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-                    pesquisa.setCampo("idTurma");
-                    pesquisa.setValor(configBean.getIdTurma());
-                    listaPesq.add(pesquisa);
-
-                    EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-                    pesquisa2.setCampo("codFunc");
-                    pesquisa2.setValor(Long.parseLong(editTextPadrao.getText().toString()));
-                    listaPesq.add(pesquisa2);
-
-                    List funcList = funcBean.get(listaPesq);
-
-                    if ((liderList.size() > 0) && (funcList.size() > 0)) {
-
-                        pruContext.getBoletimBean().setIdLiderBoletim(Long.valueOf(editTextPadrao.getText().toString()));
-                        EnvioDadosServ.getInstance().salvaBoletimAberto(pruContext.getBoletimBean());
-                        EnvioDadosServ.getInstance().salvaFuncBoletim(Long.valueOf(editTextPadrao.getText().toString()), 1L);
-                        EnvioDadosServ.getInstance().envioDadosPrinc();
-
+                        pruContext.getRuricolaCTR().salvarBolAberto(matricFunc);
                         Intent it = new Intent(FuncionarioActivity.this, MenuMotoMecActivity.class);
                         startActivity(it);
                         finish();
 
                     }
-
-                    liderList.clear();
-                    funcList.clear();
 
                 }
 
@@ -91,7 +64,7 @@ public class FuncionarioActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
-        Intent it = new Intent(FuncionarioActivity.this, ListaAtivActivity.class);
+        Intent it = new Intent(FuncionarioActivity.this, ListaAtividadeActivity.class);
         startActivity(it);
         finish();
     }

@@ -19,9 +19,11 @@ public class FuncBean extends Entidade {
     @DatabaseField
     private Long idTurma;
     @DatabaseField
-    private Long codFunc;
+    private Long matricFunc;
     @DatabaseField
     private String nomeFunc;
+    @DatabaseField
+    private Long tipoAlocaFunc;  //1 - Alocado; 2 - Desalocado
 
     public FuncBean() {
     }
@@ -42,12 +44,12 @@ public class FuncBean extends Entidade {
         this.idTurma = idTurma;
     }
 
-    public Long getCodFunc() {
-        return codFunc;
+    public Long getMatricFunc() {
+        return matricFunc;
     }
 
-    public void setCodFunc(Long codFunc) {
-        this.codFunc = codFunc;
+    public void setMatricFunc(Long matricFunc) {
+        this.matricFunc = matricFunc;
     }
 
     public String getNomeFunc() {
@@ -58,4 +60,11 @@ public class FuncBean extends Entidade {
         this.nomeFunc = nomeFunc;
     }
 
+    public Long getTipoAlocaFunc() {
+        return tipoAlocaFunc;
+    }
+
+    public void setTipoAlocaFunc(Long tipoAlocaFunc) {
+        this.tipoAlocaFunc = tipoAlocaFunc;
+    }
 }

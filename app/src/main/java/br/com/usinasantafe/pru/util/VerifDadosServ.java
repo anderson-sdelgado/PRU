@@ -39,7 +39,7 @@ public class VerifDadosServ {
     private ProgressDialog progressDialog;
     private String dado;
     private String tipo;
-    private br.com.usinasantafe.pru.to.tb.variaveis.AtualizaBean atualizaBean;
+    private AtualAplicBean atualAplicBean;
     private MenuInicialActivity menuInicialActivity;
     private boolean verTerm;
     private PostVerGenerico postVerGenerico;
@@ -93,18 +93,6 @@ public class VerifDadosServ {
         this.tipo = tipo;
 
         envioDados();
-
-    }
-
-    public void verAtualizacao(br.com.usinasantafe.pru.to.tb.variaveis.AtualizaBean atualizaBean, MenuInicialActivity menuInicialActivity, ProgressDialog progressDialog) {
-
-        urlsConexaoHttp = new UrlsConexaoHttp();
-        this.atualizaBean = atualizaBean;
-        this.progressDialog = progressDialog;
-        this.tipo = "Atualiza";
-        this.menuInicialActivity = menuInicialActivity;
-
-        envioAtualizacao();
 
     }
 
@@ -198,9 +186,9 @@ public class VerifDadosServ {
             }
             else if(this.tipo.equals("Atualiza")) {
 
-                String verAtualizacao = result.trim();
+                String verAtualAplic = result.trim();
 
-                if(verAtualizacao.equals("S")){
+                if(verAtualAplic.equals("S")){
 
                     AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
                     atualizarAplicativo.setContext(this.menuInicialActivity);
@@ -210,7 +198,7 @@ public class VerifDadosServ {
                 else{
 
                     this.progressDialog.dismiss();
-                    this.menuInicialActivity.startTimer();
+                    this.menuInicialActivity.startTimer(verAtualAplic);
 
                 }
 
@@ -255,32 +243,56 @@ public class VerifDadosServ {
 
     }
 
-//    public void envioAtualizacao(){
-//
-//        JsonArray jsonArray = new JsonArray();
-//
-//        Gson gson = new Gson();
-//        jsonArray.add(gson.toJsonTree(atualizaBean, atualizaBean.getClass()));
-//
-//        JsonObject json = new JsonObject();
-//        json.add("dados", jsonArray);
-//
-//        Log.i("PCOMP", "LISTA = " + json.toString());
-//
-//        String[] url = {urlsConexaoHttp.urlVerifica(tipo)};
-//        Map<String, Object> parametrosPost = new HashMap<String, Object>();
-//        parametrosPost.put("dado", json.toString());
-//
-//        PostVerGenerico postVerGenerico = new PostVerGenerico();
-//        postVerGenerico.setParametrosPost(parametrosPost);
-//        postVerGenerico.execute(url);
-//
-//    }
-
-    public void cancelVer(){
+    public void cancelVer() {
         verTerm = true;
-        if(postVerGenerico.getStatus() == AsyncTask.Status.RUNNING){
+        if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
             postVerGenerico.cancel(true);
+        }
+    }
+
+    public void pulaTelaSemTerm(){
+        this.progressDialog.dismiss();
+        Intent it = new Intent(telaAtual, telaProx);
+        telaAtual.startActivity(it);
+    }
+
+    public void msgSemTerm(String texto){
+        this.progressDialog.dismiss();
+        AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
+        alerta.setTitle("ATENÇÃO");
+        alerta.setMessage(texto);
+        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+            }
+        });
+        alerta.show();
+    }
+
+    public void pulaTelaComTerm(){
+        if(!verTerm){
+            this.progressDialog.dismiss();
+            this.verTerm = true;
+            Intent it = new Intent(telaAtual, telaProx);
+            telaAtual.startActivity(it);
+        }
+    }
+
+    public void msgComTerm(String texto){
+        if(!verTerm){
+            this.progressDialog.dismiss();
+            this.verTerm = true;
+            AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage(texto);
+            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // TODO Auto-generated method stub
+                }
+            });
+            alerta.show();
         }
     }
 
@@ -288,4 +300,7 @@ public class VerifDadosServ {
         return verTerm;
     }
 
+    public void setVerTerm(boolean verTerm) {
+        this.verTerm = verTerm;
+    }
 }

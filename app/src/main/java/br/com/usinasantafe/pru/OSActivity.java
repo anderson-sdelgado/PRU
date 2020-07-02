@@ -9,8 +9,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
 import br.com.usinasantafe.pru.util.ConexaoWeb;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
 
@@ -41,60 +39,21 @@ public class OSActivity extends ActivityGeneric {
                         Long nroOS = Long.parseLong(editTextPadrao.getText().toString());
                         pruContext.getConfigCTR().setOsConfig(nroOS);
 
-                        if (pruContext.getVerPosTela() == 1) {
-                            pruContext.getBoletimCTR().setOSBol(nroOS);
-                        }
-                        else {
-                            pmmContext.getApontCTR().setOSApont(nroOS);
-                        }
-
                         ConexaoWeb conexaoWeb = new ConexaoWeb();
-                        OSBean osTO = new OSBean();
-                        if (osTO.hasElements()) {
+                        if (pruContext.getConfigCTR().verOS(nroOS)) {
 
-                            List osList = osTO.get("nroOS", nroOS);
-
-                            if (osList.size() > 0) {
-
-                                if (conexaoWeb.verificaConexao(OSActivity.this)) {
-                                    configCTR.setStatusConConfig(1L);
-                                }
-                                else{
-                                    configCTR.setStatusConConfig(0L);
-                                }
-
-                                VerifDadosServ.getInstance().setVerTerm(true);
-
-                                Intent it = new Intent(OSActivity.this, ListaAtividadeActivity.class);
-                                startActivity(it);
-                                finish();
-
-                            } else {
-
-                                if (conexaoWeb.verificaConexao(OSActivity.this)) {
-
-                                    progressBar = new ProgressDialog(v.getContext());
-                                    progressBar.setCancelable(true);
-                                    progressBar.setMessage("PESQUISANDO OS...");
-                                    progressBar.show();
-
-                                    customHandler.postDelayed(updateTimerThread, 10000);
-
-                                    pmmContext.getBoletimCTR().verOS(editTextPadrao.getText().toString()
-                                            , OSActivity.this, ListaAtividadeActivity.class, progressBar);
-
-
-                                } else {
-
-                                    configCTR.setStatusConConfig(0L);
-
-                                    Intent it = new Intent(OSActivity.this, ListaAtividadeActivity.class);
-                                    startActivity(it);
-                                    finish();
-
-                                }
-
+                            if (conexaoWeb.verificaConexao(OSActivity.this)) {
+                                pruContext.getConfigCTR().setStatusConConfig(1L);
                             }
+                            else{
+                                pruContext.getConfigCTR().setStatusConConfig(0L);
+                            }
+
+                            VerifDadosServ.getInstance().setVerTerm(true);
+
+                            Intent it = new Intent(OSActivity.this, ListaAtividadeActivity.class);
+                            startActivity(it);
+                            finish();
 
                         } else {
 
@@ -107,12 +66,13 @@ public class OSActivity extends ActivityGeneric {
 
                                 customHandler.postDelayed(updateTimerThread, 10000);
 
-                                pmmContext.getBoletimCTR().verOS(editTextPadrao.getText().toString()
+                                pruContext.getRuricolaCTR().verOS(editTextPadrao.getText().toString()
                                         , OSActivity.this, ListaAtividadeActivity.class, progressBar);
+
 
                             } else {
 
-                                configCTR.setStatusConConfig(0L);
+                                pruContext.getConfigCTR().setStatusConConfig(0L);
 
                                 Intent it = new Intent(OSActivity.this, ListaAtividadeActivity.class);
                                 startActivity(it);
@@ -121,6 +81,7 @@ public class OSActivity extends ActivityGeneric {
                             }
 
                         }
+
                         ///////////////////////////////////////////
 
                     }
@@ -139,49 +100,6 @@ public class OSActivity extends ActivityGeneric {
                         alerta.show();
 
                     }
-
-//                    br.com.usinasantafe.pru.to.tb.estaticas.OSBean osTO = new br.com.usinasantafe.pru.to.tb.estaticas.OSBean();
-//                    if(pruContext.getVerPosTelaPrinc() == 1){
-//                        pruContext.getBoletimBean().setOsBoletim(Long.parseLong(editTextPadrao.getText().toString()));
-//                        osTO.deleteAll();
-//                        br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean rosAtivBean = new br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean();
-//                        rosAtivBean.deleteAll();
-//                    }
-//                    else{
-//                        pruContext.getApontamentoTO().setOsAponta(Long.parseLong(editTextPadrao.getText().toString()));
-//                    }
-//
-//                    if (osTO.exists("nroOS", Long.parseLong(editTextPadrao.getText().toString()))) {
-//
-//                        Intent it = new Intent(OSActivity.this, ListaAtivActivity.class);
-//                        startActivity(it);
-//                        finish();
-//
-//                    } else {
-//
-//                        ConexaoWeb conexaoWeb = new ConexaoWeb();
-//
-//                        if (conexaoWeb.verificaConexao(OSActivity.this)) {
-//
-//                            progressBar = new ProgressDialog(v.getContext());
-//                            progressBar.setCancelable(true);
-//                            progressBar.setMessage("Pequisando a OS...");
-//                            progressBar.show();
-//
-//                            customHandler.postDelayed(updateTimerThread, 10000);
-//
-//                            VerifDadosServ.getInstance().verDados(editTextPadrao.getText().toString(), "OS"
-//                                    , OSActivity.this, ListaAtivActivity.class, progressBar);
-//
-//                        } else {
-//
-//                            Intent it = new Intent(OSActivity.this, ListaAtivActivity.class);
-//                            startActivity(it);
-//                            finish();
-//
-//                        }
-//
-//                    }
 
                 }
             }
@@ -224,7 +142,7 @@ public class OSActivity extends ActivityGeneric {
                     progressBar.dismiss();
                 }
 
-                Intent it = new Intent(OSActivity.this, ListaAtivActivity.class);
+                Intent it = new Intent(OSActivity.this, ListaAtividadeActivity.class);
                 startActivity(it);
                 finish();
 

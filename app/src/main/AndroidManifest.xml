@@ -41,7 +41,7 @@
             android:name=".ListaFuncApontActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ListaAtivActivity"
+            android:name=".ListaAtividadeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FuncionarioActivity"

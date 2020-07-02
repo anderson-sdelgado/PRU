@@ -57,7 +57,7 @@ public class ListaParadaActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                Intent it = new Intent(ListaParadaActivity.this, ListaAtivActivity.class);
+                Intent it = new Intent(ListaParadaActivity.this, ListaAtividadeActivity.class);
                 startActivity(it);
                 finish();
 

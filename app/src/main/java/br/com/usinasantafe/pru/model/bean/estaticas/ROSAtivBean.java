@@ -18,7 +18,7 @@ public class ROSAtivBean extends Entidade {
     @DatabaseField
     private Long nroOS;
     @DatabaseField
-    private Long codAtiv;
+    private Long idAtiv;
 
     public ROSAtivBean() {
     }
@@ -39,11 +39,11 @@ public class ROSAtivBean extends Entidade {
         this.nroOS = nroOS;
     }
 
-    public Long getCodAtiv() {
-        return codAtiv;
+    public Long getIdAtiv() {
+        return idAtiv;
     }
 
-    public void setCodAtiv(Long codAtiv) {
-        this.codAtiv = codAtiv;
+    public void setIdAtiv(Long idAtiv) {
+        this.idAtiv = idAtiv;
     }
 }

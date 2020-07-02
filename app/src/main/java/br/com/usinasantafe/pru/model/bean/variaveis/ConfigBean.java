@@ -31,6 +31,10 @@ public class ConfigBean extends Entidade {
     private Long nroOSConfig;
     @DatabaseField
     private Long idAtivConfig;
+    @DatabaseField
+    private Long statusConConfig;  //0 - Offline; 1 - Online
+    @DatabaseField
+    private String dtServConfig;
 
     public ConfigBean() {
     }
@@ -97,5 +101,21 @@ public class ConfigBean extends Entidade {
 
     public void setIdAtivConfig(Long idAtivConfig) {
         this.idAtivConfig = idAtivConfig;
+    }
+
+    public Long getStatusConConfig() {
+        return statusConConfig;
+    }
+
+    public void setStatusConConfig(Long statusConConfig) {
+        this.statusConConfig = statusConConfig;
+    }
+
+    public String getDtServConfig() {
+        return dtServConfig;
+    }
+
+    public void setDtServConfig(String dtServConfig) {
+        this.dtServConfig = dtServConfig;
     }
 }

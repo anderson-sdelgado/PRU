@@ -28,6 +28,8 @@ public class BoletimBean extends Entidade {
 	private Long ativPrincBol;
 	@DatabaseField
 	private Long statusBol; //1 - Aberto; 2 - Encerrado
+	@DatabaseField
+	private Long tipoFuncBol;
 
     public BoletimBean() {
 		// TODO Auto-generated constructor stub
@@ -103,5 +105,13 @@ public class BoletimBean extends Entidade {
 
 	public void setAtivPrincBol(Long ativPrincBol) {
 		this.ativPrincBol = ativPrincBol;
+	}
+
+	public Long getTipoFuncBol() {
+		return tipoFuncBol;
+	}
+
+	public void setTipoFuncBol(Long tipoFuncBol) {
+		this.tipoFuncBol = tipoFuncBol;
 	}
 }

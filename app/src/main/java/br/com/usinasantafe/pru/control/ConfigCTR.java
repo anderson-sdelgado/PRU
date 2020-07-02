@@ -11,6 +11,7 @@ import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.dao.ConfigDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.LiderDAO;
+import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.model.dao.TipoApontDAO;
 import br.com.usinasantafe.pru.model.dao.TurmaDAO;
 import br.com.usinasantafe.pru.util.AtualDadosServ;
@@ -47,9 +48,9 @@ public class ConfigCTR {
         return liderDAO.verLider(codLider);
     }
 
-    public boolean verFunc(Long codFunc){
+    public boolean verFunc(Long matricFunc){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.verFunc(codFunc);
+        return funcDAO.verFunc(matricFunc);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,5 +121,10 @@ public class ConfigCTR {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean verOS(Long nroOS){
+        OSDAO osDAO = new OSDAO();
+        return osDAO.verOS(nroOS);
+    }
 
 }

@@ -11,16 +11,18 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
+import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
 
 public class ListaFuncActivity extends ActivityGeneric {
 
-    private ListView lista;
+    private ListView funcListView;
     private PRUContext pruContext;
-    private List funcList;
+    private List<FuncBean> funcList;
     private AdapterListChoice adapterListChoice;
     private ArrayList<ViewHolderChoice> itens;
-    private br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,48 +36,27 @@ public class ListaFuncActivity extends ActivityGeneric {
         Button buttonRetListaFunc = (Button) findViewById(R.id.buttonRetListaFunc);
         Button buttonSalvarListaFunc = (Button) findViewById(R.id.buttonSalvarListaFunc);
 
-        configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
-        List configList = configBean.all();
-        configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
-
         itens = new ArrayList<ViewHolderChoice>();
+        alocaFuncBeans = new ArrayList<AlocaFuncBean>();
 
-        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-        funcList =  funcBean.getAndOrderBy("idTurma", configBean.getIdTurma(), "nomeFunc", true);
+        funcList =  pruContext.getRuricolaCTR().getFuncAlocList();
 
-        if(pruContext.getVerPosTela() == 1) {
-
-            for (int i = 0; i < funcList.size(); i++) {
-                funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
-                ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
+        for (FuncBean funcBean : funcList) {
+            ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
+            if(funcBean.getTipoAlocaFunc() == 1){
+                viewHolderChoice.setSelected(true);
+            }
+            else if(funcBean.getTipoAlocaFunc() == 2){
                 viewHolderChoice.setSelected(false);
-                viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
-                itens.add(viewHolderChoice);
             }
-
-        }
-        else if(pruContext.getVerPosTela() == 4) {
-
-            for (int i = 0; i < funcList.size(); i++) {
-                funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
-                br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
-                List funcBoletimList = funcBoletimBean.get("codFuncBoletim", funcBean.getCodFunc());
-                ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
-                if(funcBoletimList.size() == 0) {
-                    viewHolderChoice.setSelected(false);
-                }
-                else{
-                    viewHolderChoice.setSelected(true);
-                }
-                viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
-                itens.add(viewHolderChoice);
-            }
-
+            viewHolderChoice.setSelected(false);
+            viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
+            itens.add(viewHolderChoice);
         }
 
         adapterListChoice = new AdapterListChoice(this, itens);
-        lista = (ListView) findViewById(R.id.listFunc);
-        lista.setAdapter(adapterListChoice);
+        funcListView = (ListView) findViewById(R.id.listFunc);
+        funcListView.setAdapter(adapterListChoice);
 
         buttonDesmarcarTodos.setOnClickListener(new View.OnClickListener() {
 
@@ -84,9 +65,8 @@ public class ListaFuncActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-                for (int i = 0; i < funcList.size(); i++) {
-                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+                for (FuncBean funcBean : funcList) {
+                    funcBean.setTipoAlocaFunc(2L);
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
                     viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
@@ -94,8 +74,8 @@ public class ListaFuncActivity extends ActivityGeneric {
                 }
 
                 adapterListChoice = new AdapterListChoice(ListaFuncActivity.this, itens);
-                lista = (ListView) findViewById(R.id.listFunc);
-                lista.setAdapter(adapterListChoice);
+                funcListView = (ListView) findViewById(R.id.listFunc);
+                funcListView.setAdapter(adapterListChoice);
 
             }
         });
@@ -107,9 +87,8 @@ public class ListaFuncActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-                for (int i = 0; i < funcList.size(); i++) {
-                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+                for (FuncBean funcBean : funcList) {
+                    funcBean.setTipoAlocaFunc(1L);
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
                     viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
@@ -117,8 +96,8 @@ public class ListaFuncActivity extends ActivityGeneric {
                 }
 
                 adapterListChoice = new AdapterListChoice(ListaFuncActivity.this, itens);
-                lista = (ListView) findViewById(R.id.listFunc);
-                lista.setAdapter(adapterListChoice);
+                funcListView = (ListView) findViewById(R.id.listFunc);
+                funcListView.setAdapter(adapterListChoice);
 
             }
         });
@@ -152,6 +131,7 @@ public class ListaFuncActivity extends ActivityGeneric {
                 ArrayList<Long> funcSelectedList = new ArrayList<Long>();
 
                 for (int i = 0; i < itens.size(); i++) {
+
                     ViewHolderChoice viewHolderChoice = itens.get(i);
 
                     if(viewHolderChoice.isSelected()){

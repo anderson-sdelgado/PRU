@@ -250,7 +250,7 @@ public class MenuInicialActivity extends ActivityGeneric {
             Log.i("PRU", "idAlocaFunc = " + alocaFuncBean.getIdAlocaFunc());
             Log.i("PRU", "idBolAlocaFunc = " + alocaFuncBean.getIdBolAlocaFunc());
             Log.i("PRU", "idExtBolAlocaFunc = " + alocaFuncBean.getIdExtBolAlocaFunc());
-            Log.i("PRU", "codFuncionarioAlocaFunc = " + alocaFuncBean.getCodFuncionarioAlocaFunc());
+            Log.i("PRU", "codFuncionarioAlocaFunc = " + alocaFuncBean.getMatricFuncAlocaFunc());
             Log.i("PRU", "dthrAlocaFunc = " + alocaFuncBean.getDthrAlocaFunc());
             Log.i("PRU", "tipoAlocaFunc = " + alocaFuncBean.getTipoAlocaFunc());
         }

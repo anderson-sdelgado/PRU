@@ -73,7 +73,6 @@ public class EnvioDadosServ {
 
     public void salvaAponta(br.com.usinasantafe.pru.to.tb.variaveis.ApontBean apontaPrincTO, ArrayList<Long> funcSel) {
 
-
         br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean boletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean();
         List lBol = boletimBean.get("statusBoletim", 1L);
         boletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean) lBol.get(0);

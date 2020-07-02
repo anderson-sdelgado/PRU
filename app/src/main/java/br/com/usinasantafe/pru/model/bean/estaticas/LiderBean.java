@@ -17,7 +17,7 @@ public class LiderBean extends Entidade {
     @DatabaseField(id=true)
     private Long idLider;
     @DatabaseField
-    private Long codLider;
+    private Long matricLider;
     @DatabaseField
     private String nomeLider;
 
@@ -32,12 +32,12 @@ public class LiderBean extends Entidade {
         this.idLider = idLider;
     }
 
-    public Long getCodLider() {
-        return codLider;
+    public Long getMatricLider() {
+        return matricLider;
     }
 
-    public void setCodLider(Long codLider) {
-        this.codLider = codLider;
+    public void setMatricLider(Long matricLider) {
+        this.matricLider = matricLider;
     }
 
     public String getNomeLider() {

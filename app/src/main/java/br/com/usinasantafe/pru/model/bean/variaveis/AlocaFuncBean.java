@@ -21,7 +21,7 @@ public class AlocaFuncBean extends Entidade {
     @DatabaseField
     private Long idExtBolAlocaFunc;
     @DatabaseField
-    private Long codFuncionarioAlocaFunc;
+    private Long matricFuncAlocaFunc;
     @DatabaseField
     private String dthrAlocaFunc;
     @DatabaseField
@@ -50,12 +50,12 @@ public class AlocaFuncBean extends Entidade {
         this.idExtBolAlocaFunc = idExtBolAlocaFunc;
     }
 
-    public Long getCodFuncionarioAlocaFunc() {
-        return codFuncionarioAlocaFunc;
+    public Long getMatricFuncAlocaFunc() {
+        return matricFuncAlocaFunc;
     }
 
-    public void setCodFuncionarioAlocaFunc(Long codFuncionarioAlocaFunc) {
-        this.codFuncionarioAlocaFunc = codFuncionarioAlocaFunc;
+    public void setMatricFuncAlocaFunc(Long matricFuncAlocaFunc) {
+        this.matricFuncAlocaFunc = matricFuncAlocaFunc;
     }
 
     public String getDthrAlocaFunc() {

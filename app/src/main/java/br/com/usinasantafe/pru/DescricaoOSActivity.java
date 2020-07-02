@@ -41,7 +41,7 @@ public class DescricaoOSActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent it = new Intent(DescricaoOSActivity.this, ListaAtivActivity.class);
+                Intent it = new Intent(DescricaoOSActivity.this, ListaAtividadeActivity.class);
                 startActivity(it);
                 finish();
             }
