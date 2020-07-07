@@ -25,7 +25,7 @@ public class AlocaFuncBean extends Entidade {
     @DatabaseField
     private String dthrAlocaFunc;
     @DatabaseField
-    private Long tipoAlocaFunc; //1 - Inserido; 2 - Retirado
+    private Long tipoAlocaFunc; //1 - Alocado; 2 - Desalocado
 
     public AlocaFuncBean() {
     }

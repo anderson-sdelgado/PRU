@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
 
 public class ListaFuncApontActivity extends ActivityGeneric {
@@ -18,7 +19,7 @@ public class ListaFuncApontActivity extends ActivityGeneric {
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;
     private ListView funcListView;
-    private List funcList;
+    private List<FuncBean> funcList;
     private PRUContext pruContext;
 
     @Override
@@ -34,20 +35,9 @@ public class ListaFuncApontActivity extends ActivityGeneric {
         pruContext = (PRUContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
 
-        br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
-        List funcBolList = funcBoletimBean.all();
-        ArrayList<Long> rLista = new ArrayList<Long>();
+        funcList =  pruContext.getRuricolaCTR().getFuncAlocTurmaList();
 
-        for (int i = 0; i < funcBolList.size(); i++) {
-            funcBoletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean) funcBolList.get(i);
-            rLista.add(funcBoletimBean.getCodFuncBoletim());
-        }
-
-        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-        funcList = funcBean.inAndOrderBy("codFunc", rLista, "nomeFunc", true);
-
-        for (int i = 0; i < funcList.size(); i++) {
-            funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+        for (FuncBean funcBean : funcList) {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             viewHolderChoice.setSelected(false);
             viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
@@ -65,17 +55,15 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-                for (int i = 0; i < funcList.size(); i++) {
-                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+                for (FuncBean funcBean : funcList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
                     viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
                     itens.add(viewHolderChoice);
                 }
 
-                adapterListChoice = new AdapterListChoice( ListaFuncApontActivity.this, itens);
-                funcListView = (ListView) findViewById(R.id.listFuncAloc);
+                adapterListChoice = new AdapterListChoice(ListaFuncApontActivity.this, itens);
+                funcListView = (ListView) findViewById(R.id.listFunc);
                 funcListView.setAdapter(adapterListChoice);
 
             }
@@ -88,9 +76,7 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 // TODO Auto-generated method stub
 
                 itens.clear();
-                br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = new br.com.usinasantafe.pru.to.tb.estaticas.FuncBean();
-                for (int i = 0; i < funcList.size(); i++) {
-                    funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
+                for (FuncBean funcBean : funcList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
                     viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
@@ -98,7 +84,7 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 }
 
                 adapterListChoice = new AdapterListChoice(ListaFuncApontActivity.this, itens);
-                funcListView = (ListView) findViewById(R.id.listFuncAloc);
+                funcListView = (ListView) findViewById(R.id.listFunc);
                 funcListView.setAdapter(adapterListChoice);
 
             }
@@ -130,21 +116,21 @@ public class ListaFuncApontActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                ArrayList<Long> funcSelectedList = new ArrayList<Long>();
+                ArrayList<FuncBean> funcSelectedList = new ArrayList<FuncBean>();
 
                 for (int i = 0; i < itens.size(); i++) {
                     ViewHolderChoice viewHolderChoice = itens.get(i);
 
                     if(viewHolderChoice.isSelected()){
-                        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
-                        funcSelectedList.add(funcBean.getCodFunc());
+                        FuncBean funcBean = (FuncBean) funcList.get(i);
+                        funcSelectedList.add(funcBean);
                     }
 
                 }
 
                 if(funcSelectedList.size() > 0){
 
-                    EnvioDadosServ.getInstance().salvaAponta(pruContext.getApontamentoTO(), funcSelectedList);
+                    pruContext.getRuricolaCTR().salvaApont(funcList);
 
                     Intent it = new Intent(ListaFuncApontActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);

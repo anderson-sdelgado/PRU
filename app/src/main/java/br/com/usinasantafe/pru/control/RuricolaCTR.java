@@ -6,18 +6,23 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
+import br.com.usinasantafe.pru.model.dao.ApontDAO;
 import br.com.usinasantafe.pru.model.dao.AtividadeDAO;
 import br.com.usinasantafe.pru.model.dao.BoletimDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.LiderDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
+import br.com.usinasantafe.pru.model.dao.ParadaDAO;
+import br.com.usinasantafe.pru.util.Tempo;
 
 public class RuricolaCTR {
 
     private BoletimBean boletimBean;
+    private Long idParada;
 
     public RuricolaCTR() {
     }
@@ -28,54 +33,30 @@ public class RuricolaCTR {
     }
 
 
-//    public void atualApont(){
-//        ApontDAO apontMMDAO = new ApontMMDAO();
-//        ApontMMBean apontMMBean = apontMMDAO.getApontMMAberto();
-//        apontMMDAO.updApont(apontMMBean);
-//    }
-
     //////////////////////////// SETAR CAMPOS ///////////////////////////////////////////////
 
-//    public void setFuncBol(Long matric){
-//        boletimMMBean = new BoletimMMBean();
-//        boletimMMBean.setMatricFuncBolMM(matric);
-//    }
-//
-//    public void setEquipBol(){
-//        ConfigCTR configCTR = new ConfigCTR();
-//        boletimMMBean.setIdEquipBolMM(configCTR.getEquip().getIdEquip());
-//    }
-//
-//    public void setTurnoBol(Long idTurno){
-//        boletimMMBean.setIdTurnoBolMM(idTurno);
-//    }
-
-//    public void setMotoMecBean(MotoMecBean motoMecBean) {
-//        this.motoMecBean = motoMecBean;
-//    }
+    public void setIdParada(Long idParada) {
+        this.idParada = idParada;
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////// GET DE CAMPOS ///////////////////////////////////////////
-//
-//    public Long getTurno(){
-//        return boletimMMBean.getIdTurnoBolMM();
-//    }
-//
-//    public Long getFunc(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        return boletimMMDAO.getMatricNomeFunc().getMatricFunc();
-//    }
-//
-//    public FuncionarioBean getMatricNomeFunc(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        return boletimMMDAO.getMatricNomeFunc();
-//    }
 
-    public List getFuncAlocList() {
+    public List getFuncBDTurmaList() {
         ConfigCTR configCTR = new ConfigCTR();
         FuncDAO funcDAO = new FuncDAO();
         return funcDAO.getFuncAlocList(configCTR.getConfig().getIdTurmaConfig());
+    }
+
+    public List getFuncAlocTurmaList() {
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.getFuncAlocList();
+    }
+
+    public List getParadaList(){
+        ParadaDAO paradaDAO = new ParadaDAO();
+        return paradaDAO.getParadaList();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -104,45 +85,69 @@ public class RuricolaCTR {
         alocaFuncDAO.alocaFunc(boletimBean);
     }
 
+    public void salvarBolAberto(List funcAlocList){
+        ConfigCTR configCTR = new ConfigCTR();
+        ConfigBean configBean = configCTR.getConfig();
+        BoletimBean boletimBean = new BoletimBean();
+        boletimBean.setIdLiderBol(configBean.getMatricFuncConfig());
+        boletimBean = salvarBolAberto(boletimBean, configBean);
+        alocaFunc(funcAlocList, boletimBean, configBean.getIdTurmaConfig());
+    }
+
     private BoletimBean salvarBolAberto(BoletimBean boletimBean, ConfigBean configBean){
         boletimBean.setOsBol(configBean.getNroOSConfig());
         boletimBean.setAtivPrincBol(configBean.getIdAtivConfig());
         boletimBean.setIdTurmaBol(configBean.getIdTurmaConfig());
         boletimBean.setTipoFuncBol(configBean.getIdTipoConfig());
         BoletimDAO boletimDAO = new BoletimDAO();
-        boletimDAO.salvarBolAberto1Colab(boletimBean);
+        boletimDAO.salvarBolAberto(boletimBean);
         return boletimDAO.getBolAberto();
     }
 
-//
-//    public void salvarBolFechadoMM(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        boletimMMDAO.salvarBolFechado(boletimMMBean);
-//    }
+    public void alocaFunc(List funcAlocList){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        ConfigCTR configCTR = new ConfigCTR();
+        ConfigBean configBean = configCTR.getConfig();
+        alocaFunc(funcAlocList, boletimDAO.getBolAberto(), configBean.getIdTurmaConfig());
+    }
+
+    private void alocaFunc(List funcAlocList, BoletimBean boletimBean, Long idTurmaConfig){
+        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
+        FuncDAO funcDAO = new FuncDAO();
+        List funcList = funcDAO.getFuncAlocList(idTurmaConfig);
+        alocaFuncDAO.alocaFunc(boletimBean, funcAlocList, funcList);
+        funcDAO.atualFuncAloc(funcAlocList);
+        funcList.clear();
+    }
+
+    public void salvarBolFechado() {
+        BoletimDAO boletimDAO = new BoletimDAO();
+        boletimDAO.salvarBolFechado();
+    }
 
     ////////// VERIFICAÇÃO PRA ENVIO ///////////////
-//
-//    public boolean verEnvioBolAbertoMM(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        return boletimMMDAO.bolAbertoSemEnvioList().size() > 0;
-//    }
-//
-//    public boolean verEnvioBolFechMM() {
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        return boletimMMDAO.bolFechadoList().size() > 0;
-//    }
+
+    public boolean verEnvioBolAberto(){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.bolAbertoSemEnvioList().size() > 0;
+    }
+
+    public boolean verEnvioBolFech() {
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.bolFechadoList().size() > 0;
+    }
 
     ////////// DADOS PRA ENVIO ///////////////
-//
-//    public String dadosEnvioBolAbertoMM(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        return boletimMMDAO.dadosEnvioBolAberto();
-//    }
-//
-//    public String dadosEnvioBolFechadoMM(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        return boletimMMDAO.dadosEnvioBolFechado();
-//    }
+
+    public String dadosEnvioBolAberto(){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.dadosEnvioBolAberto();
+    }
+
+    public String dadosEnvioBolFechado(){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.dadosEnvioBolFechado();
+    }
 
     ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
 //
@@ -161,23 +166,23 @@ public class RuricolaCTR {
     //////////////////////// MANIPULAR APONT DADOS MOTOMEC ////////////////////////////////////
 
     ////////// VERIFICAÇÃO PRA ENVIO ///////////////
-//
-//    public Boolean verEnvioDadosApont(){
-//        ApontMMDAO apontMMDAO = new ApontMMDAO();
-//        return (apontMMDAO.getListApontEnvio().size() > 0);
-//    }
+
+    public Boolean verEnvioDadosApont(){
+        ApontDAO apontMMDAO = new ApontDAO();
+        return (apontMMDAO.getListApontEnvio().size() > 0);
+    }
 
     ////////// DADOS PRA ENVIO ///////////////
-//
-//    public String dadosEnvioApontBolMM(Long idBol){
-//        ApontMMDAO apontMMDAO = new ApontMMDAO();
-//        return apontMMDAO.dadosEnvioApontMM(apontMMDAO.getListApontEnvio(idBol));
-//    }
-//
-//    public String dadosEnvioApontMM(){
-//        ApontMMDAO apontMMDAO = new ApontMMDAO();
-//        return apontMMDAO.dadosEnvioApontMM(apontMMDAO.getListApontEnvio());
-//    }
+
+    public String dadosEnvioApontBolMM(ArrayList<Long> idBolList){
+        ApontDAO apontDAO = new ApontDAO();
+        return apontDAO.dadosEnvioApont(apontDAO.getListApontEnvio(idBolList));
+    }
+
+    public String dadosEnvioApont(){
+        ApontDAO apontDAO = new ApontDAO();
+        return apontDAO.dadosEnvioApont(apontDAO.getListApontEnvio());
+    }
 
     ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
 //
@@ -233,45 +238,32 @@ public class RuricolaCTR {
     //////////////////// RETORNO DE LISTA DAS ATIVIDADES DA OS /////////////////////////////
 
         public ArrayList getAtivArrayList(Long nroOS){
-            ConfigCTR configCTR = new ConfigCTR();
             AtividadeDAO atividadeDAO = new AtividadeDAO();
             return atividadeDAO.retAtivArrayList(nroOS);
         }
 
     //////////////////////////////////////////////////////////////////////////////////////
 
-    //////////////////////////// CRIAR E ATUALIZAR APONTAMENTO ////////////////////////////////////
-//
-//    public void insApontMM(Double longitude, Double latitude, Long statusCon){
-//
-//        ApontMMDAO apontMMDAO = new ApontMMDAO();
-//        ConfigCTR configCTR = new ConfigCTR();
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        apontMMDAO.salvarApont(motoMecBean, configCTR.getConfig(), boletimMMDAO.getBolMMAberto(), longitude, latitude, statusCon);
-//
-//        atualQtdeApontBol();
-//
-//        configCTR.setDtUltApontConfig(Tempo.getInstance().dataComHora().getDataHora());
-//
-//    }
-//
-//    public boolean verifBackupApont() {
-//        ConfigCTR configCTR = new ConfigCTR();
-//        ApontMMDAO apontMMDAO = new ApontMMDAO();
-//        return apontMMDAO.verifBackupApont(motoMecBean, configCTR.getConfig());
-//    }
+    //////////////////////////// SALVAR APONTAMENTO ////////////////////////////////////
+
+    public void salvaApont() {
+        ConfigCTR configCTR = new ConfigCTR();
+        BoletimDAO boletimDAO = new BoletimDAO();
+        ApontDAO apontDAO = new ApontDAO();
+        String dataHora = Tempo.getInstance().data();
+        apontDAO.salvaApont(boletimDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora);
+        configCTR.setDtUltApontConfig(dataHora);
+    }
+
+    public void salvaApont(List<FuncBean> funcBeans) {
+        ConfigCTR configCTR = new ConfigCTR();
+        BoletimDAO boletimDAO = new BoletimDAO();
+        ApontDAO apontDAO = new ApontDAO();
+        String dataHora = Tempo.getInstance().data();
+        apontDAO.salvaApont(boletimDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora, funcBeans);
+        configCTR.setDtUltApontConfig(dataHora);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /////////////////// ATUALIZAR QTDE DE APONTAMENTO DO BOLETIM ///////////////////////////
-//
-//    public void atualQtdeApontBol(){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        boletimMMDAO.atualQtdeApontBol();
-//    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-
-
 
 }

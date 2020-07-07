@@ -10,14 +10,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
 
 public class MenuMotoMecActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
-    private ListView lista;
+    private ListView menuListView;
 
     private TextView textViewProcessoNormal;
     private Handler customHandler = new Handler();
@@ -38,28 +37,20 @@ public class MenuMotoMecActivity extends ActivityGeneric {
         itens.add("PARADO");
         itens.add("FINALIZAR BOLETIM");
 
-        br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
-        List configList = configBean.all();
-        configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
-
-        if(configBean.getIdTipo() == 1L){
-            itens.add("FUNCIONÁRIOS");
+        if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1L){
+            itens.add("ALOCA/DESALOCA FUNCIONÁRIO");
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
-        lista = (ListView) findViewById(R.id.listViewMenuPrinc);
-        lista.setAdapter(adapterList);
+        menuListView = (ListView) findViewById(R.id.listViewMenuPrinc);
+        menuListView.setAdapter(adapterList);
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        menuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
                 // TODO Auto-generated method stub
-
-                br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
-                List configList = configBean.all();
-                configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
 
                 if (position == 0) {
                     pruContext.setVerPosTela(2);
@@ -72,7 +63,7 @@ public class MenuMotoMecActivity extends ActivityGeneric {
                     startActivity(it);
                     finish();
                 } else if (position == 2) {
-                    EnvioDadosServ.getInstance().salvaBoletimFechado();
+                    pruContext.getRuricolaCTR().salvarBolFechado();
                     Intent it = new Intent(MenuMotoMecActivity.this, MenuInicialActivity.class);
                     startActivity(it);
                     finish();

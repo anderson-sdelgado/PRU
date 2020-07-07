@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.ParadaBean;
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
 
 public class ListaParadaActivity extends ActivityGeneric {
@@ -36,11 +37,11 @@ public class ListaParadaActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-//                progressBar = new ProgressDialog(v.getContext());
-//                progressBar.setCancelable(true);
-//                progressBar.setMessage("Atualizando Paradas...");
-//                progressBar.show();
-//
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("Atualizando Paradas...");
+                progressBar.show();
+
 //                ConfiguracaoTO configuracaoTO = new ConfiguracaoTO();
 //                List configList = configuracaoTO.all();
 //                configuracaoTO = (ConfiguracaoTO) configList.get(0);
@@ -64,13 +65,12 @@ public class ListaParadaActivity extends ActivityGeneric {
             }
         });
 
-        br.com.usinasantafe.pru.to.tb.estaticas.ParadaBean paradaBean = new br.com.usinasantafe.pru.to.tb.estaticas.ParadaBean();
-        listParada = paradaBean.all();
+        listParada = pruContext.getRuricolaCTR().getParadaList();
 
         ArrayList<String> itens = new ArrayList<String>();
 
         for (int i = 0; i < listParada.size(); i++) {
-            paradaBean = (br.com.usinasantafe.pru.to.tb.estaticas.ParadaBean) listParada.get(i);
+            ParadaBean paradaBean = (ParadaBean) listParada.get(i);
             itens.add(paradaBean.getCodParada() + " - " + paradaBean.getDescrParada());
         }
 
@@ -85,31 +85,17 @@ public class ListaParadaActivity extends ActivityGeneric {
                                     long id) {
                 // TODO Auto-generated method stub
 
-                br.com.usinasantafe.pru.to.tb.estaticas.ParadaBean paradaBean = new br.com.usinasantafe.pru.to.tb.estaticas.ParadaBean();
-                paradaBean = (br.com.usinasantafe.pru.to.tb.estaticas.ParadaBean) listParada.get(position);
-                listParada.clear();
+                ParadaBean paradaBean = (ParadaBean) listParada.get(position);
 
-                pruContext.getApontamentoTO().setParadaAponta(paradaBean.getIdParada());
-
-                br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
-                List configList = configBean.all();
-                configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
+                pruContext.getRuricolaCTR().setIdParada(paradaBean.getIdParada());
 
                 Intent it;
-                switch ((int) configBean.getIdTipo().longValue()) {
-                    case 1:
-                        it = new Intent( ListaParadaActivity.this, ListaFuncApontActivity.class);
-                        break;
-                    default:
-
-                        br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean boletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean();
-                        List boletimList = boletimBean.get("statusBoletim", 1L);
-                        boletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean) boletimList.get(0);
-
-                        EnvioDadosServ.getInstance().salvaAponta(pruContext.getApontamentoTO(), boletimBean.getIdLiderBoletim());
-
-                        it = new Intent(ListaParadaActivity.this, MenuMotoMecActivity.class);
-                        break;
+                if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1) {
+                    it = new Intent(ListaParadaActivity.this, ListaFuncApontActivity.class);
+                }
+                else{
+                    pruContext.getRuricolaCTR().salvaApont();
+                    it = new Intent(ListaParadaActivity.this, MenuMotoMecActivity.class);
                 }
 
                 startActivity(it);

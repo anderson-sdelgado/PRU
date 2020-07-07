@@ -16,25 +16,25 @@ public abstract class Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Dao dao;
-	
+
 	private Dao daoImpl(){
-		
+
 		try {
-			
+
 			if(dao == null){
 				DatabaseHelper instance = DatabaseHelper.getInstance();
 				dao = instance.getDao(getClass());
 			}
-			
+
 			return dao;
-			
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		
-		
+
+
 	}
-	
+
 	public void insert() {
 		try {
 			this.daoImpl().create(this);
@@ -42,9 +42,9 @@ public abstract class Entidade implements Serializable {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public void update() {
-		
+
 		try {
 			this.daoImpl().update(this);
 		} catch (SQLException e) {
@@ -59,7 +59,7 @@ public abstract class Entidade implements Serializable {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public void deleteAll()  {
 		try {
 			DeleteBuilder<String, Object> deleteBuilder = this.daoImpl().deleteBuilder();
@@ -77,21 +77,6 @@ public abstract class Entidade implements Serializable {
 		}
 	}
 
-	public List dif(String campo, Object valor) {
-		try {
-			QueryBuilder<String, Object> queryBuilder =
-					this.daoImpl().queryBuilder();
-			Where<String, Object> where = queryBuilder.where();
-
-			where.ne(campo, valor);
-
-			PreparedQuery preparedQuery = queryBuilder.prepare();
-			return this.daoImpl().query(preparedQuery);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	public List get(String campo, Object valor) {
 		try {
 			return this.daoImpl().queryForEq(campo, valor);
@@ -100,21 +85,26 @@ public abstract class Entidade implements Serializable {
 		}
 	}
 
-	public List get(ArrayList<EspecificaPesquisa> lista) {
+	public List get(ArrayList<EspecificaPesquisa> pesquisaArrayList) {
 		try {
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			Where<String, Object> where = queryBuilder.where();
-
-			EspecificaPesquisa pesquisa = (EspecificaPesquisa) lista.get(0);
-			where.eq(pesquisa.getCampo(), pesquisa.getValor());
-			
-			for(int i = 1; i < lista.size(); i++){
-				pesquisa = (EspecificaPesquisa) lista.get(i);
-				where.and();
+			EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(0);
+			if(pesquisa.getTipo() == 1) {
 				where.eq(pesquisa.getCampo(), pesquisa.getValor());
+			}else {
+				where.ne(pesquisa.getCampo(), pesquisa.getValor());
 			}
-			
+			for(int i = 1; i < pesquisaArrayList.size(); i++){
+				pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				where.and();
+				if(pesquisa.getTipo() == 1) {
+					where.eq(pesquisa.getCampo(), pesquisa.getValor());
+				}else {
+					where.ne(pesquisa.getCampo(), pesquisa.getValor());
+				}
+			}
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
@@ -136,21 +126,26 @@ public abstract class Entidade implements Serializable {
 		}
 	}
 
-	public List getAndOrderBy(ArrayList<EspecificaPesquisa> lista, String campo, boolean order) {
+	public List getAndOrderBy(ArrayList<EspecificaPesquisa> pesquisaArrayList, String campo, boolean order) {
 		try {
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			Where<String, Object> where = queryBuilder.where();
-
-			EspecificaPesquisa pesquisa = (EspecificaPesquisa) lista.get(0);
-			where.eq(pesquisa.getCampo(), pesquisa.getValor());
-			
-			for(int i = 1; i < lista.size(); i++){
-				pesquisa = (EspecificaPesquisa) lista.get(i);
-				where.and();
+			EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(0);
+			if(pesquisa.getTipo() == 1) {
 				where.eq(pesquisa.getCampo(), pesquisa.getValor());
+			}else {
+				where.ne(pesquisa.getCampo(), pesquisa.getValor());
 			}
-			
+			for(int i = 1; i < pesquisaArrayList.size(); i++){
+				pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				where.and();
+				if(pesquisa.getTipo() == 1) {
+					where.eq(pesquisa.getCampo(), pesquisa.getValor());
+				}else {
+					where.ne(pesquisa.getCampo(), pesquisa.getValor());
+				}
+			}
 			queryBuilder.orderBy(campo, order);
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
@@ -158,42 +153,40 @@ public abstract class Entidade implements Serializable {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public List orderBy(String campo, boolean order){
 		try {
-			
+
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			queryBuilder.orderBy(campo, order);
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
-			
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	
+
+
 	public boolean exists(String campo, Object valor){
 		try {
 			if(this.daoImpl().queryForEq(campo, valor).size() > 0){
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-	
+
 	public boolean hasElements() {
 		// TODO Auto-generated method stub
 		return all().size() > 0;
 	}
 
 	public int count() {
-		// TODO Auto-generated method stub
 		return all().size();
 	}
 
@@ -202,10 +195,8 @@ public abstract class Entidade implements Serializable {
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			Where<String, Object> where = queryBuilder.where();
-
 			where.in(campo, valores);
 			PreparedQuery preparedQuery = queryBuilder.prepare();
-
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -217,10 +208,53 @@ public abstract class Entidade implements Serializable {
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			Where<String, Object> where = queryBuilder.where();
-
 			where.in(campo, valores);
 			queryBuilder.orderBy(col, order);
+			PreparedQuery preparedQuery = queryBuilder.prepare();
+			return this.daoImpl().query(preparedQuery);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
+	public List inAndGet(String campo, List valores, ArrayList<EspecificaPesquisa> pesquisaArrayList){
+		try {
+			QueryBuilder<String, Object> queryBuilder =
+					this.daoImpl().queryBuilder();
+			Where<String, Object> where = queryBuilder.where();
+			where.in(campo, valores);
+			for(int i = 0; i < pesquisaArrayList.size(); i++){
+				EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				where.and();
+				if(pesquisa.getTipo() == 1) {
+					where.eq(pesquisa.getCampo(), pesquisa.getValor());
+				}else {
+					where.ne(pesquisa.getCampo(), pesquisa.getValor());
+				}
+			}
+			PreparedQuery preparedQuery = queryBuilder.prepare();
+			return this.daoImpl().query(preparedQuery);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List inAndGetAndOrderBy(String campo, List valores, ArrayList<EspecificaPesquisa> pesquisaArrayList, String col, boolean order){
+		try {
+			QueryBuilder<String, Object> queryBuilder =
+					this.daoImpl().queryBuilder();
+			Where<String, Object> where = queryBuilder.where();
+			where.in(campo, valores);
+			for(int i = 0; i < pesquisaArrayList.size(); i++){
+				EspecificaPesquisa pesquisa = (EspecificaPesquisa) pesquisaArrayList.get(i);
+				where.and();
+				if(pesquisa.getTipo() == 1) {
+					where.eq(pesquisa.getCampo(), pesquisa.getValor());
+				}else {
+					where.ne(pesquisa.getCampo(), pesquisa.getValor());
+				}
+			}
+			queryBuilder.orderBy(col, order);
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
 		} catch (SQLException e) {
@@ -232,5 +266,4 @@ public abstract class Entidade implements Serializable {
 		this.daoImpl().clearObjectCache();
 		dao = null;
 	}
-
 }

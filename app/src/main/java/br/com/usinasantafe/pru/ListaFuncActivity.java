@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
-import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
-import br.com.usinasantafe.pru.util.EnvioDadosServ;
 
 public class ListaFuncActivity extends ActivityGeneric {
 
@@ -37,9 +34,8 @@ public class ListaFuncActivity extends ActivityGeneric {
         Button buttonSalvarListaFunc = (Button) findViewById(R.id.buttonSalvarListaFunc);
 
         itens = new ArrayList<ViewHolderChoice>();
-        alocaFuncBeans = new ArrayList<AlocaFuncBean>();
 
-        funcList =  pruContext.getRuricolaCTR().getFuncAlocList();
+        funcList =  pruContext.getRuricolaCTR().getFuncBDTurmaList();
 
         for (FuncBean funcBean : funcList) {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
@@ -49,7 +45,6 @@ public class ListaFuncActivity extends ActivityGeneric {
             else if(funcBean.getTipoAlocaFunc() == 2){
                 viewHolderChoice.setSelected(false);
             }
-            viewHolderChoice.setSelected(false);
             viewHolderChoice.setDescrCheckBox(funcBean.getNomeFunc());
             itens.add(viewHolderChoice);
         }
@@ -128,80 +123,24 @@ public class ListaFuncActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                ArrayList<Long> funcSelectedList = new ArrayList<Long>();
+                boolean verSelecao = false;
 
-                for (int i = 0; i < itens.size(); i++) {
-
-                    ViewHolderChoice viewHolderChoice = itens.get(i);
-
-                    if(viewHolderChoice.isSelected()){
-                        br.com.usinasantafe.pru.to.tb.estaticas.FuncBean funcBean = (br.com.usinasantafe.pru.to.tb.estaticas.FuncBean) funcList.get(i);
-                        funcSelectedList.add(funcBean.getCodFunc());
+                for (FuncBean funcBean : funcList) {
+                    if(funcBean.getTipoAlocaFunc() == 1){
+                        verSelecao = true;
                     }
-
                 }
 
-                if(funcSelectedList.size() > 0){
+                if(verSelecao){
 
                     if(pruContext.getVerPosTela() == 1) {
-
-                        pruContext.getBoletimBean().setIdLiderBoletim(configBean.getCodFunc());
-                        EnvioDadosServ.getInstance().salvaBoletimAberto(pruContext.getBoletimBean());
-
-                        br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
-                        funcBoletimBean.deleteAll();
-
-                        for (int i = 0; i < funcSelectedList.size(); i++) {
-                            EnvioDadosServ.getInstance().salvaFuncBoletim(funcSelectedList.get(i), 1L);
-                            funcBoletimBean.setCodFuncBoletim(funcSelectedList.get(i));
-                            funcBoletimBean.insert();
-                        }
-
+                        pruContext.getRuricolaCTR().salvarBolAberto(funcList);
                     }
                     else if(pruContext.getVerPosTela() == 4) {
-
-                        br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean funcBoletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean();
-                        List funcBoletimList = funcBoletimBean.all();
-
-                        for (int i = 0; i < funcBoletimList.size(); i++) {
-                            funcBoletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean) funcBoletimList.get(i);
-                            int cont = 0;
-                            for (int j = 0; j < funcSelectedList.size(); j++) {
-                                if(funcBoletimBean.getCodFuncBoletim().equals(funcSelectedList.get(j))){
-                                    cont = cont + 1;
-                                }
-                            }
-
-                            if(cont == 0){
-                                EnvioDadosServ.getInstance().salvaFuncBoletim(funcBoletimBean.getCodFuncBoletim(), 2L);
-                                funcBoletimBean.delete();
-                            }
-
-                        }
-
-                        for (int i = 0; i < funcSelectedList.size(); i++) {
-                            int cont = 0;
-                            for (int j = 0; j < funcBoletimList.size(); j++) {
-                                funcBoletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean) funcBoletimList.get(j);
-                                if(funcBoletimBean.getCodFuncBoletim().equals(funcSelectedList.get(i))){
-                                    cont = cont + 1;
-                                }
-                            }
-
-                            if(cont == 0){
-                                EnvioDadosServ.getInstance().salvaFuncBoletim(funcSelectedList.get(i), 1L);
-                                funcBoletimBean.setCodFuncBoletim(funcSelectedList.get(i));
-                                funcBoletimBean.insert();
-                            }
-
-                        }
-
-                        funcBoletimList.clear();
-
+                        pruContext.getRuricolaCTR().alocaFunc(funcList);
                     }
 
-
-                    EnvioDadosServ.getInstance().envioDadosPrinc();
+                    funcList.clear();
                     Intent it = new Intent(ListaFuncActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
@@ -214,14 +153,11 @@ public class ListaFuncActivity extends ActivityGeneric {
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
 
                         }
                     });
                     alerta.show();
                 }
-
-                funcSelectedList.clear();
 
             }
         });

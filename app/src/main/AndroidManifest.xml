@@ -21,7 +21,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SenhaActivity"></activity>
+        <activity android:name=".QuestaoCabecActivity"></activity>
+        <activity android:name=".QuestaoAmostraActivity" />
+        <activity android:name=".MsgPontoActivity" />
+        <activity android:name=".ListaQuestaoActivity" />
+        <activity android:name=".ListaPontosActivity" />
+        <activity android:name=".ListaCaracOrganActivity" />
+        <activity android:name=".ListaOrganActivity" />
+        <activity android:name=".TalhaoActivity" />
+        <activity android:name=".SenhaActivity" />
         <activity
             android:name=".TurmaActivity"
             android:screenOrientation="portrait" />

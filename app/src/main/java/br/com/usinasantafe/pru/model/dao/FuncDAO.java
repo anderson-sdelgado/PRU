@@ -41,11 +41,21 @@ public class FuncDAO {
     }
 
     public List getFuncAlocList(Long idTurma){
-
         FuncBean funcBean = new FuncBean();
         List funcList = funcBean.getAndOrderBy("idTurma", idTurma, "nomeFunc", true);
         return funcList;
+    }
 
+    public List getFuncAlocList(){
+        FuncBean funcBean = new FuncBean();
+        List funcList = funcBean.getAndOrderBy("tipoAlocaFunc", 1L, "nomeFunc", true);
+        return funcList;
+    }
+
+    public void atualFuncAloc(List<FuncBean> funcList){
+        for (FuncBean funcBean : funcList) {
+            funcBean.update();
+        }
     }
 
 }

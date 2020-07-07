@@ -38,4 +38,7 @@
     <string name="texto_num_linha_config">NUM. LINHA:</string>
     <string name="texto_senha">DIGITE A SENHA:</string>
     <string name="texto_senha_config">SENHA:</string>
+    <string name="texto_talhao">NUM. TALHÃO:</string>
+    <string name="texto_lista_organismo">ORGANISMOS</string>
+    <string name="texto_lista_carac_organismo">CARACTERÍSTICA</string>
 </resources>

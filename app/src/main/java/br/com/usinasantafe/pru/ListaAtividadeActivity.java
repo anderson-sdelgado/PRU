@@ -44,15 +44,12 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                 ConexaoWeb conexaoWeb = new ConexaoWeb();
 
                 if (conexaoWeb.verificaConexao(ListaAtividadeActivity.this)) {
-
                     progressBar = new ProgressDialog(v.getContext());
                     progressBar.setCancelable(true);
                     progressBar.setMessage("Atualizando Atividades...");
                     progressBar.show();
-
                     VerifDadosServ.getInstance().verDados(String.valueOf(nroOS), "OS"
                             , ListaAtividadeActivity.this, ListaAtividadeActivity.class, progressBar);
-
                 }
 
             }
@@ -61,7 +58,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
         buttonRetAtividade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent it = new Intent(ListaAtividadeActivity.this, OSActivity.class);
                 startActivity(it);
             }
@@ -99,7 +95,7 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                             it = new Intent(ListaAtividadeActivity.this, ListaFuncActivity.class);
                             break;
                         case 2:
-                            pruContext.getRuricolaCTR().salvarBolAberto1Colab();
+                            pruContext.getRuricolaCTR().salvarBolAberto();
                             it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
                             break;
                         default:
@@ -113,45 +109,26 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                 }
                 else if (pruContext.getVerPosTela() == 2) {
 
-                    pruContext.getApontamentoTO().setAtivAponta(atividadeBean.getIdAtiv());
-                    pruContext.getApontamentoTO().setParadaAponta(0L);
-
-                    br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean configBean = new br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean();
-                    List configList = configBean.all();
-                    configBean = (br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean) configList.get(0);
+                    pruContext.getRuricolaCTR().setIdParada(0L);
 
                     Intent it;
-                    switch ((int) configBean.getIdTipo().longValue()) {
-                        case 1:
-                            it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
-                            break;
-                        default:
+                    if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1){
+                        it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
+                    }
+                    else{
+                        pruContext.getRuricolaCTR().salvaApont();
+                        it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
 
-                            br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean boletimBean = new br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean();
-                            List boletimList = boletimBean.get("statusBoletim", 1L);
-                            boletimBean = (br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean) boletimList.get(0);
-
-                            EnvioDadosServ.getInstance().salvaAponta(pruContext.getApontamentoTO(), boletimBean.getIdLiderBoletim());
-
-                            it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
-                            break;
                     }
 
                     startActivity(it);
                     finish();
 
-
                 } else if (pruContext.getVerPosTela() == 3) {
-
-                    pruContext.getApontamentoTO().setAtivAponta(atividadeBean.getIdAtiv());
                     Intent it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
                     startActivity(it);
                     finish();
-
                 }
-
-                listAtiv.clear();
-                lAtivExib.clear();
 
             }
 
