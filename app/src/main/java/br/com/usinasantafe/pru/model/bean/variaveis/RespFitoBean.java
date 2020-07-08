@@ -9,8 +9,8 @@ import br.com.usinasantafe.pru.model.pst.Entidade;
  * Created by anderson on 14/06/2017.
  */
 
-@DatabaseTable(tableName="tbrespitemvar")
-public class RespItemFitoBean extends Entidade {
+@DatabaseTable(tableName="tbrespitemfitovar")
+public class RespFitoBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class RespItemFitoBean extends Entidade {
     @DatabaseField
     private Long valorRespItemFito;
 
-    public RespItemFitoBean() {
+    public RespFitoBean() {
     }
 
     public Long getIdRespItemFito() {

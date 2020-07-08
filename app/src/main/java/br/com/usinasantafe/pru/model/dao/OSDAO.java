@@ -97,4 +97,12 @@ public class OSDAO {
         return ret;
     }
 
+    public OSBean getOS(Long nroOS){
+        OSBean osTO = new OSBean();
+        List osList = osTO.get("nroOS", nroOS);
+        OSBean osBean = (OSBean) osList.get(0);
+        osList.clear();
+        return osBean;
+    }
+
 }

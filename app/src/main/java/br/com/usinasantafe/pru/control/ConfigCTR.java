@@ -5,6 +5,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
@@ -55,8 +56,12 @@ public class ConfigCTR {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
     //////////////////////////////// GET CONFIG, EQUIP E COLAB ////////////////////////////////////
+
+    public OSBean getOS(){
+        OSDAO osDAO = new OSDAO();
+        return osDAO.getOS(getConfig().getNroOSConfig());
+    }
 
     public boolean getConfigSenha(String senha){
         ConfigDAO configDAO = new ConfigDAO();

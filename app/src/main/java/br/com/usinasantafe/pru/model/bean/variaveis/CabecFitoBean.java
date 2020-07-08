@@ -8,7 +8,7 @@ import br.com.usinasantafe.pru.model.pst.Entidade;
 /**
  * Created by anderson on 31/03/2017.
  */
-@DatabaseTable(tableName="tbcabamostravar")
+@DatabaseTable(tableName="tbcabfitovar")
 public class CabecFitoBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
@@ -28,9 +28,9 @@ public class CabecFitoBean extends Entidade {
     @DatabaseField
     private Long idCaracOrgCabecFito;
     @DatabaseField
-    private Long ultPontoFito;
+    private Long ultPontoCabecFito;
     @DatabaseField
-    private Long statusAmostraFito; // 1 - ABERTA; 2 - FECHADA;
+    private Long statusCabecFito; // 1 - ABERTA; 2 - FECHADA;
 
     public CabecFitoBean() {
     }
@@ -87,19 +87,19 @@ public class CabecFitoBean extends Entidade {
         this.idCaracOrgCabecFito = idCaracOrgCabecFito;
     }
 
-    public Long getUltPontoFito() {
-        return ultPontoFito;
+    public Long getUltPontoCabecFito() {
+        return ultPontoCabecFito;
     }
 
-    public void setUltPontoFito(Long ultPontoFito) {
-        this.ultPontoFito = ultPontoFito;
+    public void setUltPontoCabecFito(Long ultPontoCabecFito) {
+        this.ultPontoCabecFito = ultPontoCabecFito;
     }
 
-    public Long getStatusAmostraFito() {
-        return statusAmostraFito;
+    public Long getStatusCabecFito() {
+        return statusCabecFito;
     }
 
-    public void setStatusAmostraFito(Long statusAmostraFito) {
-        this.statusAmostraFito = statusAmostraFito;
+    public void setStatusCabecFito(Long statusCabecFito) {
+        this.statusCabecFito = statusCabecFito;
     }
 }
