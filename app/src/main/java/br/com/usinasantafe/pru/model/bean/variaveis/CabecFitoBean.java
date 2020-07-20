@@ -20,7 +20,7 @@ public class CabecFitoBean extends Entidade {
     @DatabaseField
     private String dtCabecFito;
     @DatabaseField
-    private Long secaoCabecFito;
+    private Long osCabecFito;
     @DatabaseField
     private Long talhaoCabecFito;
     @DatabaseField
@@ -55,12 +55,12 @@ public class CabecFitoBean extends Entidade {
         this.dtCabecFito = dtCabecFito;
     }
 
-    public Long getSecaoCabecFito() {
-        return secaoCabecFito;
+    public Long getOSCabecFito() {
+        return osCabecFito;
     }
 
-    public void setSecaoCabecFito(Long secaoCabecFito) {
-        this.secaoCabecFito = secaoCabecFito;
+    public void setOSCabecFito(Long secaoCabecFito) {
+        this.osCabecFito = secaoCabecFito;
     }
 
     public Long getTalhaoCabecFito() {

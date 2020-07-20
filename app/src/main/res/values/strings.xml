@@ -41,4 +41,15 @@
     <string name="texto_talhao">NUM. TALHÃO:</string>
     <string name="texto_lista_organismo">ORGANISMOS</string>
     <string name="texto_lista_carac_organismo">CARACTERÍSTICA</string>
+    <string name="texto_questao">N. DE LEVANTAMENTO</string>
+    <string name="texto_ponto_titulo_auditor">AUDITOR:</string>
+    <string name="texto_ponto_auditor">19759 - ANDERSON DA SILVA DELGADO</string>
+    <string name="texto_ponto_secao">SEÇÃO: 680 - OCIMAR BETITO E OUTRA</string>
+    <string name="texto_ponto_talhao">TALHÃO: 2</string>
+    <string name="texto_padrao_excluir">EXCLUIR</string>
+    <string name="texto_padrao_inserir">INSERIR</string>
+    <string name="texto_padrao_enviar">ENVIAR DADOS</string>
+    <string name="texto_msg_ponto">DESEJA INSERIR PONTO 1?</string>
+    <string name="texto_padrao_sim">SIM</string>
+    <string name="texto_padrao_nao">NÃO</string>
 </resources>

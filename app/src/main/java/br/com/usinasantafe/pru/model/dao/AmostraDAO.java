@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AmostraBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.CaracOrganBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.ROrganCaracAmosBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
@@ -13,40 +12,52 @@ public class AmostraDAO {
     public AmostraDAO() {
     }
 
+    public AmostraBean getAmostra(Long idAmostra){
+        List<AmostraBean> amostraList = amostraList(idAmostra);
+        AmostraBean amostraBean = amostraList.get(0);
+        amostraList.clear();
+        return amostraBean;
+    }
+
     public boolean verAmostra(Long idOrgan, Long idCaracOrgan){
-        List amostraList = getAmostraList(idOrgan, idCaracOrgan);
+        List<AmostraBean> amostraList = getAmostraOrganList(idOrgan, idCaracOrgan);
         boolean ret = amostraList.size() > 0;
         amostraList.clear();
         return ret;
     }
 
-    public boolean verTipoAmostra(Long idOrgan, Long idCaracOrgan){
-        List amostraList = getTipoAmostraList(idOrgan, idCaracOrgan);
+    public boolean hasAmostraCabec(Long idOrgan, Long idCaracOrgan){
+        List<AmostraBean> amostraList = amostraCabecList(idOrgan, idCaracOrgan);
         boolean ret = amostraList.size() > 0;
         amostraList.clear();
         return ret;
     }
 
-    private List getAmostraList(Long idOrgan, Long idCaracOrgan){
+    private List<AmostraBean> getAmostraOrganList(Long idOrgan, Long idCaracOrgan){
         ArrayList<Long> idAmostraList = getIdAmostraList(idOrgan, idCaracOrgan);
-        List amostraList = inAmostra(idAmostraList);
+        List amostraList = inAmostraOrgan(idAmostraList);
         idAmostraList.clear();
         return amostraList;
     }
 
-    private List getTipoAmostraList(Long idOrgan, Long idCaracOrgan){
+    public List<AmostraBean> amostraCabecList(Long idOrgan, Long idCaracOrgan){
         ArrayList<Long> idAmostraList = getIdAmostraList(idOrgan, idCaracOrgan);
-        List amostraList = inAndGetAmostra(idAmostraList);
+        List<AmostraBean> amostraList = inAndGetAmostraCabec(idAmostraList);
         idAmostraList.clear();
         return amostraList;
     }
 
-    public List inAmostra(ArrayList<Long> idAmostraList){
+    private List<AmostraBean> amostraList(Long idAmostra){
         AmostraBean amostraBean = new AmostraBean();
-        return amostraBean.in("idAmostraOrgan", idAmostraList);
+        return amostraBean.get("idAmostra", idAmostra);
     }
 
-    public List inAndGetAmostra(ArrayList<Long> idAmostraList){
+    private List<AmostraBean> inAmostraOrgan(ArrayList<Long> idAmostraOrganList){
+        AmostraBean amostraBean = new AmostraBean();
+        return amostraBean.in("idAmostraOrgan", idAmostraOrganList);
+    }
+
+    private List<AmostraBean> inAndGetAmostraCabec(ArrayList<Long> idAmostraList){
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqTipoAmostraQC());
         AmostraBean amostraBean = new AmostraBean();

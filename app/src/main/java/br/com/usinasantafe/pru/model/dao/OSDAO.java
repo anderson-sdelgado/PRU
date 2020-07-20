@@ -90,19 +90,23 @@ public class OSDAO {
     }
 
     public boolean verOS(Long nroOS){
-        OSBean osTO = new OSBean();
-        List osList = osTO.get("nroOS", nroOS);
+        List osList = osList(nroOS);
         boolean ret = osList.size() > 0;
         osList.clear();
         return ret;
     }
 
     public OSBean getOS(Long nroOS){
-        OSBean osTO = new OSBean();
-        List osList = osTO.get("nroOS", nroOS);
+        List osList = osList(nroOS);
         OSBean osBean = (OSBean) osList.get(0);
         osList.clear();
         return osBean;
+    }
+
+    private List osList(Long nroOS){
+        OSBean osBean = new OSBean();
+        List osList = osBean.get("nroOS", nroOS);
+        return osList;
     }
 
 }

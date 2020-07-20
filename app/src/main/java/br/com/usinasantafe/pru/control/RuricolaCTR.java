@@ -59,6 +59,11 @@ public class RuricolaCTR {
         return paradaDAO.getParadaList();
     }
 
+    public BoletimBean getBolAberto(){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.getBolAberto();
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////// MANIPULAR DADOS BOLETIM //////////////////////////////////////

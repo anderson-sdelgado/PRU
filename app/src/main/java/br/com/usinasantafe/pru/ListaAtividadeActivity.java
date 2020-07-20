@@ -9,12 +9,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
 import br.com.usinasantafe.pru.util.ConexaoWeb;
-import br.com.usinasantafe.pru.util.EnvioDadosServ;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
 
 public class ListaAtividadeActivity extends ActivityGeneric {
@@ -99,7 +96,7 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                             it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
                             break;
                         default:
-                            it = new Intent(ListaAtividadeActivity.this, FuncionarioActivity.class);
+                            it = new Intent(ListaAtividadeActivity.this, FuncActivity.class);
                             break;
                     }
 

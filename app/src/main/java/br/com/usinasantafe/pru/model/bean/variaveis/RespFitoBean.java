@@ -15,53 +15,72 @@ public class RespFitoBean extends Entidade {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(generatedId=true)
-    private Long idRespItemFito;
+    private Long idRespFito;
     @DatabaseField
-    private Long idCabecRespItemFito;
+    private Long idCabecRespFito;
     @DatabaseField
-    private Long idAmostraRespItemFito;
+    private Long idAmostraRespFito;
     @DatabaseField
-    private Long pontoRespItemFito;
+    private Long pontoRespFito;
     @DatabaseField
-    private Long valorRespItemFito;
+    private Long valorRespFito;
+    @DatabaseField
+    private Long tipoRespFito;
+    @DatabaseField
+    private Long statusRespFito; //0 - Apontando o ponto; 1 - Terminado o apontamento do ponto
 
     public RespFitoBean() {
     }
 
-    public Long getIdRespItemFito() {
-        return idRespItemFito;
+    public Long getIdRespFito() {
+        return idRespFito;
     }
 
-    public Long getIdCabecRespItemFito() {
-        return idCabecRespItemFito;
+    public Long getIdCabecRespFito() {
+        return idCabecRespFito;
     }
 
-    public void setIdCabecRespItemFito(Long idCabecRespItemFito) {
-        this.idCabecRespItemFito = idCabecRespItemFito;
+    public void setIdCabecRespFito(Long idCabecRespFito) {
+        this.idCabecRespFito = idCabecRespFito;
     }
 
-    public Long getIdAmostraRespItemFito() {
-        return idAmostraRespItemFito;
+    public Long getIdAmostraRespFito() {
+        return idAmostraRespFito;
     }
 
-    public void setIdAmostraRespItemFito(Long idAmostraRespItemFito) {
-        this.idAmostraRespItemFito = idAmostraRespItemFito;
+    public void setIdAmostraRespFito(Long idAmostraRespFito) {
+        this.idAmostraRespFito = idAmostraRespFito;
     }
 
-    public Long getPontoRespItemFito() {
-        return pontoRespItemFito;
+    public Long getPontoRespFito() {
+        return pontoRespFito;
     }
 
-    public void setPontoRespItemFito(Long pontoRespItemFito) {
-        this.pontoRespItemFito = pontoRespItemFito;
+    public void setPontoRespFito(Long pontoRespFito) {
+        this.pontoRespFito = pontoRespFito;
     }
 
-    public Long getValorRespItemFito() {
-        return valorRespItemFito;
+    public Long getValorRespFito() {
+        return valorRespFito;
     }
 
-    public void setValorRespItemFito(Long valorRespItemFito) {
-        this.valorRespItemFito = valorRespItemFito;
+    public void setValorRespFito(Long valorRespFito) {
+        this.valorRespFito = valorRespFito;
     }
 
+    public Long getTipoRespFito() {
+        return tipoRespFito;
+    }
+
+    public void setTipoRespFito(Long tipoRespFito) {
+        this.tipoRespFito = tipoRespFito;
+    }
+
+    public Long getStatusRespFito() {
+        return statusRespFito;
+    }
+
+    public void setStatusRespFito(Long statusRespFito) {
+        this.statusRespFito = statusRespFito;
+    }
 }

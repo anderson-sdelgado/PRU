@@ -9,8 +9,7 @@ import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 public class FuncDAO {
 
     public boolean verFunc(Long matricFunc){
-        FuncBean funcBean = new FuncBean();
-        List funcList = funcBean.get("matricFunc", matricFunc);
+        List funcList = funcList(matricFunc);
         boolean ret = funcList.size() > 0;
         funcList.clear();
         return ret;
@@ -40,6 +39,12 @@ public class FuncDAO {
 
     }
 
+    private List funcList(Long matricFunc){
+        FuncBean funcBean = new FuncBean();
+        List funcList = funcBean.get("matricFunc", matricFunc);
+        return funcList;
+    }
+
     public List getFuncAlocList(Long idTurma){
         FuncBean funcBean = new FuncBean();
         List funcList = funcBean.getAndOrderBy("idTurma", idTurma, "nomeFunc", true);
@@ -56,6 +61,13 @@ public class FuncDAO {
         for (FuncBean funcBean : funcList) {
             funcBean.update();
         }
+    }
+
+    public FuncBean getFunc(Long matricFunc){
+        List funcList = funcList(matricFunc);
+        FuncBean funcBean = (FuncBean) funcList.get(0);
+        funcList.clear();
+        return funcBean;
     }
 
 }

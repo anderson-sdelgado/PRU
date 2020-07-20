@@ -63,7 +63,7 @@ public class TurmaActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent it = new Intent(TurmaActivity.this, FuncionarioActivity.class);
+                Intent it = new Intent(TurmaActivity.this, FuncActivity.class);
                 startActivity(it);
                 finish();
             }

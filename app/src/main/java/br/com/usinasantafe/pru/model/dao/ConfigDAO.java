@@ -70,6 +70,12 @@ public class ConfigDAO {
         configBean.update();
     }
 
+    public void setPontoConfig(Long ponto){
+        ConfigBean configBean = getConfig();
+        configBean.setPontoConfig(ponto);
+        configBean.update();
+    }
+
     public Long getOsConfig(){
         return getConfig().getNroOSConfig();
     }

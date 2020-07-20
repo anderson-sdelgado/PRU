@@ -5,20 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.usinasantafe.pru.util.EnvioDadosServ;
-import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
-
-public class FuncionarioActivity extends ActivityGeneric {
+public class FuncActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_funcionario);
+        setContentView(R.layout.activity_func);
 
         pruContext = (PRUContext) getApplication();
 
@@ -33,12 +27,12 @@ public class FuncionarioActivity extends ActivityGeneric {
 
                 if (!editTextPadrao.getText().toString().equals("")) {
 
-                    Long matricFunc = Long.parseLong(editTextPadrao.getText().toString();
+                    Long matricFunc = Long.parseLong(editTextPadrao.getText().toString());
 
                     if (pruContext.getRuricolaCTR().verLider(matricFunc) && (pruContext.getRuricolaCTR().verFunc(matricFunc))){
 
                         pruContext.getRuricolaCTR().salvarBolAberto(matricFunc);
-                        Intent it = new Intent(FuncionarioActivity.this, MenuMotoMecActivity.class);
+                        Intent it = new Intent(FuncActivity.this, MenuMotoMecActivity.class);
                         startActivity(it);
                         finish();
 
@@ -64,7 +58,7 @@ public class FuncionarioActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
-        Intent it = new Intent(FuncionarioActivity.this, ListaAtividadeActivity.class);
+        Intent it = new Intent(FuncActivity.this, ListaAtividadeActivity.class);
         startActivity(it);
         finish();
     }

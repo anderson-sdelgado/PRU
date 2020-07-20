@@ -51,7 +51,7 @@
             android:name=".ListaAtividadeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FuncionarioActivity"
+            android:name=".FuncActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DescricaoOSActivity"

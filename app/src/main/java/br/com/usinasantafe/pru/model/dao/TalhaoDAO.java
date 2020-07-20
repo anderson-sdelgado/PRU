@@ -6,9 +6,9 @@ import java.util.List;
 import br.com.usinasantafe.pru.model.bean.estaticas.TalhaoBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
-public class TalaoDAO {
+public class TalhaoDAO {
 
-    public TalaoDAO() {
+    public TalhaoDAO() {
     }
 
     public boolean verTalhao(Long codTalhao, Long idSecao){
@@ -32,6 +32,14 @@ public class TalaoDAO {
 
         return  ret;
 
+    }
+
+    public TalhaoBean getTalhao(Long codTalhao){
+        TalhaoBean talhaoBean = new TalhaoBean();
+        List talhaoList = talhaoBean.get("codTalhao", codTalhao);
+        talhaoBean = (TalhaoBean) talhaoList.get(0);
+        talhaoList.clear();
+        return  talhaoBean;
     }
 
 }

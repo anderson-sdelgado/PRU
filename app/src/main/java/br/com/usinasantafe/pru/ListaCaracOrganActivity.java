@@ -53,9 +53,8 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
 
                 if(pruContext.getFitoCTR().verAmostra()){
 
-                    pruContext.setVerPosTela(5);
-
-                    if(pruContext.getFitoCTR().verTipoAmostra()){
+                    if(pruContext.getFitoCTR().hasTipoAmostraCabec()){
+                        pruContext.setVerPosTela(5);
                         Intent it = new Intent(ListaCaracOrganActivity.this, QuestaoActivity.class);
                         startActivity(it);
                         finish();

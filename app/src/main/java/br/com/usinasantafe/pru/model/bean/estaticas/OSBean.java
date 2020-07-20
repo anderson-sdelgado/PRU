@@ -23,6 +23,8 @@ public class OSBean extends Entidade {
 	@DatabaseField
 	private Long idSecao;
 	@DatabaseField
+	private Long codSecao;
+	@DatabaseField
 	private String descrSecao;
 
     public OSBean() {
@@ -42,6 +44,14 @@ public class OSBean extends Entidade {
 
 	public void setIdSecao(Long idSecao) {
 		this.idSecao = idSecao;
+	}
+
+	public Long getCodSecao() {
+		return codSecao;
+	}
+
+	public void setCodSecao(Long codSecao) {
+		this.codSecao = codSecao;
 	}
 
 	public String getDescrSecao() {

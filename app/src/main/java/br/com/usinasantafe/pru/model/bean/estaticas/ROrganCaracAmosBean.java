@@ -20,6 +20,8 @@ public class ROrganCaracAmosBean extends Entidade {
     private Long idOrgan;
     @DatabaseField
     private Long idCaracOrgan;
+    @DatabaseField
+    private Long idAmostraOrgan;
 
     public ROrganCaracAmosBean() {
     }
@@ -48,4 +50,11 @@ public class ROrganCaracAmosBean extends Entidade {
         this.idCaracOrgan = idCaracOrgan;
     }
 
+    public Long getIdAmostraOrgan() {
+        return idAmostraOrgan;
+    }
+
+    public void setIdAmostraOrgan(Long idAmostraOrgan) {
+        this.idAmostraOrgan = idAmostraOrgan;
+    }
 }

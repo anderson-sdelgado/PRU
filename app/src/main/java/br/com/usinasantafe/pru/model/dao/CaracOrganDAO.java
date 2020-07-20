@@ -22,13 +22,6 @@ public class CaracOrganDAO {
             idCaracOrganList.add(rOrganCaracAmosBean.getIdCaracOrgan());
         }
 
-//        Object[] st = lst.toArray();
-//        for (Object s : st) {
-//            if (lst.indexOf(s) != lst.lastIndexOf(s)) {
-//                lst.remove(lst.lastIndexOf(s));
-//            }
-//        }
-
         CaracOrganBean caracOrganBean = new CaracOrganBean();
         return caracOrganBean.in("idCaracOrgan", idCaracOrganList);
 

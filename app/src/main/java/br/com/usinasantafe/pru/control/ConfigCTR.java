@@ -29,11 +29,6 @@ public class ConfigCTR {
         return configDAO.hasElements();
     }
 
-    public ConfigBean getConfig(){
-        ConfigDAO configDAO = new ConfigDAO();
-        return configDAO.getConfig();
-    }
-
     public boolean hasElementsTipoApont(){
         TipoApontDAO tipoApontDAO = new TipoApontDAO();
         return tipoApontDAO.hasElementsTipoApont();
@@ -57,6 +52,11 @@ public class ConfigCTR {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////// GET CONFIG, EQUIP E COLAB ////////////////////////////////////
+
+    public ConfigBean getConfig(){
+        ConfigDAO configDAO = new ConfigDAO();
+        return configDAO.getConfig();
+    }
 
     public OSBean getOS(){
         OSDAO osDAO = new OSDAO();
@@ -115,6 +115,11 @@ public class ConfigCTR {
     public void setDtServConfig(String dtServConfig){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.setDtServConfig(dtServConfig);
+    }
+
+    public void setPontoConfig(Long ponto){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setPontoConfig(ponto);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

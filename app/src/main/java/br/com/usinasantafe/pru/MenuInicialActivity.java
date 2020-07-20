@@ -127,18 +127,10 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         Log.i("PMM", "VERATUAL = " + verAtual);
 
-        String verAtualCL;
-        if(verAtual.equals("N_SD")){
-            verAtualCL = verAtual;
-        }
-        else{
-            int pos1 = verAtual.indexOf("#") + 1;
-            verAtualCL = verAtual.substring(0, (pos1 - 1));
-            String dthr = verAtual.substring(pos1);
-            pruContext.getConfigCTR().setDtServConfig(dthr);
-        }
+        int pos1 = verAtual.indexOf("_") + 1;
+        String dthr = verAtual.substring(pos1);
+        pruContext.getConfigCTR().setDtServConfig(dthr);
 
-        pruContext.setVerAtualCL(verAtualCL);
         Intent intent = new Intent(this, ReceberAlarme.class);
         boolean alarmeAtivo = (PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_NO_CREATE) == null);
 
@@ -165,9 +157,24 @@ public class MenuInicialActivity extends ActivityGeneric {
         }
 
         if(pruContext.getRuricolaCTR().verBolAberto()){
-            Intent it = new Intent(MenuInicialActivity.this, MenuMotoMecActivity.class);
-            startActivity(it);
-            finish();
+            if(pruContext.getFitoCTR().verCabecFitoAberto()){
+                if(pruContext.getFitoCTR().hasTipoAmostraCabec() && !pruContext.getFitoCTR().verTermQuestaoCabec()){
+                    pruContext.setVerPosTela(5);
+                    Intent it = new Intent(MenuInicialActivity.this, QuestaoActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+                else{
+                    Intent it = new Intent(MenuInicialActivity.this, ListaPontosActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+            }
+            else{
+                Intent it = new Intent(MenuInicialActivity.this, MenuMotoMecActivity.class);
+                startActivity(it);
+                finish();
+            }
         }
 
     }

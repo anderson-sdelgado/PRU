@@ -35,6 +35,8 @@ public class ConfigBean extends Entidade {
     private Long statusConConfig;  //0 - Offline; 1 - Online
     @DatabaseField
     private String dtServConfig;
+    @DatabaseField
+    private Long pontoConfig;
 
     public ConfigBean() {
     }
@@ -117,5 +119,13 @@ public class ConfigBean extends Entidade {
 
     public void setDtServConfig(String dtServConfig) {
         this.dtServConfig = dtServConfig;
+    }
+
+    public Long getPontoConfig() {
+        return pontoConfig;
+    }
+
+    public void setPontoConfig(Long pontoConfig) {
+        this.pontoConfig = pontoConfig;
     }
 }
