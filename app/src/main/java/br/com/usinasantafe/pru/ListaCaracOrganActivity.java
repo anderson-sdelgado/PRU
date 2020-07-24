@@ -46,7 +46,6 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 pruContext.getFitoCTR().getCabecFitoBean().setIdCaracOrgCabecFito(caracOrganList.get(position).getIdCaracOrgan());
                 pruContext.getFitoCTR().salvarCabecFitoAberto();
@@ -55,7 +54,9 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
 
                     if(pruContext.getFitoCTR().hasTipoAmostraCabec()){
                         pruContext.setVerPosTela(5);
-                        Intent it = new Intent(ListaCaracOrganActivity.this, QuestaoActivity.class);
+                        pruContext.setPosQuestao(1);
+                        pruContext.setPosPontoAmostra(0L);
+                        Intent it = new Intent(ListaCaracOrganActivity.this, QuestaoFitoActivity.class);
                         startActivity(it);
                         finish();
                     }
@@ -90,7 +91,6 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(ListaCaracOrganActivity.this, ListaOrganActivity.class);
                 startActivity(it);
                 finish();

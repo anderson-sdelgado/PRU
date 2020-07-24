@@ -59,7 +59,6 @@ public class AtualizarAplicativo extends AsyncTask<String ,Integer ,Boolean> {
     }
     @Override
     protected void onPostExecute(Boolean result) {
-        // TODO Auto-generated method stub
         super.onPostExecute(result);
 
         bar.dismiss();

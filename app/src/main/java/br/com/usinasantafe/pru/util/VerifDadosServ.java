@@ -173,7 +173,6 @@ public class VerifDadosServ {
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
 
                             }
                         });
@@ -205,7 +204,6 @@ public class VerifDadosServ {
             }
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             Log.i("PMM", "Erro Manip = " + e);
         }
 
@@ -264,7 +262,6 @@ public class VerifDadosServ {
         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
             }
         });
         alerta.show();
@@ -289,7 +286,6 @@ public class VerifDadosServ {
             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
                 }
             });
             alerta.show();

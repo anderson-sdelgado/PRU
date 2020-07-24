@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
+
 public class DescricaoOSActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
@@ -23,24 +25,23 @@ public class DescricaoOSActivity extends ActivityGeneric {
         Button buttonCancDescrOS = (Button) findViewById(R.id.buttonCancDescrOS);
         Button buttonOkDescrOS = (Button) findViewById(R.id.buttonOkDescrOS);
 
-        br.com.usinasantafe.pru.to.tb.estaticas.OSBean osTO = new br.com.usinasantafe.pru.to.tb.estaticas.OSBean();
-        List osList;
-        if(pruContext.getVerPosTela() == 1){
-            osList = osTO.get("nroOS", pruContext.getBoletimBean().getOsBoletim());
-        }
-        else{
-            osList = osTO.get("nroOS", pruContext.getApontamentoTO().getOsAponta());
-        }
-
-        osTO = (br.com.usinasantafe.pru.to.tb.estaticas.OSBean) osList.get(0);
-
-        textViewNroOS.setText("OS: " + osTO.getNroOS() + "\nSEÇÃO: " + osTO.getCodSecao() + "\n" + osTO.getDescrSecao());
+//        OSBean osBean = new OSBean();
+//        List osList;
+//        if(pruContext.getVerPosTela() == 1){
+//            osList = osTO.get("nroOS", pruContext.getBoletimBean().getOsBoletim());
+//        }
+//        else{
+//            osList = osTO.get("nroOS", pruContext.getApontamentoTO().getOsAponta());
+//        }
+//
+//        osTO = (br.com.usinasantafe.pru.to.tb.estaticas.OSBean) osList.get(0);
+//
+//        textViewNroOS.setText("OS: " + osTO.getNroOS() + "\nSEÇÃO: " + osTO.getCodSecao() + "\n" + osTO.getDescrSecao());
 
         buttonOkDescrOS.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(DescricaoOSActivity.this, ListaAtividadeActivity.class);
                 startActivity(it);
                 finish();
@@ -51,7 +52,6 @@ public class DescricaoOSActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(DescricaoOSActivity.this, OSActivity.class);
                 startActivity(it);
                 finish();

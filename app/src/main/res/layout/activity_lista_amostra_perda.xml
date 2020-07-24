@@ -9,18 +9,46 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ListaQuestaoActivity">
+    tools:context=".ListaAmostraPerdaActivity">
 
     <TextView
-        android:id="@+id/textViewTituloPonto"
-        style="@style/TextViewMenuTituloNegrito"
-        android:text="@string/texto_ponto_titulo_auditor" />
+        android:id="@+id/textViewColhedora"
+        style="@style/TextViewMenuNegrito"
+        android:text="@string/texto_colhedora" />
+
+    <TextView
+        android:id="@+id/textViewAuditor"
+        style="@style/TextViewMenuNegrito"
+        android:text="@string/texto_ponto_auditor" />
+
+    <TextView
+        android:id="@+id/textViewSecao"
+        style="@style/TextViewMenuNegrito"
+        android:text="@string/texto_ponto_secao" />
+
+    <TextView
+        android:id="@+id/textViewFrente"
+        style="@style/TextViewMenuNegrito"
+        android:text="@string/texto_frente" />
+
+    <TextView
+        android:id="@+id/textViewTurno"
+        style="@style/TextViewMenuNegrito"
+        android:paddingBottom="5dp"
+        android:text="@string/texto_turno" />
 
     <ListView
-        android:id="@+id/listViewQuestao"
+        android:id="@+id/listViewAmostra"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonInserirAmostra"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_inserir" />
 
     <LinearLayout
         android:id="@+id/rightRelativeLayout"
@@ -28,7 +56,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonListaQuestaoExcluir"
+            android:id="@+id/buttonExcluirAnalise"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -36,12 +64,12 @@
             android:text="@string/texto_padrao_excluir" />
 
         <Button
-            android:id="@+id/buttonListaQuestaoRetornar"
+            android:id="@+id/buttonFecharAnalise"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_retorna" />
+            android:text="@string/texto_padrao_finalizar" />
 
     </LinearLayout>
 

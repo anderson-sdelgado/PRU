@@ -15,7 +15,6 @@ public class UrlsConexaoHttp {
     public static String localUrl = "br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp";
 
     public UrlsConexaoHttp() {
-        // TODO Auto-generated constructor stub
     }
 
     public static String AtividadeTO = urlPrincipal + "atividade.php";

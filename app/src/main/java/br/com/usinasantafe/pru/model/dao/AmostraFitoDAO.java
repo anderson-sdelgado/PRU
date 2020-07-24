@@ -7,9 +7,9 @@ import br.com.usinasantafe.pru.model.bean.estaticas.AmostraBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.ROrganCaracAmosBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
-public class AmostraDAO {
+public class AmostraFitoDAO {
 
-    public AmostraDAO() {
+    public AmostraFitoDAO() {
     }
 
     public AmostraBean getAmostra(Long idAmostra){

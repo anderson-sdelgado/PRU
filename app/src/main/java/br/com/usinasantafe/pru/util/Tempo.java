@@ -29,7 +29,6 @@ public class Tempo {
 	private int conBoletim;
 	
 	public Tempo() {
-		// TODO Auto-generated constructor stub
 	}
 	
     public static Tempo getInstance() {
@@ -84,7 +83,6 @@ public class Tempo {
 
         }
         catch (Exception e) {
-            // TODO Auto-generated catch block
             Log.i("PMM", "Erro Manip = " + e);
         }
 

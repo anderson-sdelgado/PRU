@@ -99,7 +99,6 @@ public class ConfigActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(pruContext.getConfigCTR().hasElementsTipoApont()) {
 
@@ -157,7 +156,6 @@ public class ConfigActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 turmaList = pruContext.getConfigCTR().allTurma();
                 if(turmaList.size() > 0) {
@@ -198,7 +196,6 @@ public class ConfigActivity extends ActivityGeneric {
         buttonAtualBDConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 ConexaoWeb conexaoWeb = new ConexaoWeb();
 
@@ -223,7 +220,6 @@ public class ConfigActivity extends ActivityGeneric {
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
 
                         }
                     });
@@ -237,7 +233,6 @@ public class ConfigActivity extends ActivityGeneric {
         buttonSalvarConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(configBean.getIdTurmaConfig() > 0) {
 
@@ -254,7 +249,6 @@ public class ConfigActivity extends ActivityGeneric {
                                 alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // TODO Auto-generated method stub
 
                                     }
                                 });
@@ -275,7 +269,6 @@ public class ConfigActivity extends ActivityGeneric {
                                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                // TODO Auto-generated method stub
 
                                             }
                                         });
@@ -290,7 +283,6 @@ public class ConfigActivity extends ActivityGeneric {
                                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            // TODO Auto-generated method stub
 
                                         }
                                     });
@@ -314,7 +306,6 @@ public class ConfigActivity extends ActivityGeneric {
                                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                // TODO Auto-generated method stub
 
                                             }
                                         });
@@ -327,7 +318,6 @@ public class ConfigActivity extends ActivityGeneric {
                                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            // TODO Auto-generated method stub
 
                                         }
                                     });
@@ -361,7 +351,6 @@ public class ConfigActivity extends ActivityGeneric {
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
 
                             }
                         });
@@ -377,7 +366,6 @@ public class ConfigActivity extends ActivityGeneric {
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
 
                         }
                     });
@@ -390,7 +378,6 @@ public class ConfigActivity extends ActivityGeneric {
         buttonCancConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
                 startActivity(it);

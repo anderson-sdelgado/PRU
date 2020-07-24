@@ -117,9 +117,9 @@ public class ConfigCTR {
         configDAO.setDtServConfig(dtServConfig);
     }
 
-    public void setPontoConfig(Long ponto){
+    public void setPontoAmostraConfig(Long ponto){
         ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setPontoConfig(ponto);
+        configDAO.setPontoAmostraConfig(ponto);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,6 +8,20 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.DataHoraBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.LiderBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.ParadaBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.ROSAtivBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ApontBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.BoletimBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
+
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pru_db";
@@ -22,15 +36,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public DatabaseHelper(Context context) {
 
 		super(context, FORCA_DB_NAME, null, FORCA_BD_VERSION);;
-		
-		// TODO Auto-generated constructor stub
+
 		instance = this;
 		
 	}
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
 		super.close();
 		instance = null;
 		
@@ -38,26 +50,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource cs) {
-		// TODO Auto-generated method stub
 		
 		try{
 
 
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.AtividadeBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.FuncBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.LiderBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.TurmaBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.OSBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.ROSAtivBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.TipoApontBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.DataHoraBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.estaticas.ParadaBean.class);
+			TableUtils.createTable(cs, AtividadeBean.class);
+			TableUtils.createTable(cs, FuncBean.class);
+			TableUtils.createTable(cs, LiderBean.class);
+			TableUtils.createTable(cs, TurmaBean.class);
+			TableUtils.createTable(cs, OSBean.class);
+			TableUtils.createTable(cs, ROSAtivBean.class);
+			TableUtils.createTable(cs, TipoApontBean.class);
+			TableUtils.createTable(cs, DataHoraBean.class);
+			TableUtils.createTable(cs, ParadaBean.class);
 
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.variaveis.ConfigBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.variaveis.BoletimBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.variaveis.AlocaFuncBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.variaveis.ApontBean.class);
-			TableUtils.createTable(cs, br.com.usinasantafe.pru.to.tb.variaveis.FuncBoletimBean.class);
+			TableUtils.createTable(cs, ConfigBean.class);
+			TableUtils.createTable(cs, BoletimBean.class);
+			TableUtils.createTable(cs, AlocaFuncBean.class);
+			TableUtils.createTable(cs, ApontBean.class);
 
 		}
 		catch(Exception e){

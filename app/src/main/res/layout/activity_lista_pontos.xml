@@ -32,7 +32,6 @@
         android:paddingBottom="5dp"
         android:text="@string/texto_ponto_talhao" />
 
-
     <ListView
         android:id="@+id/listViewPontos"
         android:layout_width="match_parent"
@@ -60,12 +59,12 @@
             android:text="@string/texto_padrao_excluir" />
 
         <Button
-            android:id="@+id/buttonEnviarAnalise"
+            android:id="@+id/buttonFinalizarAnalise"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_enviar" />
+            android:text="@string/texto_padrao_finalizar" />
 
     </LinearLayout>
 

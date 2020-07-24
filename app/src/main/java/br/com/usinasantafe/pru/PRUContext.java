@@ -4,6 +4,7 @@ import android.app.Application;
 
 import br.com.usinasantafe.pru.control.ConfigCTR;
 import br.com.usinasantafe.pru.control.FitoCTR;
+import br.com.usinasantafe.pru.control.PerdaColheitaCTR;
 import br.com.usinasantafe.pru.control.RuricolaCTR;
 
 public class PRUContext extends Application {
@@ -15,17 +16,19 @@ public class PRUContext extends Application {
     //3 - Parada;
     //4 - Aloca Funcionario
     //5 - Inicio de Fito Com Questao Cabec
-    //6 - Inicio do Ponto
-    //7 - Altera Questão
+    //6 - Inicio do Ponto Fito
+    //7 - Altera Questão Fito
+    //6 - Inicio do Amostra Perda
     public static String versaoAplic = "1.0";
     private String verAtualCL;
     private RuricolaCTR ruricolaCTR;
     private FitoCTR fitoCTR;
-    private Long posPonto;
+    private PerdaColheitaCTR perdaColheitaCTR;
+    private Long posPontoAmostra;
+    private int posQuestao;
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
         super.onCreate();
     }
 
@@ -47,6 +50,12 @@ public class PRUContext extends Application {
         return fitoCTR;
     }
 
+    public PerdaColheitaCTR getPerdaColheitaCTR() {
+        if (perdaColheitaCTR == null)
+            perdaColheitaCTR = new PerdaColheitaCTR();
+        return perdaColheitaCTR;
+    }
+
     public int getVerPosTela() {
         return verVerPosTela;
     }
@@ -55,12 +64,19 @@ public class PRUContext extends Application {
         this.verVerPosTela = verPosTelaPrinc;
     }
 
-    public Long getPosPonto() {
-        return posPonto;
+    public Long getPosPontoAmostra() {
+        return posPontoAmostra;
     }
 
-    public void setPosPonto(Long posPonto) {
-        this.posPonto = posPonto;
+    public void setPosPontoAmostra(Long posPontoAmostra) {
+        this.posPontoAmostra = posPontoAmostra;
     }
 
+    public int getPosQuestao() {
+        return posQuestao;
+    }
+
+    public void setPosQuestao(int posQuestao) {
+        this.posQuestao = posQuestao;
+    }
 }

@@ -93,7 +93,6 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
             Log.i("ECM", "VALOR RECEBIDO --> " + result);
             VerifDadosServ.getInstance().manipularDadosHttp(result);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             Log.i("PMM", "Erro2 = " + e);
         }
 

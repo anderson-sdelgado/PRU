@@ -45,7 +45,6 @@ public class ListaOrganActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 pruContext.getFitoCTR().getCabecFitoBean().setIdOrgCabecFito(organList.get(position).getIdOrgan());
                 organList.clear();
@@ -62,7 +61,6 @@ public class ListaOrganActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(ListaOrganActivity.this, TalhaoActivity.class);
                 startActivity(it);
                 finish();

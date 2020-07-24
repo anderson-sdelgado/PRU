@@ -96,7 +96,7 @@ public class MenuInicialActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
+
                 if (position == 0) {
 
                     if(pruContext.getConfigCTR().hasElements()){
@@ -160,7 +160,7 @@ public class MenuInicialActivity extends ActivityGeneric {
             if(pruContext.getFitoCTR().verCabecFitoAberto()){
                 if(pruContext.getFitoCTR().hasTipoAmostraCabec() && !pruContext.getFitoCTR().verTermQuestaoCabec()){
                     pruContext.setVerPosTela(5);
-                    Intent it = new Intent(MenuInicialActivity.this, QuestaoActivity.class);
+                    Intent it = new Intent(MenuInicialActivity.this, QuestaoFitoActivity.class);
                     startActivity(it);
                     finish();
                 }

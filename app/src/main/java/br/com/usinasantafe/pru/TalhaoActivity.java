@@ -25,7 +25,6 @@ public class TalhaoActivity extends ActivityGeneric {
         buttonOkTalhao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(!editTextPadrao.getText().toString().equals("")){
 

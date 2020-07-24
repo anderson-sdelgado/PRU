@@ -19,7 +19,6 @@ public class EnvioDadosServ {
     private boolean enviando = false;
 
     public EnvioDadosServ() {
-        // TODO Auto-generated constructor stub
         urlsConexaoHttp = new UrlsConexaoHttp();
     }
 

@@ -27,7 +27,6 @@ public class SenhaActivity extends ActivityGeneric {
             @SuppressWarnings("unchecked")
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if (!pruContext.getConfigCTR().hasElements()) {
 
@@ -56,7 +55,6 @@ public class SenhaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Intent it = new Intent(SenhaActivity.this, MenuInicialActivity.class);
                 startActivity(it);
                 finish();

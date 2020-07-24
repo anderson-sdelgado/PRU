@@ -182,7 +182,6 @@ public abstract class Entidade implements Serializable {
 
 
 	public boolean hasElements() {
-		// TODO Auto-generated method stub
 		return all().size() > 0;
 	}
 

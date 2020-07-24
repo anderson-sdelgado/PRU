@@ -17,6 +17,7 @@ import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.LiderDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.model.dao.ParadaDAO;
+import br.com.usinasantafe.pru.model.dao.TurnoDAO;
 import br.com.usinasantafe.pru.util.Tempo;
 
 public class RuricolaCTR {
@@ -62,6 +63,16 @@ public class RuricolaCTR {
     public BoletimBean getBolAberto(){
         BoletimDAO boletimDAO = new BoletimDAO();
         return boletimDAO.getBolAberto();
+    }
+
+    public FuncBean getFunc(){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.getFunc(getBolAberto().getIdLiderBol());
+    }
+
+    public List getTurnoList(){
+        TurnoDAO turnoDAO = new TurnoDAO();
+        return turnoDAO.getTurnoList();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////

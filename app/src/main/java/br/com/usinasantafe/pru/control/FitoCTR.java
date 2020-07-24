@@ -8,7 +8,7 @@ import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TalhaoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
-import br.com.usinasantafe.pru.model.dao.AmostraDAO;
+import br.com.usinasantafe.pru.model.dao.AmostraFitoDAO;
 import br.com.usinasantafe.pru.model.dao.CabecFitoDAO;
 import br.com.usinasantafe.pru.model.dao.CaracOrganDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
@@ -20,7 +20,7 @@ import br.com.usinasantafe.pru.model.dao.TalhaoDAO;
 public class FitoCTR {
 
     private CabecFitoBean cabecFitoBean;
-    private RespFitoBean respFitoBean;
+    private Long idRespFito;
 
     public FitoCTR() {
     }
@@ -35,20 +35,22 @@ public class FitoCTR {
         cabecFitoDAO.salvarCabecFitoAberto(cabecFitoBean);
 
         ConfigCTR configCTR = new ConfigCTR();
-        configCTR.setPontoConfig(0L);
-    }
-
-    public void salvarRespFito(AmostraBean amostraBean, Long valor){
-        ConfigCTR configCTR = new ConfigCTR();
-        RespFitoDAO respFitoDAO = new RespFitoDAO();
-        respFitoDAO.salvarRespFito(amostraBean, getCabecFitoAberto().getIdCabecFito(), valor, configCTR.getConfig().getPontoConfig());
+        configCTR.setPontoAmostraConfig(0L);
     }
 
     public void salvarRespFito(AmostraBean amostraBean, Long valor, Long ponto){
-        ConfigCTR configCTR = new ConfigCTR();
-        configCTR.setPontoConfig(ponto);
         RespFitoDAO respFitoDAO = new RespFitoDAO();
         respFitoDAO.salvarRespFito(amostraBean, getCabecFitoAberto().getIdCabecFito(), valor, ponto);
+    }
+
+    public void atualRespFito(AmostraBean amostraBean, Long valor, Long ponto){
+        RespFitoDAO respFitoDAO = new RespFitoDAO();
+        respFitoDAO.atualRespFito(amostraBean, getCabecFitoAberto().getIdCabecFito(), valor, ponto);
+    }
+
+    public void atualRespFito(Long valor){
+        RespFitoDAO respFitoDAO = new RespFitoDAO();
+        respFitoDAO.atualRespFito(idRespFito, valor);
     }
 
     public void delFito(){
@@ -70,10 +72,15 @@ public class FitoCTR {
         respFitoDAO.delRespPonto(cabecFitoBean.getIdCabecFito(), ponto);
     }
 
-    public void atualRespFito(Long valor){
+
+    public void fecharRespFitoPonto(Long pontoAmostra){
+
         RespFitoDAO respFitoDAO = new RespFitoDAO();
-        respFitoBean.setValorRespFito(valor);
-        respFitoDAO.atualRespFito(respFitoBean);
+        respFitoDAO.fecharRespFitoPonto();
+
+        ConfigCTR configCTR = new ConfigCTR();
+        configCTR.setPontoAmostraConfig(pontoAmostra);
+
     }
 
     ////////////////////////////////// VERIFICAR CAMPOS ///////////////////////////////////////////
@@ -90,8 +97,8 @@ public class FitoCTR {
     }
 
     public boolean verAmostra(){
-        AmostraDAO amostraDAO = new AmostraDAO();
-        return amostraDAO.verAmostra(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
+        return amostraFitoDAO.verAmostra(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
     }
 
     public boolean hasRespCabec(){
@@ -101,9 +108,9 @@ public class FitoCTR {
     }
 
     public boolean hasTipoAmostraCabec(){
-        AmostraDAO amostraDAO = new AmostraDAO();
+        AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
-        return amostraDAO.hasAmostraCabec(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        return amostraFitoDAO.hasAmostraCabec(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
     }
 
     public boolean verCabecFitoAberto(){
@@ -111,57 +118,22 @@ public class FitoCTR {
         return cabecFitoDAO.verCabecFitoAberto();
     }
 
-    public AmostraBean getAmostraCabec(){
-        RespFitoDAO respFitoDAO = new RespFitoDAO();
-        AmostraDAO amostraDAO = new AmostraDAO();
+    public boolean verTermQuestaoCabec(int posQuestao){
+        AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
-        List respCabecList = respFitoDAO.respCabecFitoList(cabecFitoBean.getIdCabecFito());
-        List amostraCabecList = amostraDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
-        AmostraBean amostraBean = (AmostraBean) amostraCabecList.get(respCabecList.size());
-        respCabecList.clear();
-        amostraCabecList.clear();
-        return amostraBean;
-    }
-
-    public AmostraBean getAmostraResp(Long ponto){
-        RespFitoDAO respFitoDAO = new RespFitoDAO();
-        AmostraDAO amostraDAO = new AmostraDAO();
-        cabecFitoBean = getCabecFitoBean();
-        List respCabecList = respFitoDAO.respFitoListAberto(cabecFitoBean.getIdCabecFito(), ponto);
-        List amostraCabecList = amostraDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
-        AmostraBean amostraBean = (AmostraBean) amostraCabecList.get(respCabecList.size());
-        respCabecList.clear();
-        amostraCabecList.clear();
-        return amostraBean;
-    }
-
-    public boolean verTermQuestaoCabec(){
-        RespFitoDAO respFitoDAO = new RespFitoDAO();
-        AmostraDAO amostraDAO = new AmostraDAO();
-        cabecFitoBean = getCabecFitoBean();
-        List respCabecList = respFitoDAO.respCabecFitoList(cabecFitoBean.getIdCabecFito());
-        List amostraCabecList = amostraDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
-        boolean ret = (respCabecList.size() == amostraCabecList.size());
-        respCabecList.clear();
+        List amostraCabecList = amostraFitoDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        boolean ret = (posQuestao == amostraCabecList.size());
         amostraCabecList.clear();
         return ret;
     }
 
-    public boolean verTermQuestao(Long ponto){
-        RespFitoDAO respFitoDAO = new RespFitoDAO();
-        AmostraDAO amostraDAO = new AmostraDAO();
+    public boolean verTermQuestao(int posQuestao){
+        AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
-        List respCabecList = respFitoDAO.respFitoListAberto(cabecFitoBean.getIdCabecFito(), ponto);
-        List amostraCabecList = amostraDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
-        boolean ret = (respCabecList.size() == amostraCabecList.size());
-        respCabecList.clear();
+        List amostraCabecList = amostraFitoDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        boolean ret = (posQuestao == amostraCabecList.size());
         amostraCabecList.clear();
         return ret;
-    }
-
-    public void fecharRespFitoPonto(){
-        RespFitoDAO respFitoDAO = new RespFitoDAO();
-        respFitoDAO.fecharRespFitoPonto();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,10 +142,6 @@ public class FitoCTR {
 
     public CabecFitoBean getCabecFitoBean() {
         return cabecFitoBean;
-    }
-
-    public RespFitoBean getRespFitoBean() {
-        return respFitoBean;
     }
 
     public CabecFitoBean getCabecFitoAberto() {
@@ -192,21 +160,18 @@ public class FitoCTR {
     }
 
     public FuncBean getFuncCabec(){
-        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(cabecFitoDAO.getCabecFitoAberto().getAuditorCabecFito());
+        return funcDAO.getFunc(getCabecFitoAberto().getAuditorCabecFito());
     }
 
     public OSBean getOS(){
-        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
         OSDAO osDAO = new OSDAO();
-        return osDAO.getOS(cabecFitoDAO.getCabecFitoAberto().getOSCabecFito());
+        return osDAO.getOS(getCabecFitoAberto().getOSCabecFito());
     }
 
     public TalhaoBean getTalhao(){
-        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
         TalhaoDAO talhaoDAO = new TalhaoDAO();
-        return talhaoDAO.getTalhao(cabecFitoDAO.getCabecFitoAberto().getTalhaoCabecFito());
+        return talhaoDAO.getTalhao(getCabecFitoAberto().getTalhaoCabecFito());
     }
 
     public List<RespFitoBean> getRespPontoFitoList(Long ponto){
@@ -216,8 +181,35 @@ public class FitoCTR {
     }
 
     public AmostraBean getAmostra(Long idAmostra){
-        AmostraDAO amostraDAO = new AmostraDAO();
-        return amostraDAO.getAmostra(idAmostra);
+        AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
+        return amostraFitoDAO.getAmostra(idAmostra);
+    }
+
+    public RespFitoBean getRespFitoBean(){
+        RespFitoDAO respFitoDAO = new RespFitoDAO();
+        return respFitoDAO.getRespFitoBean(idRespFito);
+    }
+
+    public AmostraBean getAmostraCabec(int posQuestao){
+        AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
+        cabecFitoBean = getCabecFitoBean();
+        List amostraCabecList = amostraFitoDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        AmostraBean amostraBean = (AmostraBean) amostraCabecList.get(posQuestao - 1);
+        amostraCabecList.clear();
+        return amostraBean;
+    }
+
+    public AmostraBean getAmostraResp(int posQuestao){
+        AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
+        cabecFitoBean = getCabecFitoBean();
+        List amostraCabecList = amostraFitoDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        AmostraBean amostraBean = (AmostraBean) amostraCabecList.get(posQuestao - 1);
+        amostraCabecList.clear();
+        return amostraBean;
+    }
+
+    public Long getIdRespFito() {
+        return idRespFito;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -228,8 +220,8 @@ public class FitoCTR {
         this.cabecFitoBean = cabecFitoBean;
     }
 
-    public void setRespFitoBean(RespFitoBean respFitoBean) {
-        this.respFitoBean = respFitoBean;
+    public void setIdRespFito(Long idRespFito) {
+        this.idRespFito = idRespFito;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////

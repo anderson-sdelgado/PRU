@@ -7,7 +7,6 @@ import android.util.Log;
 public class ConexaoWeb {
 
 	public ConexaoWeb() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public  boolean verificaConexao(Context context) {  

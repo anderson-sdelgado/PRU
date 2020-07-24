@@ -70,9 +70,9 @@ public class ConfigDAO {
         configBean.update();
     }
 
-    public void setPontoConfig(Long ponto){
+    public void setPontoAmostraConfig(Long ponto){
         ConfigBean configBean = getConfig();
-        configBean.setPontoConfig(ponto);
+        configBean.setPontoAmostraConfig(ponto);
         configBean.update();
     }
 

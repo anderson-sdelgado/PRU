@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pru;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
@@ -33,7 +31,7 @@ public class ListaPontosActivity extends ActivityGeneric {
         TextView textViewTalhao = (TextView) findViewById(R.id.textViewTalhao);
         Button buttonInserirPonto = (Button) findViewById(R.id.buttonInserirPonto);
         Button buttonExcluirAnalise = (Button) findViewById(R.id.buttonExcluirAnalise);
-        Button buttonEnviarAnalise = (Button)  findViewById(R.id.buttonEnviarAnalise);
+        Button buttonFinalizarAnalise = (Button)  findViewById(R.id.buttonFinalizarAnalise);
 
         pruContext = (PRUContext) getApplication();
 
@@ -47,7 +45,7 @@ public class ListaPontosActivity extends ActivityGeneric {
         textViewTalhao.setText("TALHAO: " + talhaoBean.getCodTalhao());
 
         ArrayList<String> itens = new ArrayList<String>();
-        for (int i = 0; i < pruContext.getConfigCTR().getConfig().getPontoConfig(); i++) {
+        for (int i = 0; i < pruContext.getConfigCTR().getConfig().getPontoAmostraConfig(); i++) {
             int pos = i + 1;
             itens.add("PONTO " + pos);
         }
@@ -62,8 +60,8 @@ public class ListaPontosActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                pruContext.setPosPonto(Long.valueOf(position));
-                Intent it = new Intent(ListaPontosActivity.this, ListaQuestaoActivity.class);
+                pruContext.setPosPontoAmostra(Long.valueOf(position));
+                Intent it = new Intent(ListaPontosActivity.this, ListaQuestaoFitoActivity.class);
                 startActivity(it);
 
             }
@@ -73,10 +71,9 @@ public class ListaPontosActivity extends ActivityGeneric {
         buttonInserirPonto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
-                Long ponto = pruContext.getConfigCTR().getConfig().getPontoConfig();
-                pruContext.setPosPonto(ponto + 1);
+                Long ponto = pruContext.getConfigCTR().getConfig().getPontoAmostraConfig();
+                pruContext.setPosPontoAmostra(ponto + 1);
                 pruContext.setVerPosTela(6);
                 Intent it = new Intent(ListaPontosActivity.this, MsgPontoActivity.class);
                 startActivity(it);
@@ -87,7 +84,6 @@ public class ListaPontosActivity extends ActivityGeneric {
         buttonExcluirAnalise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPontosActivity.this);
                 alerta.setTitle("ATENÇÃO");
@@ -109,7 +105,6 @@ public class ListaPontosActivity extends ActivityGeneric {
                 alerta.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
 
                 });
@@ -119,10 +114,9 @@ public class ListaPontosActivity extends ActivityGeneric {
             }
         });
 
-        buttonEnviarAnalise.setOnClickListener(new View.OnClickListener() {
+        buttonFinalizarAnalise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(!pruContext.getFitoCTR().hasRespCabec()){
 

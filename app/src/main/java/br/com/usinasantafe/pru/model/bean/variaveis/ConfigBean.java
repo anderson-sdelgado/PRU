@@ -36,7 +36,7 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private String dtServConfig;
     @DatabaseField
-    private Long pontoConfig;
+    private Long pontoAmostraConfig;
 
     public ConfigBean() {
     }
@@ -121,11 +121,12 @@ public class ConfigBean extends Entidade {
         this.dtServConfig = dtServConfig;
     }
 
-    public Long getPontoConfig() {
-        return pontoConfig;
+    public Long getPontoAmostraConfig() {
+        return pontoAmostraConfig;
     }
 
-    public void setPontoConfig(Long pontoConfig) {
-        this.pontoConfig = pontoConfig;
+    public void setPontoAmostraConfig(Long pontoAmostraConfig) {
+        this.pontoAmostraConfig = pontoAmostraConfig;
     }
+
 }

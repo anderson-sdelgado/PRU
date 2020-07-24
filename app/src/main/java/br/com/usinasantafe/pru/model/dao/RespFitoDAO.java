@@ -32,40 +32,19 @@ public class RespFitoDAO {
         respFitoList.clear();
     }
 
-    public void atualRespFito(RespFitoBean respFitoBean){
+    public void atualRespFito(AmostraBean amostraBean, Long ponto, Long valor, Long idCabecFito){
+        RespFitoBean respFitoBean = getRespFitoBean(idCabecFito, ponto, amostraBean.getIdAmostra());
+        respFitoBean.setValorRespFito(valor);
         respFitoBean.update();
     }
 
-    public List<RespFitoBean> respCabecFitoList(Long idCabecFito){
-
-        ArrayList listaPesq = new ArrayList();
-
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idCabecRespFito");
-        pesquisa.setValor(idCabecFito);
-        pesquisa.setTipo(1);
-        listaPesq.add(pesquisa);
-
-        EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-        pesquisa2.setCampo("tipoRespFito");
-        pesquisa2.setValor(2L);
-        pesquisa2.setTipo(1);
-        listaPesq.add(pesquisa2);
-
-        EspecificaPesquisa pesquisa3 = new EspecificaPesquisa();
-        pesquisa3.setCampo("statusRespFito");
-        pesquisa3.setValor(0L);
-        pesquisa3.setTipo(1);
-        listaPesq.add(pesquisa3);
-
-        RespFitoBean respFitoBean = new RespFitoBean();
-        List<RespFitoBean> respFitoList = respFitoBean.get(listaPesq);
-        listaPesq.clear();
-
-        return respFitoList;
+    public void atualRespFito(Long idRespFito,Long valor){
+        RespFitoBean respFitoBean = getRespFitoBean(idRespFito);
+        respFitoBean.setValorRespFito(valor);
+        respFitoBean.update();
     }
 
-    public List<RespFitoBean> respFitoListAberto(Long idCabecFito, Long ponto){
+    public List<RespFitoBean> respFitoList(Long idCabecFito, Long ponto, Long idAmostra){
 
         ArrayList listaPesq = new ArrayList();
 
@@ -82,8 +61,8 @@ public class RespFitoDAO {
         listaPesq.add(pesquisa2);
 
         EspecificaPesquisa pesquisa3 = new EspecificaPesquisa();
-        pesquisa3.setCampo("statusRespFito");
-        pesquisa3.setValor(0L);
+        pesquisa3.setCampo("idAmostraRespFito");
+        pesquisa3.setValor(idAmostra);
         pesquisa3.setTipo(1);
         listaPesq.add(pesquisa3);
 
@@ -117,6 +96,20 @@ public class RespFitoDAO {
         return respFitoList;
     }
 
+    public RespFitoBean getRespFitoBean(Long idCabecFito, Long ponto, Long idAmostra){
+        List respFitoList = respFitoList(idCabecFito, ponto, idAmostra);
+        RespFitoBean respFitoBean = (RespFitoBean) respFitoList.get(0);
+        respFitoList.clear();
+        return respFitoBean;
+    }
+
+    public RespFitoBean getRespFitoBean(Long idRespFito){
+        List respFitoList = respFitoList(idRespFito);
+        RespFitoBean respFitoBean = (RespFitoBean) respFitoList.get(0);
+        respFitoList.clear();
+        return respFitoBean;
+    }
+
     public void delRespFito(Long idCabec){
         RespFitoBean respFitoBean = new RespFitoBean();
         List<RespFitoBean> respFitoList = respFitoBean.get("idCabecRespFito", idCabec);
@@ -143,14 +136,16 @@ public class RespFitoDAO {
         return ret;
     }
 
-    private List<RespFitoBean> respFitoList(Long idCabecFito){
+    private List<RespFitoBean> respFitoList(Long idRespFito){
         RespFitoBean respFitoBean = new RespFitoBean();
-        return respFitoBean.get("idCabecRespFito", idCabecFito);
+        return respFitoBean.get("idRespFito", idRespFito);
     }
 
     private List<RespFitoBean> respFitoAbertoList(){
         RespFitoBean respFitoBean = new RespFitoBean();
         return respFitoBean.get("statusRespFito", 0L);
     }
+
+
 
 }

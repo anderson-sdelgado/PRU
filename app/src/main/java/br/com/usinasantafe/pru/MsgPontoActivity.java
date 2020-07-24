@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pru;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,14 +21,13 @@ public class MsgPontoActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        textViewPonto.setText("DESEJA INSERIR PONTO " + pruContext.getPosPonto() + "?");
+        textViewPonto.setText("DESEJA INSERIR PONTO " + pruContext.getPosPontoAmostra() + "?");
 
         buttonSimPonto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
-                Intent it = new Intent(MsgPontoActivity.this, QuestaoAmostraActivity.class);
+                Intent it = new Intent(MsgPontoActivity.this, QuestaoFitoActivity.class);
                 startActivity(it);
                 finish();
 
@@ -40,7 +38,6 @@ public class MsgPontoActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 Intent it = new Intent(MsgPontoActivity.this, ListaPontosActivity.class);
                 startActivity(it);

@@ -5,10 +5,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import br.com.usinasantafe.pru.model.pst.Entidade;
 
-/**
- * Created by anderson on 22/11/2017.
- */
-
 @DatabaseTable(tableName="tbtipoapontaest")
 public class TipoApontBean extends Entidade {
 
@@ -37,4 +33,5 @@ public class TipoApontBean extends Entidade {
     public void setDescrTipo(String descrTipo) {
         this.descrTipo = descrTipo;
     }
+
 }

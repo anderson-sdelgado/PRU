@@ -28,7 +28,6 @@ public class ApontBean extends Entidade  {
 	private Long funcApont;
 
 	public ApontBean() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Long getIdApont() {

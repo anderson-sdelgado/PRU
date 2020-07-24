@@ -14,14 +14,12 @@ public class ActivityGeneric extends OrmLiteBaseActivity<DatabaseHelper> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         getHelper();
     }
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
 
         if ((EditText) findViewById(R.id.editTextPadrao) != null) {

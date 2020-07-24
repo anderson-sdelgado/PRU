@@ -57,7 +57,6 @@ public class ListaFuncActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 itens.clear();
                 for (FuncBean funcBean : funcList) {
@@ -79,7 +78,6 @@ public class ListaFuncActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 itens.clear();
                 for (FuncBean funcBean : funcList) {
@@ -101,7 +99,6 @@ public class ListaFuncActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(pruContext.getVerPosTela() == 1) {
                     Intent it = new Intent(ListaFuncActivity.this, MenuMotoMecActivity.class);
@@ -121,7 +118,6 @@ public class ListaFuncActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 boolean verSelecao = false;
 

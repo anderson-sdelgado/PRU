@@ -36,7 +36,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 ConexaoWeb conexaoWeb = new ConexaoWeb();
 
@@ -77,7 +76,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 AtividadeBean atividadeBean = new AtividadeBean();
                 atividadeBean = (AtividadeBean) ativArrayList.get(position);

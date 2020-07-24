@@ -52,7 +52,6 @@ public class ListaFuncApontActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 itens.clear();
                 for (FuncBean funcBean : funcList) {
@@ -73,7 +72,6 @@ public class ListaFuncApontActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 itens.clear();
                 for (FuncBean funcBean : funcList) {
@@ -94,7 +92,6 @@ public class ListaFuncApontActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 if(pruContext.getVerPosTela() == 2L){
                     Intent it = new Intent(ListaFuncApontActivity.this, ListaAtividadeActivity.class);
@@ -114,7 +111,6 @@ public class ListaFuncApontActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 ArrayList<FuncBean> funcSelectedList = new ArrayList<FuncBean>();
 
@@ -144,7 +140,6 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
 
                         }
                     });

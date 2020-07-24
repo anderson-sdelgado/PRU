@@ -21,17 +21,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QuestaoActivity" />
+        <activity android:name=".ListaQuestaoSoqueiraActivity"></activity>
+        <activity android:name=".ListaQuestaoPerdaActivity" />
+        <activity android:name=".QuestaoPerdaActivity" />
+        <activity android:name=".QuestaoSoqueiraActivity" />
+        <activity
+            android:name=".ui.login.QuestaoPerdaActivity"
+            android:label="@string/title_activity_questao_perda" />
+        <activity android:name=".ListaObsActivity" />
+        <activity android:name=".ListaTipoColheitaActivity" />
+        <activity android:name=".ListaTurnoActivity" />
+        <activity android:name=".EquipActivity" />
+        <activity android:name=".ListaAmostraPerdaActivity" />
+        <activity android:name=".QuestaoFitoActivity" />
         <activity android:name=".MsgPontoActivity" />
-        <activity android:name=".ListaQuestaoActivity" />
+        <activity android:name=".ListaQuestaoFitoActivity" />
         <activity android:name=".ListaPontosActivity" />
         <activity android:name=".ListaCaracOrganActivity" />
         <activity android:name=".ListaOrganActivity" />
         <activity android:name=".TalhaoActivity" />
         <activity android:name=".SenhaActivity" />
-        <activity
-            android:name=".TurmaActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".OSActivity"
             android:screenOrientation="portrait" />

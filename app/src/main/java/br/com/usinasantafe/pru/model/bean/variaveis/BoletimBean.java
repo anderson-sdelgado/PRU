@@ -32,7 +32,6 @@ public class BoletimBean extends Entidade {
 	private Long tipoFuncBol;
 
     public BoletimBean() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Long getIdBol() {

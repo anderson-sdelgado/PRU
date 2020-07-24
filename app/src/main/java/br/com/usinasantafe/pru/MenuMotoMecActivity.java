@@ -50,7 +50,6 @@ public class MenuMotoMecActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 if (position == 0) {
                     pruContext.setVerPosTela(2);

@@ -35,7 +35,6 @@ public class ListaParadaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 progressBar = new ProgressDialog(v.getContext());
                 progressBar.setCancelable(true);
@@ -56,7 +55,6 @@ public class ListaParadaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 Intent it = new Intent(ListaParadaActivity.this, ListaAtividadeActivity.class);
                 startActivity(it);
@@ -83,7 +81,6 @@ public class ListaParadaActivity extends ActivityGeneric {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 ParadaBean paradaBean = (ParadaBean) listParada.get(position);
 
