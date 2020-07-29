@@ -3,13 +3,9 @@ package br.com.usinasantafe.pru;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EquipActivity extends ActivityGeneric {
 
@@ -33,27 +29,55 @@ public class EquipActivity extends ActivityGeneric {
 
                     Long codEquip = Long.parseLong(editTextPadrao.getText().toString());
 
-                    if(pruContext.getPerdaColheitaCTR().verEquip(codEquip)){
+                    if (pruContext.getVerPosTela() == 8) {
 
-                        pruContext.getPerdaColheitaCTR().salvarCabecPerdaAberto(codEquip);
-                        Intent it = new Intent(EquipActivity.this, ListaAmostraPerdaActivity.class);
-                        startActivity(it);
-                        finish();
+                        if (pruContext.getPerdaCTR().verEquip(codEquip)) {
 
-                    }
-                    else{
+                            pruContext.getPerdaCTR().salvarCabecPerdaAberto(codEquip);
+                            Intent it = new Intent(EquipActivity.this, ListaAmostraPerdaActivity.class);
+                            startActivity(it);
+                            finish();
 
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(EquipActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("EQUIPAMENTO INEXISTENTE!");
+                        } else {
 
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                editTextPadrao.setText("");
-                            }
-                        });
-                        alerta.show();
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(EquipActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("EQUIPAMENTO INEXISTENTE!");
+
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    editTextPadrao.setText("");
+                                }
+                            });
+                            alerta.show();
+
+                        }
+
+                    } else if (pruContext.getVerPosTela() == 11) {
+
+                        if (pruContext.getSoqueiraCTR().verEquip(codEquip)) {
+
+                            pruContext.getSoqueiraCTR().salvarCabecSoqueiraAberto(codEquip);
+                            Intent it = new Intent(EquipActivity.this, ListaAmostraSoqueiraActivity.class);
+                            startActivity(it);
+                            finish();
+
+                        } else {
+
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(EquipActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("EQUIPAMENTO INEXISTENTE!");
+
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    editTextPadrao.setText("");
+                                }
+                            });
+                            alerta.show();
+
+                        }
 
                     }
 

@@ -15,7 +15,7 @@ public class AmostraPerdaBean extends Entidade {
     @DatabaseField
     private Long idCabecAmostraPerda;
     @DatabaseField
-    private Long numAmostraPerda;
+    private Long seqAmostraPerda;
     @DatabaseField
     private Double taraAmostraPerda;
     @DatabaseField
@@ -30,10 +30,6 @@ public class AmostraPerdaBean extends Entidade {
     private Double ponteiroAmostraPerda;
     @DatabaseField
     private Double lascasAmostraPerda;
-    @DatabaseField
-    private Double soqueiraKgAmostraPerda;
-    @DatabaseField
-    private Double soqueiraNumAmostraPerda;
     @DatabaseField
     private Double repiqueAmostraPerda;
     @DatabaseField
@@ -64,12 +60,12 @@ public class AmostraPerdaBean extends Entidade {
         this.idCabecAmostraPerda = idCabecAmostraPerda;
     }
 
-    public Long getNumAmostraPerda() {
-        return numAmostraPerda;
+    public Long getSeqAmostraPerda() {
+        return seqAmostraPerda;
     }
 
-    public void setNumAmostraPerda(Long numAmostraPerda) {
-        this.numAmostraPerda = numAmostraPerda;
+    public void setSeqAmostraPerda(Long seqAmostraPerda) {
+        this.seqAmostraPerda = seqAmostraPerda;
     }
 
     public Double getTaraAmostraPerda() {
@@ -126,22 +122,6 @@ public class AmostraPerdaBean extends Entidade {
 
     public void setLascasAmostraPerda(Double lascasAmostraPerda) {
         this.lascasAmostraPerda = lascasAmostraPerda;
-    }
-
-    public Double getSoqueiraKgAmostraPerda() {
-        return soqueiraKgAmostraPerda;
-    }
-
-    public void setSoqueiraKgAmostraPerda(Double soqueiraKgAmostraPerda) {
-        this.soqueiraKgAmostraPerda = soqueiraKgAmostraPerda;
-    }
-
-    public Double getSoqueiraNumAmostraPerda() {
-        return soqueiraNumAmostraPerda;
-    }
-
-    public void setSoqueiraNumAmostraPerda(Double soqueiraNumAmostraPerda) {
-        this.soqueiraNumAmostraPerda = soqueiraNumAmostraPerda;
     }
 
     public Double getRepiqueAmostraPerda() {

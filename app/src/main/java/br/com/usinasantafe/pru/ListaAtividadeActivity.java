@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.RFuncaoAtivParBean;
 import br.com.usinasantafe.pru.util.ConexaoWeb;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
 
@@ -82,9 +83,10 @@ public class ListaAtividadeActivity extends ActivityGeneric {
 
                 pruContext.getConfigCTR().setAtivConfig(atividadeBean.getIdAtiv());
 
+                Intent it;
+
                 if(pruContext.getVerPosTela() == 1){
 
-                    Intent it;
                     switch ((int) pruContext.getConfigCTR().getConfig().getIdTipoConfig().longValue()) {
                         case 1:
                             it = new Intent(ListaAtividadeActivity.this, ListaFuncActivity.class);
@@ -98,33 +100,41 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                             break;
                     }
 
-                    startActivity(it);
-                    finish();
-
                 }
                 else if (pruContext.getVerPosTela() == 2) {
 
                     pruContext.getRuricolaCTR().setIdParada(0L);
 
-                    Intent it;
                     if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1){
                         it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
                     }
                     else{
                         pruContext.getRuricolaCTR().salvaApont();
-                        it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
-
+                        RFuncaoAtivParBean rFuncaoAtivParBean = pruContext.getRuricolaCTR().getFuncaoAtivParBean(atividadeBean.getIdAtiv());
+                        if(rFuncaoAtivParBean.getCodFuncao() == 1L){
+                            it = new Intent(ListaAtividadeActivity.this, TalhaoActivity.class);
+                        }
+                        else if(rFuncaoAtivParBean.getCodFuncao() == 2L){
+                            pruContext.setVerPosTela(8);
+                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
+                        }
+                        else if(rFuncaoAtivParBean.getCodFuncao() == 3L){
+                            pruContext.setVerPosTela(11);
+                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
+                        }
+                        else{
+                            it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
+                        }
                     }
 
-                    startActivity(it);
-                    finish();
-
-                } else if (pruContext.getVerPosTela() == 3) {
-                    Intent it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
-                    startActivity(it);
-                    finish();
+                }
+                else //if (pruContext.getVerPosTela() == 3)
+                {
+                    it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
                 }
 
+                startActivity(it);
+                finish();
             }
 
         });

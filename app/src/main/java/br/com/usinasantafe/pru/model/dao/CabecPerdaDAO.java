@@ -10,16 +10,16 @@ public class CabecPerdaDAO {
     }
 
     public boolean hasCabecPerdaAberto(){
-        List cabecFitoList = getCabecPerdaAbertoList();
-        boolean ret = cabecFitoList.size() > 0;
-        cabecFitoList.clear();
+        List cabecPerdaList = getCabecPerdaAbertoList();
+        boolean ret = cabecPerdaList.size() > 0;
+        cabecPerdaList.clear();
         return ret;
     }
 
     public CabecPerdaBean getCabecPerdaAberto(){
-        List cabecFitoList = getCabecPerdaAbertoList();
-        CabecPerdaBean cabecPerdaBean = (CabecPerdaBean) cabecFitoList.get(0);
-        cabecFitoList.clear();
+        List cabecPerdaList = getCabecPerdaAbertoList();
+        CabecPerdaBean cabecPerdaBean = (CabecPerdaBean) cabecPerdaList.get(0);
+        cabecPerdaList.clear();
         return cabecPerdaBean;
     }
 

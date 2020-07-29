@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListaQuestaoSoqueiraActivity"></activity>
+        <activity android:name=".ListaAmostraSoqueiraActivity"></activity>
+        <activity android:name=".ListaQuestaoSoqueiraActivity" />
         <activity android:name=".ListaQuestaoPerdaActivity" />
         <activity android:name=".QuestaoPerdaActivity" />
         <activity android:name=".QuestaoSoqueiraActivity" />
@@ -29,7 +30,6 @@
             android:name=".ui.login.QuestaoPerdaActivity"
             android:label="@string/title_activity_questao_perda" />
         <activity android:name=".ListaObsActivity" />
-        <activity android:name=".ListaTipoColheitaActivity" />
         <activity android:name=".ListaTurnoActivity" />
         <activity android:name=".EquipActivity" />
         <activity android:name=".ListaAmostraPerdaActivity" />

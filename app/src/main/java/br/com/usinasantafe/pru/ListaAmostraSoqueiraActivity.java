@@ -3,6 +3,7 @@ package br.com.usinasantafe.pru;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +18,7 @@ import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurnoBean;
 
-public class ListaAmostraPerdaActivity extends ActivityGeneric {
+public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
     private ListView amostraListView;
@@ -25,7 +26,7 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_amostra_perda);
+        setContentView(R.layout.activity_lista_amostra_soqueira);
 
         TextView textViewColhedora = (TextView) findViewById(R.id.textViewColhedora);
         TextView textViewAuditor = (TextView) findViewById(R.id.textViewAuditor);
@@ -38,17 +39,17 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        EquipBean equipBean = pruContext.getPerdaCTR().getEquip();
+        EquipBean equipBean = pruContext.getSoqueiraCTR().getEquip();
         textViewColhedora.setText(equipBean.getNroEquip() + " - " + equipBean.getDescrClasseEquip());
 
-        FuncBean funcBean = pruContext.getPerdaCTR().getFunc();
+        final FuncBean funcBean = pruContext.getSoqueiraCTR().getFunc();
         textViewAuditor.setText("AUDITOR: " + funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
 
-        OSBean osBean = pruContext.getPerdaCTR().getOS();
+        OSBean osBean = pruContext.getSoqueiraCTR().getOS();
         textViewSecao.setText("SECAO: " + osBean.getCodSecao() + " - " + osBean.getCodSecao());
         textViewFrente.setText(osBean.getDescrFrente());
 
-        TurnoBean turnoBean = pruContext.getPerdaCTR().getTurno();
+        TurnoBean turnoBean = pruContext.getSoqueiraCTR().getTurno();
         textViewTurno.setText("TURNO: " + turnoBean.getCodTurno() + " - " + turnoBean.getDescTurno());
 
         ArrayList<String> itens = new ArrayList<String>();
@@ -68,8 +69,9 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
                                     long id) {
 
                 pruContext.setPosPontoAmostra(Long.valueOf(position));
-                Intent it = new Intent(ListaAmostraPerdaActivity.this,  ListaQuestaoPerdaActivity.class);
+                Intent it = new Intent(ListaAmostraSoqueiraActivity.this,  ListaQuestaoSoqueiraActivity.class);
                 startActivity(it);
+                finish();
 
             }
 
@@ -81,11 +83,11 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
 
                 Long ponto = pruContext.getConfigCTR().getConfig().getPontoAmostraConfig();
                 pruContext.setPosPontoAmostra(ponto + 1);
-                pruContext.setVerPosTela(9);
+                pruContext.setVerPosTela(12);
                 pruContext.setPosQuestao(1);
-                Intent it = new Intent(ListaAmostraPerdaActivity.this, QuestaoPerdaActivity.class);
+                Intent it = new Intent(ListaAmostraSoqueiraActivity.this, QuestaoSoqueiraActivity.class);
                 startActivity(it);
-
+                finish();
             }
         });
 
@@ -93,7 +95,7 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaAmostraPerdaActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaAmostraSoqueiraActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJAR REALMENTE EXCLUIR ESSE ANALISE?");
 
@@ -103,7 +105,7 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
 
                         pruContext.getFitoCTR().delFito();
 
-                        Intent it = new Intent(ListaAmostraPerdaActivity.this, MenuMotoMecActivity.class);
+                        Intent it = new Intent(ListaAmostraSoqueiraActivity.this, MenuMotoMecActivity.class);
                         startActivity(it);
                         finish();
 
@@ -131,7 +133,7 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
 
                     String mensagem = "POR FAVOR, INSIRA AMOSTRA ANTES DE ENVIAR OS DADOS.";
 
-                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaAmostraPerdaActivity.this);
+                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaAmostraSoqueiraActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage(mensagem);
 
@@ -146,7 +148,7 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
                 else{
 
                     pruContext.getFitoCTR().fecharCabecFito();
-                    Intent it = new Intent( ListaAmostraPerdaActivity.this, MenuInicialActivity.class);
+                    Intent it = new Intent( ListaAmostraSoqueiraActivity.this, MenuInicialActivity.class);
                     startActivity(it);
                     finish();
 

@@ -7,39 +7,43 @@ import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AmostraPerdaBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.AmostraSoqueiraBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.CabecSoqueiraBean;
 import br.com.usinasantafe.pru.model.dao.AmostraPerdaDAO;
+import br.com.usinasantafe.pru.model.dao.AmostraSoqueiraDAO;
 import br.com.usinasantafe.pru.model.dao.CabecPerdaDAO;
+import br.com.usinasantafe.pru.model.dao.CabecSoqueiraDAO;
 import br.com.usinasantafe.pru.model.dao.EquipDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.model.dao.TurnoDAO;
 
-public class PerdaColheitaCTR {
+public class SoqueiraCTR {
 
-    private AmostraPerdaBean amostraPerdaBean;
+    private AmostraSoqueiraBean amostraSoqueiraBean;
 
-    public PerdaColheitaCTR() {
+    public SoqueiraCTR() {
     }
 
-    public void salvarCabecPerdaAberto(Long codEquip){
+    public void salvarCabecSoqueiraAberto(Long codEquip){
+
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
-        CabecPerdaBean cabecPerdaBean = new CabecPerdaBean();
-        cabecPerdaBean.setAuditorCabecPerda(ruricolaCTR.getFunc().getMatricFunc());
-        cabecPerdaBean.setOsCabecPerda(ruricolaCTR.getBolAberto().getOsBol());
-        cabecPerdaBean.setEquipCabecPerda(codEquip);
-        cabecPerdaBean.setTipoColheitaCabecPerda(1L);
-        cabecPerdaDAO.salvarCabecPerdaAberto(cabecPerdaBean);
+        CabecSoqueiraDAO cabecPerdaDAO = new CabecSoqueiraDAO();
+        CabecSoqueiraBean cabecSoqueiraBean = new CabecSoqueiraBean();
+        cabecSoqueiraBean.setAuditorCabecSoqueira(ruricolaCTR.getFunc().getMatricFunc());
+        cabecSoqueiraBean.setOsCabecSoqueira(ruricolaCTR.getBolAberto().getOsBol());
+        cabecSoqueiraBean.setEquipCabecSoqueira(codEquip);
+        cabecPerdaDAO.salvarCabecSoqueiraAberto(cabecSoqueiraBean);
 
         ConfigCTR configCTR = new ConfigCTR();
-        configCTR.setAmostraConfig(0L);
+        configCTR.setPontoAmostraConfig(0L);
 
     }
 
-    public void salvarAmostraPerda(){
-        AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
-        amostraPerdaDAO.salvarAmostraPerda(amostraPerdaBean);
+    public void salvarAmostraSoqueira(){
+        AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
+        amostraSoqueiraDAO.salvarAmostraSoqueira(amostraSoqueiraBean);
     }
 
     ////////////////////////////////// VERIFICAR CAMPOS ///////////////////////////////////////////
@@ -88,19 +92,24 @@ public class PerdaColheitaCTR {
         return turnoDAO.getTurno(getCabecPerdaAberto().getTurnoCabecPerda());
     }
 
-    public AmostraPerdaBean getAmostraPerdaBean() {
-        return amostraPerdaBean;
+    public AmostraSoqueiraBean getAmostraSoqueiraBean() {
+        return amostraSoqueiraBean;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////////////////// GET DE CAMPOS ///////////////////////////////////////////
+    ////////////////////////////////// SET DE CAMPOS ///////////////////////////////////////////
 
-    public void setAmostraPerdaBean(AmostraPerdaBean amostraPerdaBean) {
-        this.amostraPerdaBean = amostraPerdaBean;
+    public void setAmostraSoqueiraBean(AmostraSoqueiraBean amostraSoqueiraBean) {
+        this.amostraSoqueiraBean = amostraSoqueiraBean;
     }
 
+    public void setQuestaoAmostraSoqueira(Long valor, int posQuestao, Long seqAmostraPerda){
+        AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
+        amostraPerdaDAO.setQuestaoAmostraPerda(valor, posQuestao, seqAmostraPerda);
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
+
 
 }

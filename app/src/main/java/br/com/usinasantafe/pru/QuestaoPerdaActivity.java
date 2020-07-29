@@ -3,7 +3,6 @@ package br.com.usinasantafe.pru;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,27 +27,85 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
         Button buttonOkQuestao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancQuestao = (Button) findViewById(R.id.buttonCancPadrao);
 
-        textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TARA");
+        if(pruContext.getVerPosTela() == 10) {
+            if(pruContext.getPosQuestao() == 1){
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TARA");
+            }
+            else if(pruContext.getPosQuestao() == 7){
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PONTEIRO");
+            }
+            else if(pruContext.getPosQuestao() == 8){
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "LASCA");
+            }
+        }
+        else if(pruContext.getVerPosTela() == 11) {
+            AmostraPerdaBean amostraPerdaBean = pruContext.getPerdaCTR().getAmostraPerda(pruContext.getPosPontoAmostra());
+            if (pruContext.getPosQuestao() == 1) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TARA");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getTaraAmostraPerda()));
+            } else if (pruContext.getPosQuestao() == 2) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOLETE");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getToleteAmostraPerda()));
+            } else if (pruContext.getPosQuestao() == 3) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "CANA INTEIRA");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getCanaInteiraAmostraPerda()));
+            } else if (pruContext.getPosQuestao() == 4) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOCO");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getTocoAmostraPerda()));
+            } else if (pruContext.getPosQuestao() == 5) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PEDACO");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getPedacoAmostraPerda()));
+            } else if (pruContext.getPosQuestao() == 6) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "REPIQUE");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getRepiqueAmostraPerda()));
+            } else if (pruContext.getPosQuestao() == 7) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PONTEIRO");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getPonteiroAmostraPerda()));
+            } else if (pruContext.getPosQuestao() == 8) {
+                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "LASCA");
+                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getLascasAmostraPerda()));
+            }
+        }
 
         buttonOkQuestao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Double valorNum = 0D;
-                boolean verTara = false;
+                if (pruContext.getVerPosTela() == 10) {
 
-                if (!editTextPadrao.getText().toString().equals("")) {
+                    Double valorNum = 0D;
+                    boolean verTara = false;
 
-                    String valor = editTextPadrao.getText().toString();
-                    valorNum = Double.valueOf(valor.replace(",", "."));
+                    if (!editTextPadrao.getText().toString().equals("")) {
 
-                    if(pruContext.getPosQuestao() > 1){
-                        if (pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().getTaraAmostraPerda() < valorNum) {
-                            verTara = true;
+                        String valor = editTextPadrao.getText().toString();
+                        valorNum = Double.valueOf(valor.replace(",", "."));
+
+                        if (pruContext.getPosQuestao() > 1) {
+                            if (pruContext.getPerdaCTR().getAmostraPerdaBean().getTaraAmostraPerda() < valorNum) {
+                                verTara = true;
+                            } else {
+                                AlertDialog.Builder alerta = new AlertDialog.Builder(QuestaoPerdaActivity.this);
+                                alerta.setTitle("ATENÇÃO");
+                                alerta.setMessage("O PESO ESTA ABAIXO DO PESO TARA. POR FAVOR DIGITE NOVAMENTE O PESO.");
+
+                                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        editTextPadrao.setText("");
+                                    }
+                                });
+                                alerta.show();
+                            }
                         } else {
+                            verTara = true;
+                        }
+
+                    } else {
+                        if (pruContext.getPosQuestao() == 1) {
                             AlertDialog.Builder alerta = new AlertDialog.Builder(QuestaoPerdaActivity.this);
                             alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("O PESO ESTA ABAIXO DO PESO TARA. POR FAVOR DIGITE NOVAMENTE O PESO.");
+                            alerta.setMessage("POR FAVOR, INSIRA O PESO TARA.");
 
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
@@ -59,105 +116,99 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
                             alerta.show();
                         }
                     }
-                    else{
-                        verTara = true;
-                    }
 
-                } else {
-                    if(pruContext.getPosQuestao() == 1) {
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(QuestaoPerdaActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("POR FAVOR, INSIRA O PESO TARA.");
-
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                editTextPadrao.setText("");
+                    if (verTara) {
+                        if (pruContext.getPosQuestao() == 1) {
+                            pruContext.getPerdaCTR().setAmostraPerdaBean(new AmostraPerdaBean());
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setTaraAmostraPerda(valorNum);
+                            if (pruContext.getPerdaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
+                                pruContext.setPosQuestao(2);
+                            } else {
+                                pruContext.getPerdaCTR().getAmostraPerdaBean().setToleteAmostraPerda(0D);
+                                pruContext.setPosQuestao(3);
                             }
-                        });
-                        alerta.show();
-                    }
-                }
-
-                if(verTara) {
-                    if (pruContext.getPosQuestao() == 1) {
-                        pruContext.getPerdaColheitaCTR().setAmostraPerdaBean(new AmostraPerdaBean());
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setTaraAmostraPerda(valorNum);
-                        if (pruContext.getPerdaColheitaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
-                            pruContext.setPosQuestao(2);
-                        } else {
-                            pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setToleteAmostraPerda(0D);
+                        } else if (pruContext.getPosQuestao() == 2) {
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setToleteAmostraPerda(valorNum);
                             pruContext.setPosQuestao(3);
-                        }
-                    }
-                    else if (pruContext.getPosQuestao() == 2) {
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setToleteAmostraPerda(valorNum);
-                        pruContext.setPosQuestao(3);
-                    }
-                    else if (pruContext.getPosQuestao() == 3) {
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setCanaInteiraAmostraPerda(valorNum);
-                        pruContext.setPosQuestao(4);
-                    }
-                    else if (pruContext.getPosQuestao() == 4) {
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setTocoAmostraPerda(valorNum);
-                        pruContext.setPosQuestao(5);
-                    }
-                    else if (pruContext.getPosQuestao() == 5) {
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setPedacoAmostraPerda(valorNum);
-                        if (pruContext.getPerdaColheitaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
-                            pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setRepiqueAmostraPerda(0D);
+                        } else if (pruContext.getPosQuestao() == 3) {
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setCanaInteiraAmostraPerda(valorNum);
+                            pruContext.setPosQuestao(4);
+                        } else if (pruContext.getPosQuestao() == 4) {
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setTocoAmostraPerda(valorNum);
+                            pruContext.setPosQuestao(5);
+                        } else if (pruContext.getPosQuestao() == 5) {
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setPedacoAmostraPerda(valorNum);
+                            if (pruContext.getPerdaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
+                                pruContext.getPerdaCTR().getAmostraPerdaBean().setRepiqueAmostraPerda(0D);
+                                pruContext.setPosQuestao(7);
+                            } else {
+                                pruContext.setPosQuestao(6);
+                            }
+                        } else if (pruContext.getPosQuestao() == 6) {
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setRepiqueAmostraPerda(valorNum);
                             pruContext.setPosQuestao(7);
-                        } else {
-                            pruContext.setPosQuestao(6);
-                        }
-                    }
-                    else if (pruContext.getPosQuestao() == 6) {
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setRepiqueAmostraPerda(valorNum);
-                        pruContext.setPosQuestao(7);
-                    }
-                    else if (pruContext.getPosQuestao() == 7) {
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setPonteiroAmostraPerda(valorNum);
-                        if (pruContext.getPerdaColheitaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
-                            pruContext.setPosQuestao(8);
-                        } else {
-                            pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setLascasAmostraPerda(0D);
+                        } else if (pruContext.getPosQuestao() == 7) {
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setPonteiroAmostraPerda(valorNum);
+                            if (pruContext.getPerdaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
+                                pruContext.setPosQuestao(8);
+                            } else {
+                                pruContext.getPerdaCTR().getAmostraPerdaBean().setLascasAmostraPerda(0D);
+                                finalizarQuestao();
+                            }
+                        } else if (pruContext.getPosQuestao() == 8) {
+                            pruContext.getPerdaCTR().getAmostraPerdaBean().setLascasAmostraPerda(valorNum);
                             finalizarQuestao();
                         }
-                    }
-                    else if (pruContext.getPosQuestao() == 8) {
-                        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setLascasAmostraPerda(valorNum);
-                        finalizarQuestao();
-                    }
 
-                    if(pruContext.getPosQuestao() == 2){
-                        textViewPadrao.setText("TOLETE");
+                        if (pruContext.getPosQuestao() == 2) {
+                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOLETE");
+                        } else if (pruContext.getPosQuestao() == 3) {
+                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "CANA INTEIRA");
+                        } else if (pruContext.getPosQuestao() == 4) {
+                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOCO");
+                        } else if (pruContext.getPosQuestao() == 5) {
+                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PEDACO");
+                        } else if (pruContext.getPosQuestao() == 6) {
+                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "REPIQUE");
+                        } else if (pruContext.getPosQuestao() == 7) {
+                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PONTEIRO");
+                        } else if (pruContext.getPosQuestao() == 8) {
+                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "LASCA");
+                        }
                     }
-                    else if(pruContext.getPosQuestao() == 3){
-                        textViewPadrao.setText("CANA INTEIRA");
-                    }
-                    else if(pruContext.getPosQuestao() == 4){
-                        textViewPadrao.setText("TOCO");
-                    }
-                    else if(pruContext.getPosQuestao() == 5){
-                        textViewPadrao.setText("PEDACO");
-                    }
-                    else if(pruContext.getPosQuestao() == 6){
-                        textViewPadrao.setText("REPIQUE");
-                    }
-                    else if(pruContext.getPosQuestao() == 7){
-                        textViewPadrao.setText("PONTEIRO");
-                    }
-                    else if(pruContext.getPosQuestao() == 8){
-                        textViewPadrao.setText("LASCA");
-                    }
-
                 }
+                else if(pruContext.getVerPosTela() == 11) {
+                    Double valorNum = 0D;
+                    if (!editTextPadrao.getText().toString().equals("")) {
+                        String valor = editTextPadrao.getText().toString();
+                        valorNum = Double.valueOf(valor.replace(",", "."));
+                    } else {
+                        if (pruContext.getPosQuestao() == 1) {
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(QuestaoPerdaActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("POR FAVOR, INSIRA O PESO TARA.");
 
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    editTextPadrao.setText("");
+                                }
+                            });
+                            alerta.show();
+                        }
+                        else{
+                            valorNum = 0D;
+                        }
+                    }
+                    pruContext.getPerdaCTR().setQuestaoAmostraPerda(valorNum, pruContext.getPosQuestao(), pruContext.getPosPontoAmostra());
+                    Intent it = new Intent(QuestaoPerdaActivity.this, ListaQuestaoPerdaActivity.class);
+                    startActivity(it);
+                    finish();
+                }
             }
         });
 
         buttonCancQuestao.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if(editTextPadrao.getText().toString().length() > 0){
@@ -169,15 +220,54 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
-        Intent it = new Intent(QuestaoPerdaActivity.this, ListaAmostraPerdaActivity.class);
-        startActivity(it);
-        finish();
+        if (pruContext.getVerPosTela() == 10) {
+            if(pruContext.getPosQuestao() == 1){
+                Intent it = new Intent(QuestaoPerdaActivity.this, ListaAmostraPerdaActivity.class);
+                startActivity(it);
+                finish();
+            }
+            else{
+
+                if (pruContext.getPosQuestao() == 2) {
+                    pruContext.setPosQuestao(1);
+                    textViewPadrao.setText("TARA");
+
+                } else if (pruContext.getPosQuestao() == 3) {
+                    if (pruContext.getPerdaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
+                        pruContext.setPosQuestao(2);
+                        textViewPadrao.setText("TOLETE");
+                    } else {
+                        pruContext.setPosQuestao(1);
+                        textViewPadrao.setText("TARA");
+                    }
+                } else if (pruContext.getPosQuestao() == 4) {
+                    pruContext.setPosQuestao(3);
+                    textViewPadrao.setText("CANA INTEIRA");
+                } else if (pruContext.getPosQuestao() == 5) {
+                    pruContext.setPosQuestao(4);
+                    textViewPadrao.setText("TOCO");
+                } else if (pruContext.getPosQuestao() == 6) {
+                    pruContext.setPosQuestao(5);
+                    textViewPadrao.setText("PEDACO");
+                } else if (pruContext.getPosQuestao() == 7) {
+                    if (pruContext.getPerdaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
+                        pruContext.setPosQuestao(5);
+                        textViewPadrao.setText("PEDACO");
+                    } else {
+                        pruContext.setPosQuestao(6);
+                        textViewPadrao.setText("REPIQUE");
+                    }
+                } else if (pruContext.getPosQuestao() == 8) {
+                    pruContext.setPosQuestao(7);
+                    textViewPadrao.setText("PONTEIRO");
+                }
+
+            }
+
+        }
     }
 
     public void finalizarQuestao(){
-
-        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setSoqueiraKgAmostraPerda(0D);
-        pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setSoqueiraNumAmostraPerda(0D);
 
         AlertDialog.Builder alerta = new AlertDialog.Builder(QuestaoPerdaActivity.this);
         alerta.setTitle("ATENÇÃO");
@@ -198,14 +288,15 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setPedraAmostraPerda(0L);
-                pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setTocoArvoreAmostraPerda(0L);
-                pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setPlantaDaninhasAmostraPerda(0L);
-                pruContext.getPerdaColheitaCTR().getAmostraPerdaBean().setFormigueiroAmostraPerda(0L);
-                pruContext.getPerdaColheitaCTR().salvarAmostraPerda();
+                pruContext.getPerdaCTR().getAmostraPerdaBean().setPedraAmostraPerda(0L);
+                pruContext.getPerdaCTR().getAmostraPerdaBean().setTocoArvoreAmostraPerda(0L);
+                pruContext.getPerdaCTR().getAmostraPerdaBean().setPlantaDaninhasAmostraPerda(0L);
+                pruContext.getPerdaCTR().getAmostraPerdaBean().setFormigueiroAmostraPerda(0L);
+                pruContext.getPerdaCTR().salvarAmostraPerda();
 
                 Intent it = new Intent(QuestaoPerdaActivity.this, ListaAmostraPerdaActivity.class);
                 startActivity(it);
+                finish();
 
             }
         });

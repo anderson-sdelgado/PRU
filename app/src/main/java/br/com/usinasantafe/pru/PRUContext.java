@@ -4,26 +4,33 @@ import android.app.Application;
 
 import br.com.usinasantafe.pru.control.ConfigCTR;
 import br.com.usinasantafe.pru.control.FitoCTR;
-import br.com.usinasantafe.pru.control.PerdaColheitaCTR;
+import br.com.usinasantafe.pru.control.PerdaCTR;
 import br.com.usinasantafe.pru.control.RuricolaCTR;
+import br.com.usinasantafe.pru.control.SoqueiraCTR;
 
 public class PRUContext extends Application {
 
     private ConfigCTR configCTR;
-    private int verVerPosTela;
+    private int verPosTela;
     //1 - Inicio do Boletim;
     //2 - Trabalhando;
     //3 - Parada;
     //4 - Aloca Funcionario
-    //5 - Inicio de Fito Com Questao Cabec
+    //5 - Inicio Questao Cabec Fito
     //6 - Inicio do Ponto Fito
     //7 - Altera Questão Fito
-    //6 - Inicio do Amostra Perda
+    //8 - Inicio do Amostra Perda
+    //9 - Inserir Amostra Perda
+    //10 - Altera Amostra Perda
+    //11 - Inicio de Amostra Soqueira
+    //12 - Inserir Amostra Soqueira
+    //13 - Altera Amostra Soqueira
+
     public static String versaoAplic = "1.0";
-    private String verAtualCL;
     private RuricolaCTR ruricolaCTR;
     private FitoCTR fitoCTR;
-    private PerdaColheitaCTR perdaColheitaCTR;
+    private PerdaCTR perdaCTR;
+    private SoqueiraCTR soqueiraCTR;
     private Long posPontoAmostra;
     private int posQuestao;
 
@@ -50,18 +57,24 @@ public class PRUContext extends Application {
         return fitoCTR;
     }
 
-    public PerdaColheitaCTR getPerdaColheitaCTR() {
-        if (perdaColheitaCTR == null)
-            perdaColheitaCTR = new PerdaColheitaCTR();
-        return perdaColheitaCTR;
+    public PerdaCTR getPerdaCTR() {
+        if (perdaCTR == null)
+            perdaCTR = new PerdaCTR();
+        return perdaCTR;
+    }
+
+    public SoqueiraCTR getSoqueiraCTR() {
+        if (soqueiraCTR == null)
+            soqueiraCTR = new SoqueiraCTR();
+        return soqueiraCTR;
     }
 
     public int getVerPosTela() {
-        return verVerPosTela;
+        return verPosTela;
     }
 
     public void setVerPosTela(int verPosTelaPrinc) {
-        this.verVerPosTela = verPosTelaPrinc;
+        this.verPosTela = verPosTelaPrinc;
     }
 
     public Long getPosPontoAmostra() {

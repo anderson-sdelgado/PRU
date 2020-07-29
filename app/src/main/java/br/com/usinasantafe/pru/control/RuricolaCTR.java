@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.RFuncaoAtivParBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
@@ -17,6 +18,7 @@ import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.LiderDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.model.dao.ParadaDAO;
+import br.com.usinasantafe.pru.model.dao.RFuncaoAtivParDAO;
 import br.com.usinasantafe.pru.model.dao.TurnoDAO;
 import br.com.usinasantafe.pru.util.Tempo;
 
@@ -73,6 +75,11 @@ public class RuricolaCTR {
     public List getTurnoList(){
         TurnoDAO turnoDAO = new TurnoDAO();
         return turnoDAO.getTurnoList();
+    }
+
+    public RFuncaoAtivParBean getFuncaoAtivParBean(Long idAtiv){
+        RFuncaoAtivParDAO rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
+        return rFuncaoAtivParDAO.getRFuncaoAtivPar(idAtiv);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
