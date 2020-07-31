@@ -3,7 +3,7 @@ package br.com.usinasantafe.pru.model.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.model.bean.estaticas.AmostraBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.AmostraFitoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
@@ -12,12 +12,12 @@ public class RespFitoDAO {
     public RespFitoDAO() {
     }
 
-    public void salvarRespFito(AmostraBean amostraBean, Long idCabec, Long valor, Long ponto){
+    public void salvarRespFito(AmostraFitoBean amostraFitoBean, Long idCabec, Long valor, Long ponto){
         RespFitoBean respFitoBean = new RespFitoBean();
-        respFitoBean.setIdAmostraRespFito(amostraBean.getIdAmostra());
+        respFitoBean.setIdAmostraRespFito(amostraFitoBean.getIdAmostra());
         respFitoBean.setIdCabecRespFito(idCabec);
         respFitoBean.setPontoRespFito(ponto);
-        respFitoBean.setTipoRespFito(amostraBean.getTipoAmostra());
+        respFitoBean.setTipoRespFito(amostraFitoBean.getTipoAmostra());
         respFitoBean.setValorRespFito(valor);
         respFitoBean.setStatusRespFito(0L);
         respFitoBean.insert();
@@ -32,8 +32,8 @@ public class RespFitoDAO {
         respFitoList.clear();
     }
 
-    public void atualRespFito(AmostraBean amostraBean, Long ponto, Long valor, Long idCabecFito){
-        RespFitoBean respFitoBean = getRespFitoBean(idCabecFito, ponto, amostraBean.getIdAmostra());
+    public void atualRespFito(AmostraFitoBean amostraFitoBean, Long ponto, Long valor, Long idCabecFito){
+        RespFitoBean respFitoBean = getRespFitoBean(idCabecFito, ponto, amostraFitoBean.getIdAmostra());
         respFitoBean.setValorRespFito(valor);
         respFitoBean.update();
     }

@@ -5,19 +5,13 @@ import java.util.List;
 import br.com.usinasantafe.pru.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.TurnoBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.AmostraPerdaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AmostraSoqueiraBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecSoqueiraBean;
-import br.com.usinasantafe.pru.model.dao.AmostraPerdaDAO;
 import br.com.usinasantafe.pru.model.dao.AmostraSoqueiraDAO;
-import br.com.usinasantafe.pru.model.dao.CabecPerdaDAO;
 import br.com.usinasantafe.pru.model.dao.CabecSoqueiraDAO;
 import br.com.usinasantafe.pru.model.dao.EquipDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
-import br.com.usinasantafe.pru.model.dao.TurnoDAO;
 
 public class SoqueiraCTR {
 
@@ -41,9 +35,14 @@ public class SoqueiraCTR {
 
     }
 
-    public void salvarAmostraSoqueira(){
+    public void salvarAmostraSoqueira(Long seqAmostraSoqueira){
         AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
-        amostraSoqueiraDAO.salvarAmostraSoqueira(amostraSoqueiraBean);
+        amostraSoqueiraDAO.salvarAmostraSoqueira(amostraSoqueiraBean, seqAmostraSoqueira);
+    }
+
+    public void delAmostraSoqueira(Long seqAmostraSoqueira){
+        AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
+        amostraSoqueiraDAO.delAmostraSoqueira(getCabecSoqueiraAberto().getIdCabecSoqueira(), seqAmostraSoqueira);
     }
 
     ////////////////////////////////// VERIFICAR CAMPOS ///////////////////////////////////////////
@@ -53,60 +52,60 @@ public class SoqueiraCTR {
         return equipDAO.verEquip(codEquip);
     }
 
-    public boolean hasCabecPerdaAberto(){
-        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
-        return cabecPerdaDAO.hasCabecPerdaAberto();
+    public boolean hasCabecSoqueiraAberto(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.hasCabecSoqueiraAberto();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////// GET DE CAMPOS ///////////////////////////////////////////
 
-    public List<CabecPerdaBean> getCabecPerdaAbertoList(){
-        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
-        return cabecPerdaDAO.getCabecPerdaAbertoList();
+    public List<CabecSoqueiraBean> getCabecSoqueiraAbertoList(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.getCabecSoqueiraAbertoList();
     }
 
-    public CabecPerdaBean getCabecPerdaAberto(){
-        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
-        return cabecPerdaDAO.getCabecPerdaAberto();
+    public CabecSoqueiraBean getCabecSoqueiraAberto(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.getCabecSoqueiraAberto();
     }
 
     public EquipBean getEquip(){
         EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.getEquip(getCabecPerdaAberto().getEquipCabecPerda());
+        return equipDAO.getEquip(getCabecSoqueiraAberto().getEquipCabecSoqueira());
     }
 
     public FuncBean getFunc(){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(getCabecPerdaAberto().getAuditorCabecPerda());
+        return funcDAO.getFunc(getCabecSoqueiraAberto().getAuditorCabecSoqueira());
     }
 
     public OSBean getOS(){
         OSDAO osDAO = new OSDAO();
-        return osDAO.getOS(getCabecPerdaAberto().getOsCabecPerda());
-    }
-
-    public TurnoBean getTurno(){
-        TurnoDAO turnoDAO = new TurnoDAO();
-        return turnoDAO.getTurno(getCabecPerdaAberto().getTurnoCabecPerda());
+        return osDAO.getOS(getCabecSoqueiraAberto().getOsCabecSoqueira());
     }
 
     public AmostraSoqueiraBean getAmostraSoqueiraBean() {
         return amostraSoqueiraBean;
     }
 
+    public AmostraSoqueiraBean getAmostraSoqueira(Long seqAmostraSoqueira){
+        AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
+        return amostraSoqueiraDAO.getAmostraSoqueira(getCabecSoqueiraAberto().getIdCabecSoqueira(), seqAmostraSoqueira);
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////// SET DE CAMPOS ///////////////////////////////////////////
 
-    public void setAmostraSoqueiraBean(AmostraSoqueiraBean amostraSoqueiraBean) {
+    public void setAmostraSoqueira(AmostraSoqueiraBean amostraSoqueiraBean) {
         this.amostraSoqueiraBean = amostraSoqueiraBean;
     }
 
-    public void setQuestaoAmostraSoqueira(Long valor, int posQuestao, Long seqAmostraPerda){
-        AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
-        amostraPerdaDAO.setQuestaoAmostraPerda(valor, posQuestao, seqAmostraPerda);
+    public void setQuestaoAmostraSoqueira(Long valor, int posQuestao, Long seqAmostraSoqueira){
+        AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
+        amostraSoqueiraDAO.setQuestaoAmostraSoqueira(valor, posQuestao, seqAmostraSoqueira);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////

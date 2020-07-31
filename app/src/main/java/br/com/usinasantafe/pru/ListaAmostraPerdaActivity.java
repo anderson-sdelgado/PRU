@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import br.com.usinasantafe.pru.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.TurnoBean;
 
 public class ListaAmostraPerdaActivity extends ActivityGeneric {
 
@@ -79,8 +78,6 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                Long ponto = pruContext.getConfigCTR().getConfig().getPontoAmostraConfig();
-                pruContext.setPosPontoAmostra(ponto + 1);
                 pruContext.setVerPosTela(9);
                 pruContext.setPosQuestao(1);
                 Intent it = new Intent(ListaAmostraPerdaActivity.this, QuestaoPerdaActivity.class);

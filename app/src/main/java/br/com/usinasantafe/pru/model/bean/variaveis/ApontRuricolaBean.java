@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pru.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbapontammvar")
-public class ApontBean extends Entidade  {
+public class ApontRuricolaBean extends Entidade  {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +27,7 @@ public class ApontBean extends Entidade  {
 	@DatabaseField
 	private Long funcApont;
 
-	public ApontBean() {
+	public ApontRuricolaBean() {
 	}
 
 	public Long getIdApont() {

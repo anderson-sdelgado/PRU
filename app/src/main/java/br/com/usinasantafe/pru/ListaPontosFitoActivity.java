@@ -16,7 +16,7 @@ import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TalhaoBean;
 
-public class ListaPontosActivity extends ActivityGeneric {
+public class ListaPontosFitoActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
     private ListView pontoListView;
@@ -24,7 +24,7 @@ public class ListaPontosActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_pontos);
+        setContentView(R.layout.activity_lista_pontos_fito);
 
         TextView textViewAuditor = (TextView) findViewById(R.id.textViewAuditor);
         TextView textViewSecao = (TextView) findViewById(R.id.textViewSecao);
@@ -60,8 +60,8 @@ public class ListaPontosActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                pruContext.setPosPontoAmostra(Long.valueOf(position));
-                Intent it = new Intent(ListaPontosActivity.this, ListaQuestaoFitoActivity.class);
+                pruContext.setPosPontoAmostra(Long.valueOf(position + 1));
+                Intent it = new Intent(ListaPontosFitoActivity.this, ListaQuestaoFitoActivity.class);
                 startActivity(it);
 
             }
@@ -73,9 +73,8 @@ public class ListaPontosActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 Long ponto = pruContext.getConfigCTR().getConfig().getPontoAmostraConfig();
-                pruContext.setPosPontoAmostra(ponto + 1);
                 pruContext.setVerPosTela(6);
-                Intent it = new Intent(ListaPontosActivity.this, MsgPontoActivity.class);
+                Intent it = new Intent(ListaPontosFitoActivity.this, MsgPontoActivity.class);
                 startActivity(it);
 
             }
@@ -85,7 +84,7 @@ public class ListaPontosActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPontosActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaPontosFitoActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJAR REALMENTE EXCLUIR ESSE ANALISE?");
 
@@ -95,7 +94,7 @@ public class ListaPontosActivity extends ActivityGeneric {
 
                         pruContext.getFitoCTR().delFito();
 
-                        Intent it = new Intent(ListaPontosActivity.this, MenuInicialActivity.class);
+                        Intent it = new Intent(ListaPontosFitoActivity.this, MenuInicialActivity.class);
                         startActivity(it);
 
                     }
@@ -122,7 +121,7 @@ public class ListaPontosActivity extends ActivityGeneric {
 
                     String mensagem = "POR FAVOR, INSIRA PONTOS ANTES DE ENVIAR OS DADOS.";
 
-                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaPontosActivity.this);
+                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaPontosFitoActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage(mensagem);
 
@@ -137,7 +136,7 @@ public class ListaPontosActivity extends ActivityGeneric {
                 else{
 
                     pruContext.getFitoCTR().fecharCabecFito();
-                    Intent it = new Intent( ListaPontosActivity.this, MenuInicialActivity.class);
+                    Intent it = new Intent( ListaPontosFitoActivity.this, MenuInicialActivity.class);
                     startActivity(it);
                     finish();
 

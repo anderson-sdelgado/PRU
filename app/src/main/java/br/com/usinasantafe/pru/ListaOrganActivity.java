@@ -10,14 +10,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.OrganBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.OrganFitoBean;
 
 public class ListaOrganActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
     private ListView organListView;
-    private List<OrganBean> organList;
+    private List<OrganFitoBean> organList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +31,8 @@ public class ListaOrganActivity extends ActivityGeneric {
 
         organList = pruContext.getFitoCTR().getOrganList();
 
-        for (OrganBean organBean : organList) {
-            itens.add(organBean.getDescrOrgan());
+        for (OrganFitoBean organFitoBean : organList) {
+            itens.add(organFitoBean.getDescrOrgan());
         }
 
         AdapterList adapterList = new AdapterList(this, itens);

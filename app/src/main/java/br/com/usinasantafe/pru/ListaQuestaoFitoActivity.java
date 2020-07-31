@@ -32,12 +32,11 @@ public class ListaQuestaoFitoActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        Long pos = pruContext.getPosPontoAmostra() + 1;
-        textViewTituloPonto.setText("PONTO " + pos);
+        textViewTituloPonto.setText("PONTO " + pruContext.getPosPontoAmostra());
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        respFitoBeanList = pruContext.getFitoCTR().getRespPontoFitoList(pruContext.getPosPontoAmostra());
+        respFitoBeanList = pruContext.getFitoCTR().getRespPontoFitoList(pruContext.getPosPontoAmostra() - 1L);
 
         for (RespFitoBean respFitoBean : respFitoBeanList) {
             itens.add(pruContext.getFitoCTR().getAmostra(respFitoBean.getIdAmostraRespFito()).getDescrAmostra() + "\nVALOR: " + respFitoBean.getValorRespFito());
@@ -68,7 +67,7 @@ public class ListaQuestaoFitoActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                Intent it = new Intent(ListaQuestaoFitoActivity.this, ListaPontosActivity.class);
+                Intent it = new Intent(ListaQuestaoFitoActivity.this, ListaPontosFitoActivity.class);
                 startActivity(it);
                 finish();
 
@@ -88,7 +87,7 @@ public class ListaQuestaoFitoActivity extends ActivityGeneric {
                     public void onClick(DialogInterface dialog, int which) {
 
                         pruContext.getFitoCTR().delRespPonto(pruContext.getPosPontoAmostra());
-                        Intent it = new Intent(ListaQuestaoFitoActivity.this, ListaPontosActivity.class);
+                        Intent it = new Intent(ListaQuestaoFitoActivity.this, ListaPontosFitoActivity.class);
                         startActivity(it);
                         finish();
 

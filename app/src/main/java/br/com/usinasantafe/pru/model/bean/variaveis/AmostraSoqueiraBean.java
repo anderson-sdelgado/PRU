@@ -15,6 +15,8 @@ public class AmostraSoqueiraBean extends Entidade {
     @DatabaseField
     private Long idCabecAmostraSoqueira;
     @DatabaseField
+    private Long seqAmostraSoqueira;
+    @DatabaseField
     private Long qtdeSoqueira;
     @DatabaseField
     private Long qtdeArranquio;
@@ -52,5 +54,13 @@ public class AmostraSoqueiraBean extends Entidade {
 
     public void setQtdeArranquio(Long qtdeArranquio) {
         this.qtdeArranquio = qtdeArranquio;
+    }
+
+    public Long getSeqAmostraSoqueira() {
+        return seqAmostraSoqueira;
+    }
+
+    public void setSeqAmostraSoqueira(Long seqAmostraSoqueira) {
+        this.seqAmostraSoqueira = seqAmostraSoqueira;
     }
 }

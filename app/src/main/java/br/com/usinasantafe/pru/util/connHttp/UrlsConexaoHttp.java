@@ -4,25 +4,28 @@ public class UrlsConexaoHttp {
 
     private int tipoEnvio = 1;
 
-    public static String datahorahttp = "http://www.usinasantafe.com.br/pru/datahora.php";
-    public static String atualizaaplichttp = "http://www.usinasantafe.com.br/pru/atualizaaplic.php";
-
     public static String urlPrincipal = "http://www.usinasantafe.com.br/prudev/";
     public static String urlPrincEnvio = "http://www.usinasantafe.com.br/prudev/";
 
-    //public static String localPSTVariavel = "br.com.usinasantafe.pru.to.tb.variaveis.";
-    public static String localPSTEstatica = "br.com.usinasantafe.pru.to.tb.estaticas.";
+    public static String localPSTEstatica = "br.com.usinasantafe.pru.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp";
 
     public UrlsConexaoHttp() {
     }
 
-    public static String AtividadeTO = urlPrincipal + "atividade.php";
-    public static String FuncTO = urlPrincipal + "func.php";
-    public static String LiderTO = urlPrincipal + "lider.php";
-    public static String TurmaTO = urlPrincipal + "turma.php";
-    public static String TipoApontamentoTO = urlPrincipal + "tipoaponta.php";
-    public static String ParadaTO = urlPrincipal + "parada.php";
+    public static String AmostraFitoBean = urlPrincipal + "amostrafito.php";
+    public static String AtividadeBean = urlPrincipal + "atividade.php";
+    public static String CaracOrganFitoBean = urlPrincipal + "caracorganfito.php";
+    public static String EquipBean = urlPrincipal + "equip.php";
+    public static String FuncBean = urlPrincipal + "func.php";
+    public static String LiderBean = urlPrincipal + "lider.php";
+    public static String OrganFitoBean = urlPrincipal + "organfito.php";
+    public static String ParadaBean = urlPrincipal + "parada.php";
+    public static String RFuncaoAtivParBean = urlPrincipal + "rfuncaoativpar.php";
+    public static String ROrganCaracAmosFitoBean = urlPrincipal + "rorgancaracamosfito.php";
+    public static String TalhaoBean = urlPrincipal + "talhao.php";
+    public static String TipoApontBean = urlPrincipal + "tipoapont.php";
+    public static String TurmaBean = urlPrincipal + "turma.php";
 
     public String getsInsertAponta() {
         return urlPrincEnvio + "insapont.php";

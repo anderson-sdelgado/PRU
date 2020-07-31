@@ -15,6 +15,7 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
     private TextView textViewPadrao;
+    private Long ponto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +28,17 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
         Button buttonOkQuestao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancQuestao = (Button) findViewById(R.id.buttonCancPadrao);
 
+        ponto = (pruContext.getConfigCTR().getConfig().getPontoAmostraConfig() + 1);
+
         if(pruContext.getVerPosTela() == 10) {
             if(pruContext.getPosQuestao() == 1){
-                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TARA");
+                textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "TARA");
             }
             else if(pruContext.getPosQuestao() == 7){
-                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PONTEIRO");
+                textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "PONTEIRO");
             }
             else if(pruContext.getPosQuestao() == 8){
-                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "LASCA");
+                textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "LASCA");
             }
         }
         else if(pruContext.getVerPosTela() == 11) {
@@ -161,19 +164,19 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
                         }
 
                         if (pruContext.getPosQuestao() == 2) {
-                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOLETE");
+                            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "TOLETE");
                         } else if (pruContext.getPosQuestao() == 3) {
-                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "CANA INTEIRA");
+                            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "CANA INTEIRA");
                         } else if (pruContext.getPosQuestao() == 4) {
-                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOCO");
+                            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "TOCO");
                         } else if (pruContext.getPosQuestao() == 5) {
-                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PEDACO");
+                            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "PEDACO");
                         } else if (pruContext.getPosQuestao() == 6) {
-                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "REPIQUE");
+                            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "REPIQUE");
                         } else if (pruContext.getPosQuestao() == 7) {
-                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PONTEIRO");
+                            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "PONTEIRO");
                         } else if (pruContext.getPosQuestao() == 8) {
-                            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "LASCA");
+                            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "LASCA");
                         }
                     }
                 }
@@ -292,7 +295,7 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
                 pruContext.getPerdaCTR().getAmostraPerdaBean().setTocoArvoreAmostraPerda(0L);
                 pruContext.getPerdaCTR().getAmostraPerdaBean().setPlantaDaninhasAmostraPerda(0L);
                 pruContext.getPerdaCTR().getAmostraPerdaBean().setFormigueiroAmostraPerda(0L);
-                pruContext.getPerdaCTR().salvarAmostraPerda();
+                pruContext.getPerdaCTR().salvarAmostraPerda(ponto);
 
                 Intent it = new Intent(QuestaoPerdaActivity.this, ListaAmostraPerdaActivity.class);
                 startActivity(it);

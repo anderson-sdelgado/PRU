@@ -3,7 +3,6 @@ package br.com.usinasantafe.pru;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import br.com.usinasantafe.pru.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.TurnoBean;
 
 public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
 
@@ -81,8 +79,6 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                Long ponto = pruContext.getConfigCTR().getConfig().getPontoAmostraConfig();
-                pruContext.setPosPontoAmostra(ponto + 1);
                 pruContext.setVerPosTela(12);
                 pruContext.setPosQuestao(1);
                 Intent it = new Intent(ListaAmostraSoqueiraActivity.this, QuestaoSoqueiraActivity.class);

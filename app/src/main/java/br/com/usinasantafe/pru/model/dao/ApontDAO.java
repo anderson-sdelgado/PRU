@@ -8,50 +8,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.ApontBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.BoletimBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ApontRuricolaBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
-import br.com.usinasantafe.pru.util.Tempo;
 
 public class ApontDAO {
 
     public ApontDAO() {
     }
 
-    public void salvaApont(BoletimBean boletimBean, ConfigBean configBean, Long idParada, String dataHora) {
+    public void salvaApont(BoletimRuricolaBean boletimRuricolaBean, ConfigBean configBean, Long idParada, String dataHora) {
 
-        ApontBean apontBean = new ApontBean();
-        apontBean.setIdBolApont(boletimBean.getIdBol());
-        apontBean.setIdExtBolApont(boletimBean.getIdExtBol());
-        apontBean.setOsApont(configBean.getNroOSConfig());
-        apontBean.setAtivApont(configBean.getIdAtivConfig());
-        apontBean.setParadaApont(idParada);
-        apontBean.setDthrApont(dataHora);
-        apontBean.setFuncApont(boletimBean.getIdLiderBol());
-        apontBean.insert();
+        ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
+        apontRuricolaBean.setIdBolApont(boletimRuricolaBean.getIdBol());
+        apontRuricolaBean.setIdExtBolApont(boletimRuricolaBean.getIdExtBol());
+        apontRuricolaBean.setOsApont(configBean.getNroOSConfig());
+        apontRuricolaBean.setAtivApont(configBean.getIdAtivConfig());
+        apontRuricolaBean.setParadaApont(idParada);
+        apontRuricolaBean.setDthrApont(dataHora);
+        apontRuricolaBean.setFuncApont(boletimRuricolaBean.getIdLiderBol());
+        apontRuricolaBean.insert();
 
     }
 
-    public void salvaApont(BoletimBean boletimBean, ConfigBean configBean, Long idParada, String dataHora, List<FuncBean> funcBeans) {
+    public void salvaApont(BoletimRuricolaBean boletimRuricolaBean, ConfigBean configBean, Long idParada, String dataHora, List<FuncBean> funcBeans) {
 
         for (FuncBean funcBean : funcBeans) {
-            ApontBean apontBean = new ApontBean();
-            apontBean.setIdBolApont(boletimBean.getIdBol());
-            apontBean.setIdExtBolApont(boletimBean.getIdExtBol());
-            apontBean.setOsApont(configBean.getNroOSConfig());
-            apontBean.setAtivApont(configBean.getIdAtivConfig());
-            apontBean.setParadaApont(idParada);
-            apontBean.setDthrApont(dataHora);
-            apontBean.setFuncApont(funcBean.getIdFunc());
-            apontBean.insert();
+            ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
+            apontRuricolaBean.setIdBolApont(boletimRuricolaBean.getIdBol());
+            apontRuricolaBean.setIdExtBolApont(boletimRuricolaBean.getIdExtBol());
+            apontRuricolaBean.setOsApont(configBean.getNroOSConfig());
+            apontRuricolaBean.setAtivApont(configBean.getIdAtivConfig());
+            apontRuricolaBean.setParadaApont(idParada);
+            apontRuricolaBean.setDthrApont(dataHora);
+            apontRuricolaBean.setFuncApont(funcBean.getIdFunc());
+            apontRuricolaBean.insert();
         }
 
     }
 
     public List getListApontEnvio(ArrayList<Long> idBolList){
 
-        ApontBean apontBean = new ApontBean();
+        ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
 
         ArrayList pesqArrayList = new ArrayList();
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
@@ -60,13 +59,13 @@ public class ApontDAO {
         pesquisa.setTipo(1);
         pesqArrayList.add(pesquisa);
 
-        return apontBean.inAndGet("idBolApont", idBolList, pesqArrayList);
+        return apontRuricolaBean.inAndGet("idBolApont", idBolList, pesqArrayList);
 
     }
 
     public List getListApontEnvio() {
-        ApontBean apontBean = new ApontBean();
-        return apontBean.get("statusApont", 1L);
+        ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
+        return apontRuricolaBean.get("statusApont", 1L);
     }
 
     public String dadosEnvioApont(List apontaList){
@@ -75,7 +74,7 @@ public class ApontDAO {
 
         for (int i = 0; i < apontaList.size(); i++) {
 
-            ApontBean apontMMBean = (ApontBean) apontaList.get(i);
+            ApontRuricolaBean apontMMBean = (ApontRuricolaBean) apontaList.get(i);
             Gson gson = new Gson();
             jsonArrayAponta.add(gson.toJsonTree(apontMMBean, apontMMBean.getClass()));
 

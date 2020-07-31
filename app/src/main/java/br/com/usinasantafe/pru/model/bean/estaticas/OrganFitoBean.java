@@ -16,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pru.model.pst.Entidade;
 
 @DatabaseTable(tableName="tborganismoest")
-public class OrganBean extends Entidade {
+public class OrganFitoBean extends Entidade {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -27,7 +27,7 @@ public class OrganBean extends Entidade {
 	@DatabaseField
 	private String descrOrgan;
 
-    public OrganBean() {
+    public OrganFitoBean() {
     }
 
 	public Long getIdOrgan() {

@@ -12,13 +12,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.model.bean.estaticas.CaracOrganBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.CaracOrganFitoBean;
 
 public class ListaCaracOrganActivity extends ActivityGeneric {
 
     private ListView caracOrganListView;
     private PRUContext pruContext;
-    private List<CaracOrganBean> caracOrganList;
+    private List<CaracOrganFitoBean> caracOrganList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +33,8 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        for (CaracOrganBean caracOrganBean : caracOrganList) {
-            itens.add(caracOrganBean.getDescrCaracOrgan());
+        for (CaracOrganFitoBean caracOrganFitoBean : caracOrganList) {
+            itens.add(caracOrganFitoBean.getDescrCaracOrgan());
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
@@ -61,7 +61,7 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
                         finish();
                     }
                     else{
-                        Intent it = new Intent(ListaCaracOrganActivity.this, ListaPontosActivity.class);
+                        Intent it = new Intent(ListaCaracOrganActivity.this, ListaPontosFitoActivity.class);
                         startActivity(it);
                         finish();
                     }

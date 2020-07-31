@@ -25,7 +25,6 @@ public class PRUContext extends Application {
     //11 - Inicio de Amostra Soqueira
     //12 - Inserir Amostra Soqueira
     //13 - Altera Amostra Soqueira
-
     public static String versaoAplic = "1.0";
     private RuricolaCTR ruricolaCTR;
     private FitoCTR fitoCTR;

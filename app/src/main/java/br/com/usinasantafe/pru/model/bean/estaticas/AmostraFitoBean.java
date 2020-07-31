@@ -9,7 +9,7 @@ import br.com.usinasantafe.pru.model.pst.Entidade;
  * Created by anderson on 06/06/2017.
  */
 @DatabaseTable(tableName="tbamostraest")
-public class AmostraBean extends Entidade {
+public class AmostraFitoBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,7 @@ public class AmostraBean extends Entidade {
     @DatabaseField
     private Long tipoAmostra;
 
-    public AmostraBean() {
+    public AmostraFitoBean() {
     }
 
     public Long getIdAmostra() {

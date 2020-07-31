@@ -129,4 +129,8 @@ public class ListaQuestaoPerdaActivity extends ActivityGeneric {
         });
 
     }
+
+    public void onBackPressed()  {
+    }
+
 }

@@ -23,8 +23,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.ApontBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.BoletimBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ApontRuricolaBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.util.ConexaoWeb;
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
@@ -165,7 +165,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                     finish();
                 }
                 else{
-                    Intent it = new Intent(MenuInicialActivity.this, ListaPontosActivity.class);
+                    Intent it = new Intent(MenuInicialActivity.this, ListaPontosFitoActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -209,42 +209,42 @@ public class MenuInicialActivity extends ActivityGeneric {
 
     public void exibir(){
 
-        BoletimBean boletimBean = new BoletimBean();
-        List boletimList = boletimBean.all();
+        BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+        List boletimList = boletimRuricolaBean.all();
 
         Log.i("PRU", "AKI");
 
         for (int i = 0; i < boletimList.size(); i++) {
 
-            boletimBean = (BoletimBean) boletimList.get(i);
+            boletimRuricolaBean = (BoletimRuricolaBean) boletimList.get(i);
             Log.i("PRU", "BOLETIM");
-            Log.i("PRU", "idBoletim = " + boletimBean.getIdBol());
-            Log.i("PRU", "idExtBoletim = " + boletimBean.getIdExtBol());
-            Log.i("PRU", "idLiderBoletim = " + boletimBean.getIdLiderBol());
-            Log.i("PRU", "idTurmaBoletim = " + boletimBean.getIdTurmaBol());
-            Log.i("PRU", "osBoletim = " + boletimBean.getOsBol());
-            Log.i("PRU", "ativPrincBoletim = " + boletimBean.getAtivPrincBol());
-            Log.i("PRU", "dthrInicioBoletim = " + boletimBean.getDthrInicioBol());
-            Log.i("PRU", "dthrFimBoletim = " + boletimBean.getDthrFimBol());
-            Log.i("PRU", "statusBoletim = " + boletimBean.getStatusBol());
+            Log.i("PRU", "idBoletim = " + boletimRuricolaBean.getIdBol());
+            Log.i("PRU", "idExtBoletim = " + boletimRuricolaBean.getIdExtBol());
+            Log.i("PRU", "idLiderBoletim = " + boletimRuricolaBean.getIdLiderBol());
+            Log.i("PRU", "idTurmaBoletim = " + boletimRuricolaBean.getIdTurmaBol());
+            Log.i("PRU", "osBoletim = " + boletimRuricolaBean.getOsBol());
+            Log.i("PRU", "ativPrincBoletim = " + boletimRuricolaBean.getAtivPrincBol());
+            Log.i("PRU", "dthrInicioBoletim = " + boletimRuricolaBean.getDthrInicioBol());
+            Log.i("PRU", "dthrFimBoletim = " + boletimRuricolaBean.getDthrFimBol());
+            Log.i("PRU", "statusBoletim = " + boletimRuricolaBean.getStatusBol());
 
         }
 
-        ApontBean apontBean = new ApontBean();
-        List apontaList = apontBean.all();
+        ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
+        List apontaList = apontRuricolaBean.all();
 
         for (int i = 0; i < apontaList.size(); i++) {
 
-            apontBean = (ApontBean) apontaList.get(i);
+            apontRuricolaBean = (ApontRuricolaBean) apontaList.get(i);
             Log.i("PRU", "APONTAMENTO");
-            Log.i("PRU", "idAponta = " + apontBean.getIdApont());
-            Log.i("PRU", "idBolAponta = " + apontBean.getIdBolApont());
-            Log.i("PRU", "idExtBolAponta = " + apontBean.getIdExtBolApont());
-            Log.i("PRU", "osAponta = " + apontBean.getOsApont());
-            Log.i("PRU", "atividadeAponta = " + apontBean.getAtivApont());
-            Log.i("PRU", "paradaAponta = " + apontBean.getParadaApont());
-            Log.i("PRU", "funcAponta = " + apontBean.getFuncApont());
-            Log.i("PRU", "dthrAponta = " + apontBean.getDthrApont());
+            Log.i("PRU", "idAponta = " + apontRuricolaBean.getIdApont());
+            Log.i("PRU", "idBolAponta = " + apontRuricolaBean.getIdBolApont());
+            Log.i("PRU", "idExtBolAponta = " + apontRuricolaBean.getIdExtBolApont());
+            Log.i("PRU", "osAponta = " + apontRuricolaBean.getOsApont());
+            Log.i("PRU", "atividadeAponta = " + apontRuricolaBean.getAtivApont());
+            Log.i("PRU", "paradaAponta = " + apontRuricolaBean.getParadaApont());
+            Log.i("PRU", "funcAponta = " + apontRuricolaBean.getFuncApont());
+            Log.i("PRU", "dthrAponta = " + apontRuricolaBean.getDthrApont());
 
         }
 

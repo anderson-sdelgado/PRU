@@ -16,6 +16,7 @@ public class ListaObsActivity extends ActivityGeneric {
     private ListView obsListView;
     private AdapterListChoice adapterListChoice;
     private ArrayList<ViewHolderChoice> itens;
+    private Long ponto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class ListaObsActivity extends ActivityGeneric {
         Button buttonCancListObs = (Button) findViewById(R.id.buttonCancListaObs);
 
         itens = new ArrayList<>();
+
+        ponto = (pruContext.getConfigCTR().getConfig().getPontoAmostraConfig() + 1);
 
         if (pruContext.getVerPosTela() == 10) {
 
@@ -133,7 +136,7 @@ public class ListaObsActivity extends ActivityGeneric {
                         pruContext.getPerdaCTR().getAmostraPerdaBean().setFormigueiroAmostraPerda(0L);
                     }
 
-                    pruContext.getPerdaCTR().salvarAmostraPerda();
+                    pruContext.getPerdaCTR().salvarAmostraPerda(ponto);
 
                     Intent it = new Intent(ListaObsActivity.this, ListaAmostraPerdaActivity.class);
                     startActivity(it);

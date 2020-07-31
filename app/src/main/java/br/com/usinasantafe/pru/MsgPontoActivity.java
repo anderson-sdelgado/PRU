@@ -39,7 +39,7 @@ public class MsgPontoActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                Intent it = new Intent(MsgPontoActivity.this, ListaPontosActivity.class);
+                Intent it = new Intent(MsgPontoActivity.this, ListaPontosFitoActivity.class);
                 startActivity(it);
                 finish();
 

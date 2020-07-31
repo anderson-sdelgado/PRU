@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pru.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbboletimvar")
-public class BoletimBean extends Entidade {
+public class BoletimRuricolaBean extends Entidade {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +31,7 @@ public class BoletimBean extends Entidade {
 	@DatabaseField
 	private Long tipoFuncBol;
 
-    public BoletimBean() {
+    public BoletimRuricolaBean() {
 	}
 
 	public Long getIdBol() {

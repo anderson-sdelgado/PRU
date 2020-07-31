@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.control.RuricolaCTR;
-import br.com.usinasantafe.pru.model.bean.variaveis.BoletimBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pru.util.Tempo;
 
@@ -26,7 +26,7 @@ public class BoletimDAO {
 
     public List bolAbertoSemEnvioList() {
 
-        BoletimBean boletimMMBean = new BoletimBean();
+        BoletimRuricolaBean boletimMMBean = new BoletimRuricolaBean();
         ArrayList listaPesq = new ArrayList();
 
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
@@ -45,42 +45,42 @@ public class BoletimDAO {
 
     }
 
-    public void salvarBolAberto(BoletimBean boletimBean){
-        boletimBean.setIdExtBol(0L);
-        boletimBean.setDthrInicioBol(Tempo.getInstance().data());
-        boletimBean.setStatusBol(1L);
-        boletimBean.insert();
+    public void salvarBolAberto(BoletimRuricolaBean boletimRuricolaBean){
+        boletimRuricolaBean.setIdExtBol(0L);
+        boletimRuricolaBean.setDthrInicioBol(Tempo.getInstance().data());
+        boletimRuricolaBean.setStatusBol(1L);
+        boletimRuricolaBean.insert();
     }
 
-    public BoletimBean getBolAberto(){
+    public BoletimRuricolaBean getBolAberto(){
         List boletimMMList = bolAbertoList();
-        BoletimBean boletimBean = (BoletimBean) boletimMMList.get(0);
+        BoletimRuricolaBean boletimRuricolaBean = (BoletimRuricolaBean) boletimMMList.get(0);
         boletimMMList.clear();
-        return boletimBean;
+        return boletimRuricolaBean;
     }
 
     private List bolAbertoList(){
-        BoletimBean boletimBean = new BoletimBean();
-        return boletimBean.get("statusBol", 1L);
+        BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+        return boletimRuricolaBean.get("statusBol", 1L);
     }
 
     public void salvarBolFechado() {
-        BoletimBean boletimBean = getBolAberto();
-        boletimBean.setDthrFimBol(Tempo.getInstance().data());
-        boletimBean.setStatusBol(2L);
-        boletimBean.update();
+        BoletimRuricolaBean boletimRuricolaBean = getBolAberto();
+        boletimRuricolaBean.setDthrFimBol(Tempo.getInstance().data());
+        boletimRuricolaBean.setStatusBol(2L);
+        boletimRuricolaBean.update();
     }
 
     public String dadosEnvioBolAberto(){
 
-        BoletimBean boletimBean = getBolAberto();
+        BoletimRuricolaBean boletimRuricolaBean = getBolAberto();
 
         Gson gsonCabec = new Gson();
         JsonArray jsonArrayBoletim = new JsonArray();
-        jsonArrayBoletim.add(gsonCabec.toJsonTree(boletimBean, boletimBean.getClass()));
+        jsonArrayBoletim.add(gsonCabec.toJsonTree(boletimRuricolaBean, boletimRuricolaBean.getClass()));
 
         ArrayList<Long> idBolList = new ArrayList<Long>();
-        idBolList.add(boletimBean.getIdBol());
+        idBolList.add(boletimRuricolaBean.getIdBol());
 
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
         String dadosEnvioApont = ruricolaCTR.dadosEnvioApontBolMM(idBolList);
@@ -93,8 +93,8 @@ public class BoletimDAO {
     }
 
     public List bolFechadoList() {
-        BoletimBean boletimBean = new BoletimBean();
-        return boletimBean.get("statusBol", 2L);
+        BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+        return boletimRuricolaBean.get("statusBol", 2L);
     }
 
     public String dadosEnvioBolFechado(){
@@ -107,11 +107,11 @@ public class BoletimDAO {
         ArrayList<Long> idBolList = new ArrayList<Long>();
         for (int i = 0; i < boletimList.size(); i++) {
 
-            BoletimBean boletimBean = (BoletimBean) boletimList.get(i);
+            BoletimRuricolaBean boletimRuricolaBean = (BoletimRuricolaBean) boletimList.get(i);
             Gson gsonCabec = new Gson();
-            jsonArrayBoletim.add(gsonCabec.toJsonTree(boletimBean, boletimBean.getClass()));
+            jsonArrayBoletim.add(gsonCabec.toJsonTree(boletimRuricolaBean, boletimRuricolaBean.getClass()));
 
-            idBolList.add(boletimBean.getIdBol());
+            idBolList.add(boletimRuricolaBean.getIdBol());
 
         }
 

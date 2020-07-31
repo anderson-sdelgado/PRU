@@ -2,7 +2,7 @@ package br.com.usinasantafe.pru.model.dao;
 
 import java.util.List;
 
-import br.com.usinasantafe.pru.model.bean.estaticas.OrganBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.OrganFitoBean;
 
 public class OrganDAO {
 
@@ -10,8 +10,8 @@ public class OrganDAO {
     }
 
     public List getOrganList(){
-        OrganBean organBean = new OrganBean();
-        return organBean.all();
+        OrganFitoBean organFitoBean = new OrganFitoBean();
+        return organFitoBean.all();
     }
 
 }

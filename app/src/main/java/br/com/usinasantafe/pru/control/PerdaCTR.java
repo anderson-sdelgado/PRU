@@ -5,7 +5,6 @@ import java.util.List;
 import br.com.usinasantafe.pru.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.TurnoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AmostraPerdaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
 import br.com.usinasantafe.pru.model.dao.AmostraPerdaDAO;
@@ -13,7 +12,6 @@ import br.com.usinasantafe.pru.model.dao.CabecPerdaDAO;
 import br.com.usinasantafe.pru.model.dao.EquipDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
-import br.com.usinasantafe.pru.model.dao.TurnoDAO;
 
 public class PerdaCTR {
 
@@ -38,9 +36,9 @@ public class PerdaCTR {
 
     }
 
-    public void salvarAmostraPerda(){
+    public void salvarAmostraPerda(Long seqAmostraPerda){
         AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
-        amostraPerdaDAO.salvarAmostraPerda(amostraPerdaBean);
+        amostraPerdaDAO.salvarAmostraPerda(amostraPerdaBean, seqAmostraPerda, getCabecPerdaAberto().getIdCabecPerda());
     }
 
     public void delAmostraPerda(Long seqAmostraPerda){
@@ -89,10 +87,6 @@ public class PerdaCTR {
         return osDAO.getOS(getCabecPerdaAberto().getOsCabecPerda());
     }
 
-    public TurnoBean getTurno(){
-        TurnoDAO turnoDAO = new TurnoDAO();
-        return turnoDAO.getTurno(getCabecPerdaAberto().getTurnoCabecPerda());
-    }
 
     public AmostraPerdaBean getAmostraPerdaBean() {
         return amostraPerdaBean;
@@ -113,12 +107,12 @@ public class PerdaCTR {
 
     public void setQuestaoAmostraPerda(Double valor, int posQuestao, Long seqAmostraPerda){
         AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
-        amostraPerdaDAO.setQuestaoAmostraPerda(valor, posQuestao, seqAmostraPerda);
+        amostraPerdaDAO.setQuestaoAmostraPerda(valor, posQuestao, seqAmostraPerda, getCabecPerdaAberto().getIdCabecPerda());
     }
 
     public void setQuestaoAmostraPerda(Long pedra, Long tocoArvore, Long plantaDaninha, Long formigueiro, Long seqAmostraPerda){
         AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
-        amostraPerdaDAO.setQuestaoAmostraPerda(pedra, tocoArvore, plantaDaninha, formigueiro, seqAmostraPerda);
+        amostraPerdaDAO.setQuestaoAmostraPerda(pedra, tocoArvore, plantaDaninha, formigueiro, seqAmostraPerda, getCabecPerdaAberto().getIdCabecPerda());
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////

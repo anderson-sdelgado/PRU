@@ -3,7 +3,6 @@ package br.com.usinasantafe.pru.model.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.model.bean.estaticas.ROrganCaracAmosBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AmostraPerdaBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
@@ -12,7 +11,9 @@ public class AmostraPerdaDAO {
     public AmostraPerdaDAO() {
     }
 
-    public void salvarAmostraPerda(AmostraPerdaBean amostraPerdaBean){
+    public void salvarAmostraPerda(AmostraPerdaBean amostraPerdaBean, Long seqAmostraPerda, Long idCabecPerda){
+        amostraPerdaBean.setIdCabecAmostraPerda(idCabecPerda);
+        amostraPerdaBean.setSeqAmostraPerda(seqAmostraPerda);
         amostraPerdaBean.insert();
     }
 
@@ -32,8 +33,8 @@ public class AmostraPerdaDAO {
 
     }
 
-    public void setQuestaoAmostraPerda(Double valor, int posQuestao, Long seqAmostraPerda){
-        AmostraPerdaBean amostraPerdaBean = getAmostraPerda(seqAmostraPerda);
+    public void setQuestaoAmostraPerda(Double valor, int posQuestao, Long seqAmostraPerda, Long idCabecPerda){
+        AmostraPerdaBean amostraPerdaBean = getAmostraPerda(idCabecPerda, seqAmostraPerda);
         if (posQuestao == 1) {
             amostraPerdaBean.setTaraAmostraPerda(valor);
         } else if (posQuestao == 2) {
@@ -54,8 +55,8 @@ public class AmostraPerdaDAO {
         amostraPerdaBean.update();
     }
 
-    public void setQuestaoAmostraPerda(Long pedra, Long tocoArvore, Long plantaDaninha, Long formigueiro, Long seqAmostraPerda){
-        AmostraPerdaBean amostraPerdaBean = getAmostraPerda(seqAmostraPerda);
+    public void setQuestaoAmostraPerda(Long pedra, Long tocoArvore, Long plantaDaninha, Long formigueiro, Long seqAmostraPerda, Long idCabecPerda){
+        AmostraPerdaBean amostraPerdaBean = getAmostraPerda(idCabecPerda, seqAmostraPerda);
         amostraPerdaBean.setPedraAmostraPerda(pedra);
         amostraPerdaBean.setTocoArvoreAmostraPerda(tocoArvore);
         amostraPerdaBean.setPlantaDaninhasAmostraPerda(plantaDaninha);

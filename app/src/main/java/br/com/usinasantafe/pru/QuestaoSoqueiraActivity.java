@@ -1,7 +1,6 @@
 package br.com.usinasantafe.pru;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +12,7 @@ public class QuestaoSoqueiraActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
     private TextView textViewPadrao;
+    private Long ponto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,10 @@ public class QuestaoSoqueiraActivity extends ActivityGeneric {
         Button buttonOkQuestao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancQuestao = (Button) findViewById(R.id.buttonCancPadrao);
 
+        ponto = (pruContext.getConfigCTR().getConfig().getPontoAmostraConfig() + 1);
+
         if(pruContext.getVerPosTela() == 12){
-            textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "SOQUEIRA");
+            textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "SOQUEIRA");
         }
         else{
             if(pruContext.getPosQuestao() == 1){
@@ -51,15 +53,15 @@ public class QuestaoSoqueiraActivity extends ActivityGeneric {
 
                 if(pruContext.getVerPosTela() == 12){
                     if(pruContext.getPosQuestao() == 1){
-                        pruContext.getSoqueiraCTR().setAmostraSoqueiraBean(new AmostraSoqueiraBean());
+                        pruContext.getSoqueiraCTR().setAmostraSoqueira(new AmostraSoqueiraBean());
                         pruContext.getSoqueiraCTR().getAmostraSoqueiraBean().setQtdeSoqueira(valor);
                         pruContext.setPosQuestao(2);
-                        textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "ARRANQUIO");
+                        textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "ARRANQUIO");
                         editTextPadrao.setText("");
                     }
                     else{
                         pruContext.getSoqueiraCTR().getAmostraSoqueiraBean().setQtdeArranquio(valor);
-                        pruContext.getSoqueiraCTR().salvarAmostraSoqueira();
+                        pruContext.getSoqueiraCTR().salvarAmostraSoqueira(ponto);
                         Intent it = new Intent(QuestaoSoqueiraActivity.this, ListaAmostraSoqueiraActivity.class);
                         startActivity(it);
                         finish();
@@ -96,12 +98,14 @@ public class QuestaoSoqueiraActivity extends ActivityGeneric {
             }
             else{
                 pruContext.setPosQuestao(1);
-                textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "SOQUEIRA");
+                textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "SOQUEIRA");
                 editTextPadrao.setText("");
             }
         }
         else {
-
+            Intent it = new Intent(QuestaoSoqueiraActivity.this, ListaQuestaoSoqueiraActivity.class);
+            startActivity(it);
+            finish();
         }
     }
 

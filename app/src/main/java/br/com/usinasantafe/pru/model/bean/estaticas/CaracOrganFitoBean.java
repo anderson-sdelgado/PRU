@@ -9,7 +9,7 @@ import br.com.usinasantafe.pru.model.pst.Entidade;
  * Created by anderson on 29/06/2017.
  */
 @DatabaseTable(tableName="tbcaracorgest")
-public class CaracOrganBean extends Entidade {
+public class CaracOrganFitoBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,7 +20,7 @@ public class CaracOrganBean extends Entidade {
     @DatabaseField
     private String descrCaracOrgan;
 
-    public CaracOrganBean() {
+    public CaracOrganFitoBean() {
     }
 
     public Long getIdCaracOrgan() {

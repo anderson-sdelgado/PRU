@@ -30,13 +30,12 @@
             android:name=".ui.login.QuestaoPerdaActivity"
             android:label="@string/title_activity_questao_perda" />
         <activity android:name=".ListaObsActivity" />
-        <activity android:name=".ListaTurnoActivity" />
         <activity android:name=".EquipActivity" />
         <activity android:name=".ListaAmostraPerdaActivity" />
         <activity android:name=".QuestaoFitoActivity" />
         <activity android:name=".MsgPontoActivity" />
         <activity android:name=".ListaQuestaoFitoActivity" />
-        <activity android:name=".ListaPontosActivity" />
+        <activity android:name=".ListaPontosFitoActivity" />
         <activity android:name=".ListaCaracOrganActivity" />
         <activity android:name=".ListaOrganActivity" />
         <activity android:name=".TalhaoActivity" />

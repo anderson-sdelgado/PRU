@@ -6,15 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import br.com.usinasantafe.pru.model.bean.estaticas.AmostraBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.AmostraFitoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 
 public class QuestaoFitoActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
-    private AmostraBean amostraBean;
+    private AmostraFitoBean amostraFitoBean;
     private TextView textViewPadrao;
     private int posQuestao = 1;
+    private Long ponto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +29,14 @@ public class QuestaoFitoActivity extends ActivityGeneric {
         Button buttonCancQuestao = (Button) findViewById(R.id.buttonCancPadrao);
 
         if(pruContext.getVerPosTela() == 5){
-            amostraBean = pruContext.getFitoCTR().getAmostraCabec(posQuestao);
-            textViewPadrao.setText("CABECALHO\n" + amostraBean.getDescrAmostra());
+            amostraFitoBean = pruContext.getFitoCTR().getAmostraCabec(posQuestao);
+            ponto = 0L;
+            textViewPadrao.setText("CABECALHO\n" + amostraFitoBean.getDescrAmostra());
         }
         else if(pruContext.getVerPosTela() == 6){
-            amostraBean = pruContext.getFitoCTR().getAmostraResp(posQuestao);
-            textViewPadrao.setText("PONTO " + pruContext.getPosPontoAmostra() + "\n" + amostraBean.getDescrAmostra());
+            amostraFitoBean = pruContext.getFitoCTR().getAmostraResp(posQuestao);
+            ponto = (pruContext.getConfigCTR().getConfig().getPontoAmostraConfig() + 1);
+            textViewPadrao.setText("PONTO " + ponto + "\n" + amostraFitoBean.getDescrAmostra());
         }
         else if(pruContext.getVerPosTela() == 7){
             RespFitoBean respFitoBean = pruContext.getFitoCTR().getRespFitoBean();
@@ -50,32 +53,32 @@ public class QuestaoFitoActivity extends ActivityGeneric {
                     posQuestao++;
                     if(pruContext.getVerPosTela() == 5){
 
-                        pruContext.getFitoCTR().salvarRespFito(amostraBean, Long.parseLong(editTextPadrao.getText().toString()), pruContext.getPosPontoAmostra());
+                        pruContext.getFitoCTR().salvarRespFito(amostraFitoBean, Long.parseLong(editTextPadrao.getText().toString()), ponto);
 
                         if(pruContext.getFitoCTR().verTermQuestaoCabec(posQuestao)){
-                            pruContext.getFitoCTR().fecharRespFitoPonto(pruContext.getPosPontoAmostra());
-                            Intent it = new Intent(QuestaoFitoActivity.this, ListaPontosActivity.class);
+                            pruContext.getFitoCTR().fecharRespFitoPonto(ponto);
+                            Intent it = new Intent(QuestaoFitoActivity.this, ListaPontosFitoActivity.class);
                             startActivity(it);
                             finish();
                         }
                         else{
-                            amostraBean = pruContext.getFitoCTR().getAmostraCabec(posQuestao);
-                            textViewPadrao.setText("CABECALHO\n" + amostraBean.getDescrAmostra());
+                            amostraFitoBean = pruContext.getFitoCTR().getAmostraCabec(posQuestao);
+                            textViewPadrao.setText("CABECALHO\n" + amostraFitoBean.getDescrAmostra());
                         }
                     }
                     else if(pruContext.getVerPosTela() == 6){
 
-                        pruContext.getFitoCTR().salvarRespFito(amostraBean, Long.parseLong(editTextPadrao.getText().toString()), pruContext.getPosPontoAmostra());
+                        pruContext.getFitoCTR().salvarRespFito(amostraFitoBean, Long.parseLong(editTextPadrao.getText().toString()), ponto);
 
                         if(pruContext.getFitoCTR().verTermQuestao(posQuestao)){
-                            pruContext.getFitoCTR().fecharRespFitoPonto(pruContext.getPosPontoAmostra());
-                            Intent it = new Intent(QuestaoFitoActivity.this, ListaPontosActivity.class);
+                            pruContext.getFitoCTR().fecharRespFitoPonto(ponto);
+                            Intent it = new Intent(QuestaoFitoActivity.this, ListaPontosFitoActivity.class);
                             startActivity(it);
                             finish();
                         }
                         else{
-                            amostraBean = pruContext.getFitoCTR().getAmostraResp(posQuestao);
-                            textViewPadrao.setText("PONTO " + pruContext.getPosPontoAmostra() + "\n" + amostraBean.getDescrAmostra());
+                            amostraFitoBean = pruContext.getFitoCTR().getAmostraResp(posQuestao);
+                            textViewPadrao.setText("PONTO " + ponto + "\n" + amostraFitoBean.getDescrAmostra());
                         }
 
                     }
@@ -107,20 +110,20 @@ public class QuestaoFitoActivity extends ActivityGeneric {
         if(pruContext.getVerPosTela() == 5){
             if(posQuestao > 1){
                 posQuestao--;
-                amostraBean = pruContext.getFitoCTR().getAmostraCabec(posQuestao);
-                textViewPadrao.setText("CABECALHO\n" + amostraBean.getDescrAmostra());
+                amostraFitoBean = pruContext.getFitoCTR().getAmostraCabec(posQuestao);
+                textViewPadrao.setText("CABECALHO\n" + amostraFitoBean.getDescrAmostra());
             }
         }
         else if(pruContext.getVerPosTela() == 6){
             if(posQuestao == 1){
-                Intent it = new Intent(QuestaoFitoActivity.this, ListaPontosActivity.class);
+                Intent it = new Intent(QuestaoFitoActivity.this, ListaPontosFitoActivity.class);
                 startActivity(it);
                 finish();
             }
             else{
                 posQuestao--;
-                amostraBean = pruContext.getFitoCTR().getAmostraResp(posQuestao);
-                textViewPadrao.setText("PONTO " + pruContext.getPosPontoAmostra() + "\n" + amostraBean.getDescrAmostra());
+                amostraFitoBean = pruContext.getFitoCTR().getAmostraResp(posQuestao);
+                textViewPadrao.setText("PONTO " + ponto + "\n" + amostraFitoBean.getDescrAmostra());
             }
         }
         else if(pruContext.getVerPosTela() == 7){
