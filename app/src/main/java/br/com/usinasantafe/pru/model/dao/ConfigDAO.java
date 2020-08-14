@@ -23,11 +23,9 @@ public class ConfigDAO {
         return configBean;
     }
 
-    public void salvarConfig(String senha){
-        ConfigBean configBean = new ConfigBean();
+    public void salvarConfig(ConfigBean configBean){
         configBean.deleteAll();
         configBean.setDtUltApontConfig("");
-        configBean.setSenhaConfig(senha);
         configBean.insert();
         configBean.commit();
     }

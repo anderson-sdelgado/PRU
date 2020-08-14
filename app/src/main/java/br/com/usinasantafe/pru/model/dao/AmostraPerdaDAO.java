@@ -1,9 +1,14 @@
 package br.com.usinasantafe.pru.model.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.variaveis.AmostraPerdaBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
 public class AmostraPerdaDAO {
@@ -79,6 +84,20 @@ public class AmostraPerdaDAO {
 
     }
 
+    public void delAmostraPerda(Long idCabecPerda){
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdCabecPerda(idCabecPerda));
+        AmostraPerdaBean amostraPerdaBean = new AmostraPerdaBean();
+        List<AmostraPerdaBean> amostraPerdaBeanList = amostraPerdaBean.get(pesqArrayList);
+        pesqArrayList.clear();
+
+        amostraPerdaBean = (AmostraPerdaBean) amostraPerdaBeanList.get(0);
+        amostraPerdaBean.delete();
+        amostraPerdaBeanList.clear();
+
+    }
+
     public boolean verAmostraPerda(Long idCabecPerda){
         List<AmostraPerdaBean> amostraList = amostraPerdaList(idCabecPerda);
         boolean ret = amostraList.size() > 0;
@@ -121,5 +140,30 @@ public class AmostraPerdaDAO {
         return pesquisa;
     }
 
+    public List getListAmostraEnvio(ArrayList<Long> idCabecList){
+        AmostraPerdaBean amostraPerdaBean = new AmostraPerdaBean();
+        return amostraPerdaBean.in("idCabecAmostraPerda", idCabecList);
+    }
+
+    public String dadosEnvioAmostra(List amostraList){
+
+        JsonArray jsonArrayAmostra = new JsonArray();
+
+        for (int i = 0; i < amostraList.size(); i++) {
+
+            AmostraPerdaBean amostraPerdaBean = (AmostraPerdaBean) amostraList.get(i);
+            Gson gson = new Gson();
+            jsonArrayAmostra.add(gson.toJsonTree(amostraPerdaBean, amostraPerdaBean.getClass()));
+
+        }
+
+        amostraList.clear();
+
+        JsonObject jsonAmostra = new JsonObject();
+        jsonAmostra.add("amostra", jsonArrayAmostra);
+
+        return jsonAmostra.toString();
+
+    }
 
 }

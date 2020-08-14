@@ -16,10 +16,10 @@ public class ConexaoWeb {
 	            && cm.getActiveNetworkInfo().isAvailable()  
 	            && cm.getActiveNetworkInfo().isConnected()) {  
 	        conectado = true;
-	        Log.i("ECM", "CONECTA");
+	        Log.i("PRU", "CONECTA");
 	    } else {  
 	        conectado = false;  
-	        Log.i("ECM", "NAO CONECTA");
+	        Log.i("PRU", "NAO CONECTA");
 	    }  
 	    return conectado;  
 	} 

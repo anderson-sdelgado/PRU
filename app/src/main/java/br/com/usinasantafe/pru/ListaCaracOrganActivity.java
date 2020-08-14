@@ -4,15 +4,20 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.CaracOrganFitoBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.ROCAFitoBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 
 public class ListaCaracOrganActivity extends ActivityGeneric {
 
@@ -48,14 +53,14 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
                                     long id) {
 
                 pruContext.getFitoCTR().getCabecFitoBean().setIdCaracOrgCabecFito(caracOrganList.get(position).getIdCaracOrgan());
-                pruContext.getFitoCTR().salvarCabecFitoAberto();
-
                 if(pruContext.getFitoCTR().verAmostra()){
+
+                    pruContext.getFitoCTR().salvarCabecFitoAberto();
+                    pruContext.getConfigCTR().setPontoAmostraConfig(0L);
 
                     if(pruContext.getFitoCTR().hasTipoAmostraCabec()){
                         pruContext.setVerPosTela(5);
                         pruContext.setPosQuestao(1);
-                        pruContext.setPosPontoAmostra(0L);
                         Intent it = new Intent(ListaCaracOrganActivity.this, QuestaoFitoActivity.class);
                         startActivity(it);
                         finish();

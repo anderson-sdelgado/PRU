@@ -30,10 +30,10 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
         TextView textViewAuditor = (TextView) findViewById(R.id.textViewAuditor);
         TextView textViewSecao = (TextView) findViewById(R.id.textViewSecao);
         TextView textViewFrente = (TextView) findViewById(R.id.textViewFrente);
-        TextView textViewTurno = (TextView) findViewById(R.id.textViewTurno);
         Button buttonInserirAmostra = (Button) findViewById(R.id.buttonInserirAmostra);
         Button buttonExcluirAnalise = (Button) findViewById(R.id.buttonExcluirAnalise);
-        Button buttonFinalizarAnalise = (Button)  findViewById(R.id.buttonFinalizarAnalise);
+        Button buttonFecharAnalise = (Button)  findViewById(R.id.buttonFecharAnalise);
+        Button buttonParadaSoqueira = (Button)  findViewById(R.id.buttonParadaSoqueira);
 
         pruContext = (PRUContext) getApplication();
 
@@ -46,9 +46,6 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
         OSBean osBean = pruContext.getSoqueiraCTR().getOS();
         textViewSecao.setText("SECAO: " + osBean.getCodSecao() + " - " + osBean.getCodSecao());
         textViewFrente.setText(osBean.getDescrFrente());
-
-        TurnoBean turnoBean = pruContext.getSoqueiraCTR().getTurno();
-        textViewTurno.setText("TURNO: " + turnoBean.getCodTurno() + " - " + turnoBean.getDescTurno());
 
         ArrayList<String> itens = new ArrayList<String>();
         for (int i = 0; i < pruContext.getConfigCTR().getConfig().getPontoAmostraConfig(); i++) {
@@ -66,7 +63,7 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                pruContext.setPosPontoAmostra(Long.valueOf(position));
+                pruContext.setPosPontoAmostra(Long.valueOf(position) + 1);
                 Intent it = new Intent(ListaAmostraSoqueiraActivity.this,  ListaQuestaoSoqueiraActivity.class);
                 startActivity(it);
                 finish();
@@ -99,7 +96,7 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        pruContext.getFitoCTR().delFito();
+                        pruContext.getSoqueiraCTR().delSoqueira();
 
                         Intent it = new Intent(ListaAmostraSoqueiraActivity.this, MenuMotoMecActivity.class);
                         startActivity(it);
@@ -121,7 +118,7 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
             }
         });
 
-        buttonFinalizarAnalise.setOnClickListener(new View.OnClickListener() {
+        buttonFecharAnalise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -149,6 +146,18 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
                     finish();
 
                 }
+
+            }
+        });
+
+        buttonParadaSoqueira.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                pruContext.setVerPosTela(16);
+                Intent it = new Intent(ListaAmostraSoqueiraActivity.this, OSActivity.class);
+                startActivity(it);
+                finish();
 
             }
         });

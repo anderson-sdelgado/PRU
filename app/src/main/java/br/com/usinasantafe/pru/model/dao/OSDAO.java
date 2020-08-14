@@ -34,7 +34,7 @@ public class OSDAO {
             if (!result.contains("exceeded")) {
 
                 int posicao = result.indexOf("#") + 1;
-                String objPrinc = result.substring(0, result.indexOf("#"));
+                String objPrinc = result.substring(0, (posicao - 1));
                 String objSeg = result.substring(posicao);
 
                 JSONObject jObj = new JSONObject(objPrinc);
@@ -42,14 +42,12 @@ public class OSDAO {
 
                 if (jsonArray.length() > 0) {
 
-                    OSBean osTO = new OSBean();
-
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject objeto = jsonArray.getJSONObject(i);
                         Gson gson = new Gson();
-                        osTO = gson.fromJson(objeto.toString(), OSBean.class);
-                        osTO.insert();
+                        OSBean osBean = gson.fromJson(objeto.toString(), OSBean.class);
+                        osBean.insert();
 
                     }
 
@@ -106,6 +104,11 @@ public class OSDAO {
         OSBean osBean = new OSBean();
         List osList = osBean.get("nroOS", nroOS);
         return osList;
+    }
+
+    public void deleteAll(){
+        OSBean osBean = new OSBean();
+        osBean.deleteAll();
     }
 
 }

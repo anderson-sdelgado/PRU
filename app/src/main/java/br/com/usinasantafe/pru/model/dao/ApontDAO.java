@@ -63,11 +63,6 @@ public class ApontDAO {
 
     }
 
-    public List getListApontEnvio() {
-        ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
-        return apontRuricolaBean.get("statusApont", 1L);
-    }
-
     public String dadosEnvioApont(List apontaList){
 
         JsonArray jsonArrayAponta = new JsonArray();

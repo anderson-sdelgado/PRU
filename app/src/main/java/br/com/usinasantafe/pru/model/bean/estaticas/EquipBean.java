@@ -3,8 +3,10 @@ package br.com.usinasantafe.pru.model.bean.estaticas;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import br.com.usinasantafe.pru.model.pst.Entidade;
+
 @DatabaseTable(tableName="tbequipest")
-public class EquipBean {
+public class EquipBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 

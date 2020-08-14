@@ -39,52 +39,52 @@ public class Tempo {
 
     public void manipDataHora(String data){
 
-        try{
-
-            JSONObject jObj = new JSONObject(data.trim());
-            JSONArray jsonArray = jObj.getJSONArray("dados");
-
-            JSONObject objeto = jsonArray.getJSONObject(0);
-            Gson gson = new Gson();
-            br.com.usinasantafe.pru.to.tb.estaticas.DataHoraBean dataHoraBean = gson.fromJson(objeto.toString(), br.com.usinasantafe.pru.to.tb.estaticas.DataHoraBean.class);
-
-            StringBuffer dtServ = new StringBuffer(dataHoraBean.getData());
-
-            Log.i("PMM", "DATA HORA SERV: " + dtServ);
-
-            dtServ.delete(10, 11);
-            dtServ.insert(10, " ");
-
-            String dtStr = String.valueOf(dtServ);
-
-            String diaStr = dtStr.substring(0, 2);
-            String mesStr = dtStr.substring(3, 5);
-            String anoStr = dtStr.substring(6, 10);
-            String horaStr= dtStr.substring(11, 13);
-            String minutoStr= dtStr.substring(14, 16);
-
-            Log.i("PMM", "Dia: "+ diaStr);
-            Log.i("PMM", "Mes: "+ mesStr);
-            Log.i("PMM", "Ano: "+ anoStr);
-            Log.i("PMM", "Hora: "+ horaStr);
-            Log.i("PMM", "Minuto: "+ minutoStr);
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(diaStr));
-            cal.set(Calendar.MONTH, Integer.parseInt(mesStr) - 1);
-            cal.set(Calendar.YEAR, Integer.parseInt(anoStr));
-            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(horaStr));
-            cal.set(Calendar.MINUTE, Integer.parseInt(minutoStr));
-
-            Date dataServ = cal.getTime();
-            datahora = dataServ;
-
-            dataHoraBean.insert();
-
-        }
-        catch (Exception e) {
-            Log.i("PMM", "Erro Manip = " + e);
-        }
+//        try{
+//
+//            JSONObject jObj = new JSONObject(data.trim());
+//            JSONArray jsonArray = jObj.getJSONArray("dados");
+//
+//            JSONObject objeto = jsonArray.getJSONObject(0);
+//            Gson gson = new Gson();
+//
+//            br.com.usinasantafe.pru.to.tb.estaticas.DataHoraBean dataHoraBean = gson.fromJson(objeto.toString(), br.com.usinasantafe.pru.to.tb.estaticas.DataHoraBean.class);
+//            StringBuffer dtServ = new StringBuffer(dataHoraBean.getData());
+//
+//            Log.i("PMM", "DATA HORA SERV: " + dtServ);
+//
+//            dtServ.delete(10, 11);
+//            dtServ.insert(10, " ");
+//
+//            String dtStr = String.valueOf(dtServ);
+//
+//            String diaStr = dtStr.substring(0, 2);
+//            String mesStr = dtStr.substring(3, 5);
+//            String anoStr = dtStr.substring(6, 10);
+//            String horaStr= dtStr.substring(11, 13);
+//            String minutoStr= dtStr.substring(14, 16);
+//
+//            Log.i("PMM", "Dia: "+ diaStr);
+//            Log.i("PMM", "Mes: "+ mesStr);
+//            Log.i("PMM", "Ano: "+ anoStr);
+//            Log.i("PMM", "Hora: "+ horaStr);
+//            Log.i("PMM", "Minuto: "+ minutoStr);
+//
+//            Calendar cal = Calendar.getInstance();
+//            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(diaStr));
+//            cal.set(Calendar.MONTH, Integer.parseInt(mesStr) - 1);
+//            cal.set(Calendar.YEAR, Integer.parseInt(anoStr));
+//            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(horaStr));
+//            cal.set(Calendar.MINUTE, Integer.parseInt(minutoStr));
+//
+//            Date dataServ = cal.getTime();
+//            datahora = dataServ;
+//
+//            dataHoraBean.insert();
+//
+//        }
+//        catch (Exception e) {
+//            Log.i("PMM", "Erro Manip = " + e);
+//        }
 
     }
 

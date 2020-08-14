@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pru.control;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.EquipBean;
@@ -37,13 +38,31 @@ public class PerdaCTR {
     }
 
     public void salvarAmostraPerda(Long seqAmostraPerda){
+
         AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
         amostraPerdaDAO.salvarAmostraPerda(amostraPerdaBean, seqAmostraPerda, getCabecPerdaAberto().getIdCabecPerda());
+
+        ConfigCTR configCTR = new ConfigCTR();
+        configCTR.setPontoAmostraConfig(seqAmostraPerda);
+
     }
 
     public void delAmostraPerda(Long seqAmostraPerda){
         AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
         amostraPerdaDAO.delAmostraPerda(getCabecPerdaAberto().getIdCabecPerda(), seqAmostraPerda);
+    }
+
+    public void delPerda(){
+        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
+        AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
+        Long idCabec = cabecPerdaDAO.getCabecPerdaAberto().getIdCabecPerda();
+        amostraPerdaDAO.delAmostraPerda(idCabec);
+        cabecPerdaDAO.delCabecPerda(idCabec);
+    }
+
+    public void fecharCabecPerda(){
+        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
+        cabecPerdaDAO.fecharCabecPerda();
     }
 
     ////////////////////////////////// VERIFICAR CAMPOS ///////////////////////////////////////////
@@ -53,9 +72,9 @@ public class PerdaCTR {
         return equipDAO.verEquip(codEquip);
     }
 
-    public boolean hasCabecPerdaAberto(){
+    public boolean verCabecAberto(){
         CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
-        return cabecPerdaDAO.hasCabecPerdaAberto();
+        return cabecPerdaDAO.verCabecPerdaAberto();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +83,7 @@ public class PerdaCTR {
 
     public List<CabecPerdaBean> getCabecPerdaAbertoList(){
         CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
-        return cabecPerdaDAO.getCabecPerdaAbertoList();
+        return cabecPerdaDAO.cabecPerdaAbertoList();
     }
 
     public CabecPerdaBean getCabecPerdaAberto(){
@@ -105,7 +124,7 @@ public class PerdaCTR {
         this.amostraPerdaBean = amostraPerdaBean;
     }
 
-    public void setQuestaoAmostraPerda(Double valor, int posQuestao, Long seqAmostraPerda){
+    public void salvarAmostraPerda(Double valor, int posQuestao, Long seqAmostraPerda){
         AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
         amostraPerdaDAO.setQuestaoAmostraPerda(valor, posQuestao, seqAmostraPerda, getCabecPerdaAberto().getIdCabecPerda());
     }
@@ -116,5 +135,33 @@ public class PerdaCTR {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////// VERIFICAÇÃO PRA ENVIO //////////////////////////////////
+
+    public boolean verCabecFechado() {
+        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
+        return cabecPerdaDAO.verCabecPerdaFechado();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////// DADOS PRA ENVIO //////////////////////////////////////
+
+    public String dadosEnvioCabecFechado(){
+        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
+        return cabecPerdaDAO.dadosEnvioCabecFechado();
+    }
+
+    public ArrayList<Long> idCabecList(){
+        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
+        return cabecPerdaDAO.idCabecList();
+    }
+
+    public String dadosEnvioAmostra(ArrayList<Long> idCabecList){
+        AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
+        return amostraPerdaDAO.dadosEnvioAmostra(amostraPerdaDAO.getListAmostraEnvio(idCabecList));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
 }

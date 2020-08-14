@@ -20,7 +20,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
     private ListView ativListView;
     private PRUContext pruContext;
     private ProgressDialog progressBar;
-    private Long nroOS = 0L;
     private ArrayList ativArrayList;
 
     @Override
@@ -45,7 +44,7 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                     progressBar.setCancelable(true);
                     progressBar.setMessage("Atualizando Atividades...");
                     progressBar.show();
-                    VerifDadosServ.getInstance().verDados(String.valueOf(nroOS), "OS"
+                    VerifDadosServ.getInstance().verDados(String.valueOf(pruContext.getConfigCTR().getConfig().getNroOSConfig()), "OS"
                             , ListaAtividadeActivity.this, ListaAtividadeActivity.class, progressBar);
                 }
 
@@ -60,7 +59,7 @@ public class ListaAtividadeActivity extends ActivityGeneric {
             }
         });
 
-        ativArrayList = pruContext.getRuricolaCTR().getAtivArrayList(nroOS);
+        ativArrayList = pruContext.getRuricolaCTR().getAtivArrayList(pruContext.getConfigCTR().getConfig().getNroOSConfig());
 
         ArrayList<String> itens = new ArrayList<String>();
         for (int i = 0; i < ativArrayList.size(); i++) {

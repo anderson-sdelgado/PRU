@@ -6,7 +6,7 @@ import java.util.Map;
 import android.content.Context;
 import android.util.Log;
 
-import br.com.usinasantafe.pru.control.RuricolaCTR;
+import br.com.usinasantafe.pru.control.ConfigCTR;
 import br.com.usinasantafe.pru.util.connHttp.PostCadGenerico;
 import br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp;
 
@@ -29,16 +29,16 @@ public class EnvioDadosServ {
         return instance;
     }
 
-    public void enviarBolFechados() {
+    public void enviarDadosRuricola() {
 
-        RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        String dados = ruricolaCTR.dadosEnvioBolFechado();
+        ConfigCTR configCTR = new ConfigCTR();
+        String dados = configCTR.dadosEnvioRuricola();
 
-        Log.i("PMM", "FECHADO = " + dados);
+        Log.i("PMM", "BOLETIM RURICOLA = " + dados);
 
         UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
 
-        String[] url = {urlsConexaoHttp.getsInsertBolFechado()};
+        String[] url = {urlsConexaoHttp.getsInserirRuricola()};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", dados);
 
@@ -48,16 +48,16 @@ public class EnvioDadosServ {
 
     }
 
-    public void enviarBolAberto() {
+    public void enviarDadosFito() {
 
-        RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        String dados = ruricolaCTR.dadosEnvioBolAberto();
+        ConfigCTR configCTR = new ConfigCTR();
+        String dados = configCTR.dadosEnvioFito();
 
-        Log.i("PMM", "ABERTO = " + dados);
+        Log.i("PMM", "BOLETIM FITO = " + dados);
 
         UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
 
-        String[] url = {urlsConexaoHttp.getsInsertBolAberto()};
+        String[] url = {urlsConexaoHttp.getsInserirFito()};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", dados);
 
@@ -67,36 +67,47 @@ public class EnvioDadosServ {
 
     }
 
-    public void envioApont() {
+    public void enviarDadosPerda() {
 
-        RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        String dados = ruricolaCTR.dadosEnvioApont();
+        ConfigCTR configCTR = new ConfigCTR();
+        String dados = configCTR.dadosEnvioPerda();
 
-        Log.i("PMM", "APONTAMENTO = " + dados);
+        Log.i("PMM", "BOLETIM PERDA = " + dados);
 
-        String[] url = {urlsConexaoHttp.getsInsertAponta()};
+        UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
+
+        String[] url = {urlsConexaoHttp.getsInserirPerda()};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", dados);
 
-        PostCadGenerico postCadGenerico = new PostCadGenerico();
-        postCadGenerico.setParametrosPost(parametrosPost);
-        postCadGenerico.execute(url);
+        PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
+        conHttpPostGenerico.setParametrosPost(parametrosPost);
+        conHttpPostGenerico.execute(url);
 
     }
 
-    public Boolean verifBolFechado() {
-        RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        return ruricolaCTR.verEnvioBolFech();
+    public void enviarDadosSoqueira() {
+
+        ConfigCTR configCTR = new ConfigCTR();
+        String dados = configCTR.dadosEnvioSoqueira();
+
+        Log.i("PMM", "BOLETIM SOQUEIRA = " + dados);
+
+        UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
+
+        String[] url = {urlsConexaoHttp.getsInserirSoqueira()};
+        Map<String, Object> parametrosPost = new HashMap<String, Object>();
+        parametrosPost.put("dado", dados);
+
+        PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
+        conHttpPostGenerico.setParametrosPost(parametrosPost);
+        conHttpPostGenerico.execute(url);
+
     }
 
-    public Boolean verifBolAbertoSemEnvio() {
-        RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        return ruricolaCTR.verEnvioBolAberto();
-    }
-
-    public Boolean verifApont() {
-        RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        return ruricolaCTR.verEnvioDadosApont();
+    public boolean verifDados() {
+        ConfigCTR configCTR = new ConfigCTR();
+        return configCTR.verifDadosRuricola();
     }
 
     public void envioDados(Context context) {
@@ -111,43 +122,61 @@ public class EnvioDadosServ {
     }
 
     public void envioDadosPrinc() {
-        if (verifBolFechado()) {
-            enviarBolFechados();
-        } else {
-            if (verifBolAbertoSemEnvio()) {
-                enviarBolAberto();
-            } else {
-                if (verifApont()) {
-                    envioApont();
-                }
-            }
-        }
-    }
-
-
-    public boolean verifDadosEnvio() {
-        if ((!verifBolFechado())
-                && (!verifBolAbertoSemEnvio())
-                && (!verifApont())){
-            enviando = false;
-            return false;
-        } else {
-            return true;
+        if (verifDados()) {
+            enviarDadosRuricola();
         }
     }
 
     public int getStatusEnvio() {
-        if (enviando) {
+        if (verifDados()) {
             statusEnvio = 1;
         } else {
-            if (!verifDadosEnvio()) {
-                statusEnvio = 3;
-            } else {
-                statusEnvio = 2;
-            }
+            statusEnvio = 2;
         }
         return statusEnvio;
     }
+
+    ////////////////////////////////////MECANISMO RECEBIMENTO/////////////////////////////////////////
+
+    public void recDados(String result){
+        ConfigCTR configCTR = new ConfigCTR();
+        if(result.trim().startsWith("GRAVOU-RURICOLA")){
+            if(configCTR.verifDadosFito()){
+                enviarDadosFito();
+            }
+            else if(configCTR.verifDadosPerda()){
+                enviarDadosPerda();
+            }
+            else if(configCTR.verifDadosSoqueira()){
+                enviarDadosSoqueira();
+            }
+            else{
+                configCTR.delAllDados();
+            }
+        } else if (result.trim().startsWith("GRAVOU-FITO")) {
+            if(configCTR.verifDadosPerda()){
+                enviarDadosPerda();
+            }
+            else if(configCTR.verifDadosSoqueira()){
+                enviarDadosSoqueira();
+            }
+            else{
+                configCTR.delAllDados();
+            }
+        } else if (result.trim().contains("GRAVOU-PERDA")) {
+            if(configCTR.verifDadosSoqueira()){
+                enviarDadosSoqueira();
+            }
+            else{
+                configCTR.delAllDados();
+            }
+        } else if (result.trim().contains("GRAVOU-SOQUEIRA")) {
+            configCTR.delAllDados();
+        }
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public void setEnviando(boolean enviando) {
         this.enviando = enviando;

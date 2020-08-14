@@ -11,7 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ListaAmostraSoqueiraActivity">
 
-
     <TextView
         android:id="@+id/textViewColhedora"
         style="@style/TextViewMenuNegrito"
@@ -31,12 +30,6 @@
         android:id="@+id/textViewFrente"
         style="@style/TextViewMenuNegrito"
         android:text="@string/texto_frente" />
-
-    <TextView
-        android:id="@+id/textViewTurno"
-        style="@style/TextViewMenuNegrito"
-        android:paddingBottom="5dp"
-        android:text="@string/texto_turno" />
 
     <ListView
         android:id="@+id/listViewAmostra"
@@ -73,5 +66,12 @@
             android:text="@string/texto_padrao_finalizar" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonParadaSoqueira"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_parada" />
 
 </LinearLayout>

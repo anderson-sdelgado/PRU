@@ -50,42 +50,33 @@ public class AtualDadosServ {
 
 		if(!result.equals("")){
 
-			if(tipo.equals("datahorahttp")){
-				Log.i("PMM", "TIPO -> " + tipo);
-				Log.i("PMM", "RESULT -> " + result);
-				Tempo.getInstance().manipDataHora(result);
+			try{
+
+				Log.i("PRU", "TIPO -> " + tipo);
+				Log.i("PRU", "RESULT -> " + result);
+
+				JSONObject jObj = new JSONObject(result);
+				JSONArray jsonArray = jObj.getJSONArray("dados");
+				Class classe = Class.forName(manipLocalClasse(tipo));
+				genericRecordable.deleteAll(classe);
+
+				for(int i = 0; i < jsonArray.length(); i++){
+
+					JSONObject objeto = jsonArray.getJSONObject(i);
+					Gson gson = new Gson();
+					genericRecordable.insert(gson.fromJson(objeto.toString(), classe), classe);
+
+				}
+
+				Log.i("PRU", " SALVOU DADOS ");
+
+				if(contAtualBD > 0){
+					atualizandoBD();
+				}
+
 			}
-			else{
-
-				try{
-
-					Log.i("PMM", "TIPO -> " + tipo);
-					Log.i("PMM", "RESULT -> " + result);
-
-					JSONObject jObj = new JSONObject(result);
-					JSONArray jsonArray = jObj.getJSONArray("dados");
-					Class classe = Class.forName(manipLocalClasse(tipo));
-					genericRecordable.deleteAll(classe);
-
-					for(int i = 0; i < jsonArray.length(); i++){
-
-						JSONObject objeto = jsonArray.getJSONObject(i);
-						Gson gson = new Gson();
-						genericRecordable.insert(gson.fromJson(objeto.toString(), classe), classe);
-
-					}
-
-					Log.i("PMM", " SALVOU DADOS ");
-
-					if(contAtualBD > 0){
-						atualizandoBD();
-					}
-
-				}
-				catch (Exception e) {
-				Log.i("PMM", "Erro Manip = " + e);
-				}
-
+			catch (Exception e) {
+			Log.i("PRU", "Erro Manip = " + e);
 			}
 
 		}
@@ -107,8 +98,8 @@ public class AtualDadosServ {
 
 	        for (Field field : retClasse.getDeclaredFields()) {
 	            String campo = field.getName();
-	            Log.i("PMM", "Campo = " + campo);
-	            if(campo.contains("TO")){
+	            Log.i("PRU", "Campo = " + campo);
+	            if(campo.contains("Bean")){
 	            	tabAtualArrayList.add(campo);
 	            }
 	            
@@ -139,8 +130,8 @@ public class AtualDadosServ {
 
 			for (Field field : retClasse.getDeclaredFields()) {
 				String campo = field.getName();
-				Log.i("PMM", "Campo = " + campo);
-				if (campo.contains("TO")) {
+				Log.i("PRU", "Campo = " + campo);
+				if (campo.contains("Bean")) {
 					tabAtualArrayList.add(campo);
 				}
 
@@ -156,7 +147,7 @@ public class AtualDadosServ {
 			getBDGenerico.execute(url);
 
 		} catch (Exception e) {
-			Log.i("PMM", "Erro Manip2 = " + e);
+			Log.i("PRU", "Erro Manip2 = " + e);
 		}
 
 	}
@@ -243,17 +234,14 @@ public class AtualDadosServ {
 
 		try {
 
-			br.com.usinasantafe.pru.to.tb.estaticas.DataHoraBean dataHoraBean = new br.com.usinasantafe.pru.to.tb.estaticas.DataHoraBean();
-			dataHoraBean.deleteAll();
-
 			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
 			tabAtualArrayList = new ArrayList();
 
 			for (Field field : retClasse.getDeclaredFields()) {
 				String campo = field.getName();
-				Log.i("PMM", "Campo = " + campo);
+				Log.i("PRU", "Campo = " + campo);
 				if (campo.equals("datahorahttp")) {
-					Log.i("PMM", "Campo = " + campo);
+					Log.i("PRU", "Campo = " + campo);
 					tabAtualArrayList.add(campo);
 				}
 
@@ -267,7 +255,7 @@ public class AtualDadosServ {
 			getBDGenerico.execute(url);
 
 		} catch (Exception e) {
-			Log.i("PMM", "Erro Manip2 = " + e);
+			Log.i("PRU", "Erro Manip2 = " + e);
 		}
 
 	}
@@ -285,9 +273,9 @@ public class AtualDadosServ {
 
 			for (Field field : retClasse.getDeclaredFields()) {
 				String campo = field.getName();
-				Log.i("PMM", "Campo = " + campo);
+				Log.i("PRU", "Campo = " + campo);
 				if (campo.equals("atualizaaplichttp")) {
-					Log.i("PMM", "Campo = " + campo);
+					Log.i("PRU", "Campo = " + campo);
 					tabAtualArrayList.add(campo);
 				}
 
@@ -301,7 +289,7 @@ public class AtualDadosServ {
 			getBDGenerico.execute(url);
 
 		} catch (Exception e) {
-			Log.i("PMM", "PMM Manip2 = " + e);
+			Log.i("PRU", " Manip2 = " + e);
 		}
 
 	}
@@ -310,7 +298,7 @@ public class AtualDadosServ {
 
 
 	public String manipLocalClasse(String classe){
-	    if(classe.contains("TO")){
+	    if(classe.contains("Bean")){
 	    	classe = urlsConexaoHttp.localPSTEstatica + classe;
 	    }
 		return classe;
@@ -332,7 +320,7 @@ public class AtualDadosServ {
 
 			for (Field field : retClasse.getDeclaredFields()) {
 				String campo = field.getName();
-				Log.i("ERRO", "Campo = " + campo);
+				Log.i("PRU", "Campo = " + campo);
 				if(campo.contains("Bean")){
 					tabAtualArrayList.add(campo);
 				}
@@ -349,7 +337,7 @@ public class AtualDadosServ {
 			getBDGenerico.execute(url);
 
 		} catch (Exception e) {
-			Log.i("ERRO", "Erro Manip2 = " + e);
+			Log.i("PRU", "Erro Manip2 = " + e);
 		}
 
 	}

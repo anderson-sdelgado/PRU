@@ -34,6 +34,7 @@ public class EquipActivity extends ActivityGeneric {
                         if (pruContext.getPerdaCTR().verEquip(codEquip)) {
 
                             pruContext.getPerdaCTR().salvarCabecPerdaAberto(codEquip);
+                            pruContext.getConfigCTR().setPontoAmostraConfig(0L);
                             Intent it = new Intent(EquipActivity.this, ListaAmostraPerdaActivity.class);
                             startActivity(it);
                             finish();
@@ -59,6 +60,7 @@ public class EquipActivity extends ActivityGeneric {
                         if (pruContext.getSoqueiraCTR().verEquip(codEquip)) {
 
                             pruContext.getSoqueiraCTR().salvarCabecSoqueiraAberto(codEquip);
+                            pruContext.getConfigCTR().setPontoAmostraConfig(0L);
                             Intent it = new Intent(EquipActivity.this, ListaAmostraSoqueiraActivity.class);
                             startActivity(it);
                             finish();

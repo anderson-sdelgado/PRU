@@ -32,12 +32,11 @@ public class ListaQuestaoSoqueiraActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        Long ponto = pruContext.getPosPontoAmostra() + 1;
-        textViewTituloAmostra.setText("AMOSTRA " + ponto);
+        textViewTituloAmostra.setText("AMOSTRA " + pruContext.getPosPontoAmostra());
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        AmostraSoqueiraBean amostraSoqueiraBean = pruContext.getSoqueiraCTR().getAmostraSoqueira(ponto);
+        AmostraSoqueiraBean amostraSoqueiraBean = pruContext.getSoqueiraCTR().getAmostraSoqueira(pruContext.getPosPontoAmostra());
 
         itens.add("SOQUEIRA = " + amostraSoqueiraBean.getQtdeSoqueira());
         itens.add("ARRANQUIO = " + amostraSoqueiraBean.getQtdeArranquio());

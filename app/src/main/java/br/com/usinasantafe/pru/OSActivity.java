@@ -82,8 +82,6 @@ public class OSActivity extends ActivityGeneric {
 
                         }
 
-                        ///////////////////////////////////////////
-
                     }
                     catch (NumberFormatException e){
 
@@ -120,6 +118,21 @@ public class OSActivity extends ActivityGeneric {
     public void onBackPressed()  {
         if(pruContext.getVerPosTela() == 1){
             Intent it = new Intent(OSActivity.this, MenuInicialActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else if(pruContext.getVerPosTela() == 14){
+            Intent it = new Intent(OSActivity.this, ListaPontosFitoActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else if(pruContext.getVerPosTela() == 15){
+            Intent it = new Intent(OSActivity.this, ListaAmostraPerdaActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else if(pruContext.getVerPosTela() == 16){
+            Intent it = new Intent(OSActivity.this, ListaAmostraSoqueiraActivity.class);
             startActivity(it);
             finish();
         }

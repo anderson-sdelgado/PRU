@@ -1,10 +1,12 @@
 package br.com.usinasantafe.pru.model.dao;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AmostraFitoBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.ROrganCaracAmosFitoBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.ROCAFitoBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
 public class AmostraFitoDAO {
@@ -13,14 +15,14 @@ public class AmostraFitoDAO {
     }
 
     public AmostraFitoBean getAmostra(Long idAmostra){
-        List<AmostraFitoBean> amostraList = amostraList(idAmostra);
+        List<AmostraFitoBean> amostraList = amostraCabecList(idAmostra);
         AmostraFitoBean amostraFitoBean = amostraList.get(0);
         amostraList.clear();
         return amostraFitoBean;
     }
 
     public boolean verAmostra(Long idOrgan, Long idCaracOrgan){
-        List<AmostraFitoBean> amostraList = getAmostraOrganList(idOrgan, idCaracOrgan);
+        List<AmostraFitoBean> amostraList = amostraList(idOrgan, idCaracOrgan);
         boolean ret = amostraList.size() > 0;
         amostraList.clear();
         return ret;
@@ -33,9 +35,9 @@ public class AmostraFitoDAO {
         return ret;
     }
 
-    private List<AmostraFitoBean> getAmostraOrganList(Long idOrgan, Long idCaracOrgan){
+    public List<AmostraFitoBean> amostraList(Long idOrgan, Long idCaracOrgan){
         ArrayList<Long> idAmostraList = getIdAmostraList(idOrgan, idCaracOrgan);
-        List amostraList = inAmostraOrgan(idAmostraList);
+        List<AmostraFitoBean> amostraList = inAmostraOrgan(idAmostraList);
         idAmostraList.clear();
         return amostraList;
     }
@@ -47,7 +49,7 @@ public class AmostraFitoDAO {
         return amostraList;
     }
 
-    private List<AmostraFitoBean> amostraList(Long idAmostra){
+    private List<AmostraFitoBean> amostraCabecList(Long idAmostra){
         AmostraFitoBean amostraFitoBean = new AmostraFitoBean();
         return amostraFitoBean.get("idAmostra", idAmostra);
     }
@@ -93,13 +95,16 @@ public class AmostraFitoDAO {
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqOrgan(idOrgan));
         pesqArrayList.add(getPesqCaracOrgan(idCaracOrgan));
-        ROrganCaracAmosFitoBean rOrganCaracAmosFitoBeanBD = new ROrganCaracAmosFitoBean();
-        List<ROrganCaracAmosFitoBean> rOrganCaracList = rOrganCaracAmosFitoBeanBD.get(pesqArrayList);
+
+        ROCAFitoBean ROCAFitoBeanBD = new ROCAFitoBean();
+        List<ROCAFitoBean> rOrganCaracList = ROCAFitoBeanBD.get(pesqArrayList);
         pesqArrayList.clear();
 
         ArrayList<Long> idAmostraList = new ArrayList<Long>();
-        for (ROrganCaracAmosFitoBean rOrganCaracAmosFitoBean : rOrganCaracList) {
-            idAmostraList.add(rOrganCaracAmosFitoBean.getIdCaracOrgan());
+        Log.i("PRU", "CHEGOU AKI");
+        for (ROCAFitoBean rOCAFitoBean : rOrganCaracList) {
+            Log.i("PRU", "rOCAFitoBean.getIdAmostraOrgan() = " + rOCAFitoBean.getIdAmostraOrgan());
+            idAmostraList.add(rOCAFitoBean.getIdAmostraOrgan());
         }
 
         return idAmostraList;

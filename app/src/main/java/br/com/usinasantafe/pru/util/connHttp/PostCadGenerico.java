@@ -101,14 +101,14 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 			EnvioDadosServ.getInstance().setEnviando(false);
 			Log.i("ECM", "VALOR RECEBIDO --> " + result);
 			if(result.trim().equals("GRAVOU-BOLFECHADO")){
-				EnvioDadosServ.getInstance().delBolFechado();
+//				EnvioDadosServ.getInstance().delBolFechado();
 			}
 			else if(result.trim().equals("GRAVOU-APONTAMM")){
-				EnvioDadosServ.getInstance().delApontaMM();
+//				EnvioDadosServ.getInstance().delApontaMM();
 			}
 			else{
 				if(result.trim().contains("GRAVOU")){
-					EnvioDadosServ.getInstance().atualDelBoletim(result);
+//					EnvioDadosServ.getInstance().atualDelBoletim(result);
 				}
 			}
 		} catch (Exception e) {

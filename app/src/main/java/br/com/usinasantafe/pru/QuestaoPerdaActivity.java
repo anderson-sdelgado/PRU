@@ -16,6 +16,7 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
     private PRUContext pruContext;
     private TextView textViewPadrao;
     private Long ponto;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +25,13 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
+        editText = (EditText) findViewById(R.id.editTextPadrao);
         textViewPadrao = (TextView) findViewById(R.id.textViewPadrao);
         Button buttonOkQuestao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancQuestao = (Button) findViewById(R.id.buttonCancPadrao);
 
-        ponto = (pruContext.getConfigCTR().getConfig().getPontoAmostraConfig() + 1);
-
-        if(pruContext.getVerPosTela() == 10) {
+        if(pruContext.getVerPosTela() == 9) {
+            ponto = (pruContext.getConfigCTR().getConfig().getPontoAmostraConfig() + 1);
             if(pruContext.getPosQuestao() == 1){
                 textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "TARA");
             }
@@ -41,32 +42,32 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
                 textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "LASCA");
             }
         }
-        else if(pruContext.getVerPosTela() == 11) {
+        else if(pruContext.getVerPosTela() == 10) {
             AmostraPerdaBean amostraPerdaBean = pruContext.getPerdaCTR().getAmostraPerda(pruContext.getPosPontoAmostra());
             if (pruContext.getPosQuestao() == 1) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TARA");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getTaraAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getTaraAmostraPerda()));
             } else if (pruContext.getPosQuestao() == 2) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOLETE");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getToleteAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getToleteAmostraPerda()));
             } else if (pruContext.getPosQuestao() == 3) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "CANA INTEIRA");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getCanaInteiraAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getCanaInteiraAmostraPerda()));
             } else if (pruContext.getPosQuestao() == 4) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "TOCO");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getTocoAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getTocoAmostraPerda()));
             } else if (pruContext.getPosQuestao() == 5) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PEDACO");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getPedacoAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getPedacoAmostraPerda()));
             } else if (pruContext.getPosQuestao() == 6) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "REPIQUE");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getRepiqueAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getRepiqueAmostraPerda()));
             } else if (pruContext.getPosQuestao() == 7) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "PONTEIRO");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getPonteiroAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getPonteiroAmostraPerda()));
             } else if (pruContext.getPosQuestao() == 8) {
                 textViewPadrao.setText("AMOSTRA " + pruContext.getPosPontoAmostra() + "\n" + "LASCA");
-                editTextPadrao.setText(String.valueOf(amostraPerdaBean.getLascasAmostraPerda()));
+                editText.setText(String.valueOf(amostraPerdaBean.getLascasAmostraPerda()));
             }
         }
 
@@ -74,7 +75,7 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                if (pruContext.getVerPosTela() == 10) {
+                if (pruContext.getVerPosTela() == 9) {
 
                     Double valorNum = 0D;
                     boolean verTara = false;
@@ -159,28 +160,36 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
                                 finalizarQuestao();
                             }
                         } else if (pruContext.getPosQuestao() == 8) {
+                            pruContext.setPosQuestao(9);
                             pruContext.getPerdaCTR().getAmostraPerdaBean().setLascasAmostraPerda(valorNum);
                             finalizarQuestao();
                         }
 
                         if (pruContext.getPosQuestao() == 2) {
                             textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "TOLETE");
+                            editTextPadrao.setText("");
                         } else if (pruContext.getPosQuestao() == 3) {
                             textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "CANA INTEIRA");
+                            editTextPadrao.setText("");
                         } else if (pruContext.getPosQuestao() == 4) {
                             textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "TOCO");
+                            editTextPadrao.setText("");
                         } else if (pruContext.getPosQuestao() == 5) {
                             textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "PEDACO");
+                            editTextPadrao.setText("");
                         } else if (pruContext.getPosQuestao() == 6) {
                             textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "REPIQUE");
+                            editTextPadrao.setText("");
                         } else if (pruContext.getPosQuestao() == 7) {
                             textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "PONTEIRO");
+                            editTextPadrao.setText("");
                         } else if (pruContext.getPosQuestao() == 8) {
                             textViewPadrao.setText("AMOSTRA " + ponto + "\n" + "LASCA");
+                            editTextPadrao.setText("");
                         }
                     }
                 }
-                else if(pruContext.getVerPosTela() == 11) {
+                else if(pruContext.getVerPosTela() == 10) {
                     Double valorNum = 0D;
                     if (!editTextPadrao.getText().toString().equals("")) {
                         String valor = editTextPadrao.getText().toString();
@@ -203,7 +212,7 @@ public class QuestaoPerdaActivity extends ActivityGeneric {
                             valorNum = 0D;
                         }
                     }
-                    pruContext.getPerdaCTR().setQuestaoAmostraPerda(valorNum, pruContext.getPosQuestao(), pruContext.getPosPontoAmostra());
+                    pruContext.getPerdaCTR().salvarAmostraPerda(valorNum, pruContext.getPosQuestao(), pruContext.getPosPontoAmostra());
                     Intent it = new Intent(QuestaoPerdaActivity.this, ListaQuestaoPerdaActivity.class);
                     startActivity(it);
                     finish();

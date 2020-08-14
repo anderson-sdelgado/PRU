@@ -12,7 +12,7 @@ import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
 import br.com.usinasantafe.pru.model.dao.ApontDAO;
-import br.com.usinasantafe.pru.model.dao.AtividadeDAO;
+import br.com.usinasantafe.pru.model.dao.AtivDAO;
 import br.com.usinasantafe.pru.model.dao.BoletimDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.LiderDAO;
@@ -144,35 +144,30 @@ public class RuricolaCTR {
 
     ////////// VERIFICAÇÃO PRA ENVIO ///////////////
 
-    public boolean verEnvioBolAberto(){
+    public boolean verBolFechado() {
         BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.bolAbertoSemEnvioList().size() > 0;
-    }
-
-    public boolean verEnvioBolFech() {
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.bolFechadoList().size() > 0;
+        return boletimDAO.verCabecFechado();
     }
 
     ////////// DADOS PRA ENVIO ///////////////
-
-    public String dadosEnvioBolAberto(){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.dadosEnvioBolAberto();
-    }
 
     public String dadosEnvioBolFechado(){
         BoletimDAO boletimDAO = new BoletimDAO();
         return boletimDAO.dadosEnvioBolFechado();
     }
 
+    public ArrayList<Long> idBolList(){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.idBolList();
+    }
+
+    public String dadosEnvioApont(ArrayList<Long> idBolList){
+        ApontDAO apontDAO = new ApontDAO();
+        return apontDAO.dadosEnvioApont(apontDAO.getListApontEnvio(idBolList));
+    }
+
     ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
-//
-//    public void updBolAbertoMM(String retorno){
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        boletimMMDAO.updateBolAberto(retorno);
-//    }
-//
+
 //    public void delBolFechadoMM(String retorno) {
 //        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
 //        boletimMMDAO.deleteBolFechado(retorno);
@@ -182,24 +177,9 @@ public class RuricolaCTR {
 
     //////////////////////// MANIPULAR APONT DADOS MOTOMEC ////////////////////////////////////
 
-    ////////// VERIFICAÇÃO PRA ENVIO ///////////////
-
-    public Boolean verEnvioDadosApont(){
-        ApontDAO apontMMDAO = new ApontDAO();
-        return (apontMMDAO.getListApontEnvio().size() > 0);
-    }
-
     ////////// DADOS PRA ENVIO ///////////////
 
-    public String dadosEnvioApontBolMM(ArrayList<Long> idBolList){
-        ApontDAO apontDAO = new ApontDAO();
-        return apontDAO.dadosEnvioApont(apontDAO.getListApontEnvio(idBolList));
-    }
 
-    public String dadosEnvioApont(){
-        ApontDAO apontDAO = new ApontDAO();
-        return apontDAO.dadosEnvioApont(apontDAO.getListApontEnvio());
-    }
 
     ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
 //
@@ -255,8 +235,8 @@ public class RuricolaCTR {
     //////////////////// RETORNO DE LISTA DAS ATIVIDADES DA OS /////////////////////////////
 
         public ArrayList getAtivArrayList(Long nroOS){
-            AtividadeDAO atividadeDAO = new AtividadeDAO();
-            return atividadeDAO.retAtivArrayList(nroOS);
+            AtivDAO ativDAO = new AtivDAO();
+            return ativDAO.retAtivArrayList(nroOS);
         }
 
     //////////////////////////////////////////////////////////////////////////////////////

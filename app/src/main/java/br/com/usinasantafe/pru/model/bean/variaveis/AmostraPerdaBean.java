@@ -10,7 +10,7 @@ public class AmostraPerdaBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
-    @DatabaseField(id=true)
+    @DatabaseField(generatedId=true)
     private Long idAmostraPerda;
     @DatabaseField
     private Long idCabecAmostraPerda;

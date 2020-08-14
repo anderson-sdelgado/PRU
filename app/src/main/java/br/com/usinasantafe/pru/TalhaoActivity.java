@@ -19,6 +19,8 @@ public class TalhaoActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_talhao);
 
+        pruContext = (PRUContext) getApplication();
+
         Button buttonOkTalhao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancTalhao = (Button) findViewById(R.id.buttonCancPadrao);
 

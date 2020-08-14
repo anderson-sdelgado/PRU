@@ -10,7 +10,7 @@ public class CabecPerdaBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
-    @DatabaseField(id=true)
+    @DatabaseField(generatedId=true)
     private Long idCabecPerda;
     @DatabaseField
     private Long tipoColheitaCabecPerda;
@@ -20,8 +20,6 @@ public class CabecPerdaBean extends Entidade {
     private Long osCabecPerda;
     @DatabaseField
     private Long equipCabecPerda;
-    @DatabaseField
-    private Long turnoCabecPerda;
     @DatabaseField
     private Long statusCabecPerda;
 
@@ -76,11 +74,4 @@ public class CabecPerdaBean extends Entidade {
         this.statusCabecPerda = statusCabecPerda;
     }
 
-    public Long getTurnoCabecPerda() {
-        return turnoCabecPerda;
-    }
-
-    public void setTurnoCabecPerda(Long turnoCabecPerda) {
-        this.turnoCabecPerda = turnoCabecPerda;
-    }
 }

@@ -1,9 +1,14 @@
 package br.com.usinasantafe.pru.model.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AmostraFitoBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ApontRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
@@ -146,6 +151,40 @@ public class RespFitoDAO {
         return respFitoBean.get("statusRespFito", 0L);
     }
 
+    public List getListRespEnvio(ArrayList<Long> idCabecList){
 
+        RespFitoBean respFitoBean = new RespFitoBean();
+
+        ArrayList pesqArrayList = new ArrayList();
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusRespFito");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(1);
+        pesqArrayList.add(pesquisa);
+
+        return respFitoBean.inAndGet("idCabecRespFito", idCabecList, pesqArrayList);
+
+    }
+
+    public String dadosEnvioResp(List respList){
+
+        JsonArray jsonArrayResp = new JsonArray();
+
+        for (int i = 0; i < respList.size(); i++) {
+
+            RespFitoBean respFitoBean = (RespFitoBean) respList.get(i);
+            Gson gson = new Gson();
+            jsonArrayResp.add(gson.toJsonTree(respFitoBean, respFitoBean.getClass()));
+
+        }
+
+        respList.clear();
+
+        JsonObject jsonResp = new JsonObject();
+        jsonResp.add("resp", jsonArrayResp);
+
+        return jsonResp.toString();
+
+    }
 
 }

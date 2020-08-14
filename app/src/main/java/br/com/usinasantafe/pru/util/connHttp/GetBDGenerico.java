@@ -48,6 +48,7 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
                }
             }
 
+			Log.i("PRU", "URL = " + url);
 			URL urlCon = new URL(url);
 			HttpURLConnection connection = (HttpURLConnection) urlCon.openConnection();
 			connection.setRequestMethod("GET");
@@ -72,7 +73,7 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
 				try {
 					bufferedReader.close();
 				} catch (Exception erro) {
-					
+					Log.i("PRU", "Erro conexão web = " + erro);
 				}
 			}
 		}
@@ -82,7 +83,7 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
 				try {
 					bufferedReader.close();
 				} catch (Exception e) {
-					
+					Log.i("PRU", "FInal conexão = " + e);
 				}
 			}
 			
@@ -98,7 +99,7 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
 			AtualDadosServ.getInstance().manipularDadosHttp(tipo, result);
 			
 		} catch (Exception e) {
-			Log.i("PMM", "Erro2 = " + e);
+			Log.i("PRU", "Erro recebimento = " + e);
 		}
 
     }

@@ -64,13 +64,6 @@
         android:inputType="text" >
     </EditText>
 
-    <Button
-        android:id="@+id/buttonAtualizarDados"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_atualizar_dados" />
-
     <LinearLayout
         android:id="@+id/rightRelativeLayout"
         android:layout_width="match_parent"
@@ -94,5 +87,12 @@
             android:text="@string/texto_padrao_salvar" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonAtualizarDados"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_atualizar_dados" />
 
 </LinearLayout>

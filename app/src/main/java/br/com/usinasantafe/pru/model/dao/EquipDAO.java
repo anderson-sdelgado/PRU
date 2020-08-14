@@ -25,9 +25,9 @@ public class EquipDAO {
     }
 
     private List equipList(Long codEquip){
-        FuncBean funcBean = new FuncBean();
-        List funcList = funcBean.get("codEquip", codEquip);
-        return funcList;
+        EquipBean equipBean = new EquipBean();
+        List equipList = equipBean.get("nroEquip", codEquip);
+        return equipList;
     }
 
 }

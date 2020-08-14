@@ -30,10 +30,10 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
         TextView textViewAuditor = (TextView) findViewById(R.id.textViewAuditor);
         TextView textViewSecao = (TextView) findViewById(R.id.textViewSecao);
         TextView textViewFrente = (TextView) findViewById(R.id.textViewFrente);
-        TextView textViewTurno = (TextView) findViewById(R.id.textViewTurno);
         Button buttonInserirAmostra = (Button) findViewById(R.id.buttonInserirAmostra);
         Button buttonExcluirAnalise = (Button) findViewById(R.id.buttonExcluirAnalise);
-        Button buttonFinalizarAnalise = (Button)  findViewById(R.id.buttonFinalizarAnalise);
+        Button buttonFecharAnalise = (Button)  findViewById(R.id.buttonFecharAnalise);
+        Button buttonParadaPerda = (Button)  findViewById(R.id.buttonParadaPerda);
 
         pruContext = (PRUContext) getApplication();
 
@@ -44,11 +44,9 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
         textViewAuditor.setText("AUDITOR: " + funcBean.getMatricFunc() + " - " + funcBean.getNomeFunc());
 
         OSBean osBean = pruContext.getPerdaCTR().getOS();
-        textViewSecao.setText("SECAO: " + osBean.getCodSecao() + " - " + osBean.getCodSecao());
+        textViewSecao.setText("SECAO: " + osBean.getCodSecao() + " - " + osBean.getDescrSecao());
         textViewFrente.setText(osBean.getDescrFrente());
 
-        TurnoBean turnoBean = pruContext.getPerdaCTR().getTurno();
-        textViewTurno.setText("TURNO: " + turnoBean.getCodTurno() + " - " + turnoBean.getDescTurno());
 
         ArrayList<String> itens = new ArrayList<String>();
         for (int i = 0; i < pruContext.getConfigCTR().getConfig().getPontoAmostraConfig(); i++) {
@@ -66,7 +64,7 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                pruContext.setPosPontoAmostra(Long.valueOf(position));
+                pruContext.setPosPontoAmostra(Long.valueOf(position) + 1);
                 Intent it = new Intent(ListaAmostraPerdaActivity.this,  ListaQuestaoPerdaActivity.class);
                 startActivity(it);
 
@@ -98,7 +96,7 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        pruContext.getFitoCTR().delFito();
+                        pruContext.getPerdaCTR().delPerda();
 
                         Intent it = new Intent(ListaAmostraPerdaActivity.this, MenuMotoMecActivity.class);
                         startActivity(it);
@@ -120,11 +118,11 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
             }
         });
 
-        buttonFinalizarAnalise.setOnClickListener(new View.OnClickListener() {
+        buttonFecharAnalise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(!pruContext.getFitoCTR().hasRespCabec()){
+                if(!pruContext.getPerdaCTR().verCabecAberto()){
 
                     String mensagem = "POR FAVOR, INSIRA AMOSTRA ANTES DE ENVIAR OS DADOS.";
 
@@ -142,12 +140,24 @@ public class ListaAmostraPerdaActivity extends ActivityGeneric {
                 }
                 else{
 
-                    pruContext.getFitoCTR().fecharCabecFito();
-                    Intent it = new Intent( ListaAmostraPerdaActivity.this, MenuInicialActivity.class);
+                    pruContext.getPerdaCTR().fecharCabecPerda();
+                    Intent it = new Intent( ListaAmostraPerdaActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
 
                 }
+
+            }
+        });
+
+        buttonParadaPerda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                pruContext.setVerPosTela(15);
+                Intent it = new Intent(ListaAmostraPerdaActivity.this, OSActivity.class);
+                startActivity(it);
+                finish();
 
             }
         });

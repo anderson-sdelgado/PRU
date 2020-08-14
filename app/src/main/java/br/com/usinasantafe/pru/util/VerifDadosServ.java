@@ -21,6 +21,7 @@ import java.util.Map;
 import br.com.usinasantafe.pru.MenuInicialActivity;
 import br.com.usinasantafe.pru.control.ConfigCTR;
 import br.com.usinasantafe.pru.model.bean.AtualAplicBean;
+import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pru.model.pst.GenericRecordable;
@@ -57,7 +58,19 @@ public class VerifDadosServ {
     public void manipularDadosHttp(String result) {
 
         if (!result.equals("")) {
-            retornoVerifNormal(result);
+            if (this.tipo.equals("OS")) {
+                OSDAO osDAO = new OSDAO();
+                osDAO.recDadosOS(result);
+            } else if (this.tipo.equals("Atualiza")) {
+                String verAtual = result.trim();
+                if (verAtual.equals("S")) {
+                    AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
+                    atualizarAplicativo.setContext(this.menuInicialActivity);
+                    atualizarAplicativo.execute();
+                } else {
+                    this.menuInicialActivity.startTimer(verAtual);
+                }
+            }
         }
 
     }
@@ -105,107 +118,6 @@ public class VerifDadosServ {
         postVerGenerico = new PostVerGenerico();
         postVerGenerico.setParametrosPost(parametrosPost);
         postVerGenerico.execute(url);
-
-    }
-
-
-    public void retornoVerifNormal(String result) {
-
-        try {
-
-            if(this.tipo.equals("OS")) {
-
-                int posicao = result.indexOf("_") + 1;
-                String objPrinc = result.substring(0, result.indexOf("_"));
-                String objSeg = result.substring(posicao, result.length());
-
-                JSONObject jObj = new JSONObject(objPrinc);
-                JSONArray jsonArray = jObj.getJSONArray("dados");
-                Class classe = Class.forName(urlsConexaoHttp.localPSTEstatica + "OSTO");
-
-                if (jsonArray.length() > 0) {
-
-                    genericRecordable = new GenericRecordable();
-                    genericRecordable.deleteAll(classe);
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        JSONObject objeto = jsonArray.getJSONObject(i);
-                        Gson gson = new Gson();
-                        genericRecordable.insert(gson.fromJson(objeto.toString(), classe), classe);
-
-                    }
-
-                    jObj = new JSONObject(objSeg);
-                    jsonArray = jObj.getJSONArray("dados");
-                    classe = Class.forName(urlsConexaoHttp.localPSTEstatica + "ROSAtivTO");
-
-                    genericRecordable.deleteAll(classe);
-
-                    for (int j = 0; j < jsonArray.length(); j++) {
-
-                        JSONObject objeto = jsonArray.getJSONObject(j);
-                        Gson gson = new Gson();
-                        genericRecordable.insert(gson.fromJson(objeto.toString(), classe), classe);
-
-                    }
-
-                    if(!verTerm) {
-
-                        verTerm = true;
-                        this.progressDialog.dismiss();
-
-                        Intent it = new Intent(telaAtual, telaProx);
-                        telaAtual.startActivity(it);
-                    }
-
-                } else {
-
-                    if(!verTerm) {
-
-                        verTerm = true;
-                        this.progressDialog.dismiss();
-
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("OS INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
-
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                        alerta.show();
-
-                    }
-
-                }
-
-            }
-            else if(this.tipo.equals("Atualiza")) {
-
-                String verAtualAplic = result.trim();
-
-                if(verAtualAplic.equals("S")){
-
-                    AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
-                    atualizarAplicativo.setContext(this.menuInicialActivity);
-                    atualizarAplicativo.execute();
-
-                }
-                else{
-
-                    this.progressDialog.dismiss();
-                    this.menuInicialActivity.startTimer(verAtualAplic);
-
-                }
-
-            }
-
-        } catch (Exception e) {
-            Log.i("PMM", "Erro Manip = " + e);
-        }
 
     }
 

@@ -32,7 +32,7 @@ public class ListaObsActivity extends ActivityGeneric {
 
         ponto = (pruContext.getConfigCTR().getConfig().getPontoAmostraConfig() + 1);
 
-        if (pruContext.getVerPosTela() == 10) {
+        if (pruContext.getVerPosTela() == 9) {
 
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             viewHolderChoice.setSelected(false);
@@ -55,7 +55,7 @@ public class ListaObsActivity extends ActivityGeneric {
             itens.add(viewHolderChoice);
 
         }
-        else{
+        else if (pruContext.getVerPosTela() == 10) {
 
             AmostraPerdaBean amostraPerdaBean = pruContext.getPerdaCTR().getAmostraPerda(pruContext.getPosPontoAmostra());
 
@@ -98,7 +98,7 @@ public class ListaObsActivity extends ActivityGeneric {
         }
 
         adapterListChoice = new AdapterListChoice(this, itens);
-        obsListView = (ListView) findViewById(R.id.listFunc);
+        obsListView = (ListView) findViewById(R.id.listaObs);
         obsListView.setAdapter(adapterListChoice);
 
         buttonSalvarListObs.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class ListaObsActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                if (pruContext.getVerPosTela() == 10) {
+                if (pruContext.getVerPosTela() == 9) {
 
                     ViewHolderChoice viewHolderChoice = itens.get(0);
                     if(viewHolderChoice.isSelected()){
@@ -143,7 +143,7 @@ public class ListaObsActivity extends ActivityGeneric {
                     finish();
 
                 }
-                else{
+                else if (pruContext.getVerPosTela() == 10) {
 
                     Long pedra = 0L;
                     Long tocoArvore = 0L;
@@ -172,6 +172,10 @@ public class ListaObsActivity extends ActivityGeneric {
 
                     pruContext.getPerdaCTR().setQuestaoAmostraPerda(pedra, tocoArvore, plantaDaninha, formigueiro, pruContext.getPosPontoAmostra());
 
+                    Intent it = new Intent(ListaObsActivity.this, ListaQuestaoPerdaActivity.class);
+                    startActivity(it);
+                    finish();
+
                 }
 
             }
@@ -182,7 +186,7 @@ public class ListaObsActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                if (pruContext.getVerPosTela() == 10) {
+                if (pruContext.getVerPosTela() == 9) {
 
                     if (pruContext.getPerdaCTR().getCabecPerdaAberto().getTipoColheitaCabecPerda() == 1L) {
                         pruContext.setPosQuestao(8);
@@ -194,7 +198,7 @@ public class ListaObsActivity extends ActivityGeneric {
                     finish();
 
                 }
-                else{
+                else if (pruContext.getVerPosTela() == 10) {
 
                     Intent it = new Intent(ListaObsActivity.this, ListaQuestaoPerdaActivity.class);
                     startActivity(it);

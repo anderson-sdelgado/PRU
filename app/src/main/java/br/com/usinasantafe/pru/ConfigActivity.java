@@ -51,6 +51,8 @@ public class ConfigActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
+        configBean = new ConfigBean();
+
         if(!pruContext.getConfigCTR().hasElements()) {
             textViewFuncConfig.setText("");
             textViewFuncConfig.setEnabled(false);
@@ -241,8 +243,11 @@ public class ConfigActivity extends ActivityGeneric {
                     if(!editTextNLinhaConfig.getText().toString().equals("")
                             && !editTextSenhaConfig.getText().toString().equals("")) {
 
+                        boolean ver = true;
+
                         switch ((int) configBean.getIdTipoConfig().longValue()) {
                             case 0:
+                                ver = false;
                                 alerta = new AlertDialog.Builder(ConfigActivity.this);
                                 alerta.setTitle("ATENÇÃO");
                                 alerta.setMessage("POR FAVOR! SELECIONE ALGUM TIPO.");
@@ -263,6 +268,7 @@ public class ConfigActivity extends ActivityGeneric {
                                         configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
 
                                     } else {
+                                        ver = false;
                                         alerta = new AlertDialog.Builder(ConfigActivity.this);
                                         alerta.setTitle("ATENÇÃO");
                                         alerta.setMessage("POR FAVOR! VERIFIQUE O CRACHÁ DO COLABORADOR DIGITADO.");
@@ -276,7 +282,7 @@ public class ConfigActivity extends ActivityGeneric {
                                     }
 
                                 } else {
-
+                                    ver = false;
                                     alerta = new AlertDialog.Builder(ConfigActivity.this);
                                     alerta.setTitle("ATENÇÃO");
                                     alerta.setMessage("POR FAVOR! DIGITE O NUMERO DA LINHA.");
@@ -300,6 +306,7 @@ public class ConfigActivity extends ActivityGeneric {
                                         configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
 
                                     } else {
+                                        ver = false;
                                         alerta = new AlertDialog.Builder(ConfigActivity.this);
                                         alerta.setTitle("ATENÇÃO");
                                         alerta.setMessage("POR FAVOR! VERIFIQUE O CRACHÁ DO COLABORADOR DIGITADO.");
@@ -312,6 +319,7 @@ public class ConfigActivity extends ActivityGeneric {
                                         alerta.show();
                                     }
                                 } else {
+                                    ver = false;
                                     alerta = new AlertDialog.Builder(ConfigActivity.this);
                                     alerta.setTitle("ATENÇÃO");
                                     alerta.setMessage("POR FAVOR! DIGITE O CRACHA DO LÍDER.");
@@ -332,15 +340,16 @@ public class ConfigActivity extends ActivityGeneric {
                                 break;
                         }
 
-                        configBean.setDtUltApontConfig("nulo");
-                        configBean.setNumLinhaConfig(Long.valueOf(editTextNLinhaConfig.getText().toString()));
-                        configBean.deleteAll();
-                        configBean.insert();
+                        if(ver){
 
-                        Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
-                        startActivity(it);
-                        finish();
+                            configBean.setNumLinhaConfig(Long.valueOf(editTextNLinhaConfig.getText().toString()));
+                            pruContext.getConfigCTR().salvarConfig(configBean);
 
+                            Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
+                            startActivity(it);
+                            finish();
+
+                        }
 
                     }
                     else{

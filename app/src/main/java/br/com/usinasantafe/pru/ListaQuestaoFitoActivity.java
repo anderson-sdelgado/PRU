@@ -36,7 +36,7 @@ public class ListaQuestaoFitoActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        respFitoBeanList = pruContext.getFitoCTR().getRespPontoFitoList(pruContext.getPosPontoAmostra() - 1L);
+        respFitoBeanList = pruContext.getFitoCTR().getRespPontoFitoList(pruContext.getPosPontoAmostra());
 
         for (RespFitoBean respFitoBean : respFitoBeanList) {
             itens.add(pruContext.getFitoCTR().getAmostra(respFitoBean.getIdAmostraRespFito()).getDescrAmostra() + "\nVALOR: " + respFitoBean.getValorRespFito());

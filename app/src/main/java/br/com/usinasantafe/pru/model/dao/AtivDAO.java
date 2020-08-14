@@ -16,9 +16,9 @@ import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.ROSAtivBean;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
 
-public class AtividadeDAO {
+public class AtivDAO {
 
-    public AtividadeDAO() {
+    public AtivDAO() {
     }
 
     public void verAtiv(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
@@ -32,9 +32,9 @@ public class AtividadeDAO {
 
             if (!result.contains("exceeded")) {
 
-                int pos1 = result.indexOf("_") + 1;
-                String objPrim = result.substring(0, (pos1 - 1));
-                String objSeg = result.substring(pos1);
+                int posicao = result.indexOf("_") + 1;
+                String objPrim = result.substring(0, (posicao - 1));
+                String objSeg = result.substring(posicao);
 
                 JSONObject jObj = new JSONObject(objPrim);
                 JSONArray jsonArray = jObj.getJSONArray("dados");
@@ -102,6 +102,7 @@ public class AtividadeDAO {
             }
 
             atividadeList = atividadeBean.in("idAtiv", rOSAtivArrayList);
+            rOSAtivArrayList.clear();
 
         } else {
 
@@ -114,8 +115,17 @@ public class AtividadeDAO {
             atividadeArrayList.add(atividadeBean);
         }
 
+
+        atividadeList.clear();
+        rOSAtivList.clear();
+
         return atividadeArrayList;
 
+    }
+
+    public void deleteAll(){
+        ROSAtivBean rosAtivBean = new ROSAtivBean();
+        rosAtivBean.deleteAll();
     }
 
 }

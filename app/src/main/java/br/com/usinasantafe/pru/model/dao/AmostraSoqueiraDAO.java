@@ -1,5 +1,9 @@
 package br.com.usinasantafe.pru.model.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +16,8 @@ public class AmostraSoqueiraDAO {
     public AmostraSoqueiraDAO() {
     }
 
-    public void salvarAmostraSoqueira(AmostraSoqueiraBean amostraSoqueiraBean, Long seqAmostraSoqueira){
+    public void salvarAmostraSoqueira(AmostraSoqueiraBean amostraSoqueiraBean, Long seqAmostraSoqueira, Long idCabecSoqueira){
+        amostraSoqueiraBean.setIdCabecAmostraSoqueira(idCabecSoqueira);
         amostraSoqueiraBean.setSeqAmostraSoqueira(seqAmostraSoqueira);
         amostraSoqueiraBean.insert();
     }
@@ -58,6 +63,20 @@ public class AmostraSoqueiraDAO {
 
     }
 
+    public void delAmostraSoqueira(Long idCabecSoqueira){
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdCabecSoqueira(idCabecSoqueira));
+        AmostraSoqueiraBean amostraSoqueiraBean = new AmostraSoqueiraBean();
+        List<AmostraSoqueiraBean> amostraSoqueiraBeanList = amostraSoqueiraBean.get(pesqArrayList);
+        pesqArrayList.clear();
+
+        amostraSoqueiraBean = (AmostraSoqueiraBean) amostraSoqueiraBeanList.get(0);
+        amostraSoqueiraBean.delete();
+        amostraSoqueiraBeanList.clear();
+
+    }
+
     public AmostraSoqueiraBean getAmostraSoqueira(Long idCabecSoqueira){
         List<AmostraSoqueiraBean> amostraList = amostraSoqueiraList(idCabecSoqueira);
         AmostraSoqueiraBean amostraBean = amostraList.get(0);
@@ -84,6 +103,32 @@ public class AmostraSoqueiraDAO {
         pesquisa.setValor(seqAmostraSoqueira);
         pesquisa.setTipo(1);
         return pesquisa;
+    }
+
+    public List getListAmostraEnvio(ArrayList<Long> idCabecList){
+        AmostraSoqueiraBean amostraPerdaBean = new AmostraSoqueiraBean();
+        return amostraPerdaBean.in("idCabecAmostraSoqueira", idCabecList);
+    }
+
+    public String dadosEnvioAmostra(List amostraList){
+
+        JsonArray jsonArrayAmostra = new JsonArray();
+
+        for (int i = 0; i < amostraList.size(); i++) {
+
+            AmostraSoqueiraBean amostraSoqueiraBean = (AmostraSoqueiraBean) amostraList.get(i);
+            Gson gson = new Gson();
+            jsonArrayAmostra.add(gson.toJsonTree(amostraSoqueiraBean, amostraSoqueiraBean.getClass()));
+
+        }
+
+        amostraList.clear();
+
+        JsonObject jsonAmostra = new JsonObject();
+        jsonAmostra.add("amostra", jsonArrayAmostra);
+
+        return jsonAmostra.toString();
+
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pru.control;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.EquipBean;
@@ -37,12 +38,29 @@ public class SoqueiraCTR {
 
     public void salvarAmostraSoqueira(Long seqAmostraSoqueira){
         AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
-        amostraSoqueiraDAO.salvarAmostraSoqueira(amostraSoqueiraBean, seqAmostraSoqueira);
+        amostraSoqueiraDAO.salvarAmostraSoqueira(amostraSoqueiraBean, seqAmostraSoqueira, getCabecSoqueiraAberto().getIdCabecSoqueira());
+
+        ConfigCTR configCTR = new ConfigCTR();
+        configCTR.setPontoAmostraConfig(seqAmostraSoqueira);
+
     }
 
     public void delAmostraSoqueira(Long seqAmostraSoqueira){
         AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
         amostraSoqueiraDAO.delAmostraSoqueira(getCabecSoqueiraAberto().getIdCabecSoqueira(), seqAmostraSoqueira);
+    }
+
+    public void delSoqueira(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
+        Long idCabec = cabecSoqueiraDAO.getCabecSoqueiraAberto().getIdCabecSoqueira();
+        amostraSoqueiraDAO.delAmostraSoqueira(idCabec);
+        cabecSoqueiraDAO.delCabecSoqueira(idCabec);
+    }
+
+    public void fecharCabecSoqueira(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        cabecSoqueiraDAO.fecharCabecSoqueira();
     }
 
     ////////////////////////////////// VERIFICAR CAMPOS ///////////////////////////////////////////
@@ -52,9 +70,9 @@ public class SoqueiraCTR {
         return equipDAO.verEquip(codEquip);
     }
 
-    public boolean hasCabecSoqueiraAberto(){
+    public boolean verCabecAberto(){
         CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
-        return cabecSoqueiraDAO.hasCabecSoqueiraAberto();
+        return cabecSoqueiraDAO.verCabecAberto();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +81,7 @@ public class SoqueiraCTR {
 
     public List<CabecSoqueiraBean> getCabecSoqueiraAbertoList(){
         CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
-        return cabecSoqueiraDAO.getCabecSoqueiraAbertoList();
+        return cabecSoqueiraDAO.cabecSoqueiraAbertoList();
     }
 
     public CabecSoqueiraBean getCabecSoqueiraAberto(){
@@ -110,5 +128,33 @@ public class SoqueiraCTR {
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
+    ///////////////////////////////// VERIFICAÇÃO PRA ENVIO //////////////////////////////////
+
+    public boolean verCabecFechado() {
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.verCabecAberto();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //////////////////////////////////// DADOS PRA ENVIO //////////////////////////////////////
+
+    public String dadosEnvioCabecFechado(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.dadosEnvioCabecFechado();
+    }
+
+    public ArrayList<Long> idCabecList(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.idCabecList();
+    }
+
+    public String dadosEnvioAmostra(ArrayList<Long> idCabecList){
+        AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
+        return amostraSoqueiraDAO.dadosEnvioAmostra(amostraSoqueiraDAO.getListAmostraEnvio(idCabecList));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
 }

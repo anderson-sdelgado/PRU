@@ -1,5 +1,8 @@
 package br.com.usinasantafe.pru.control;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AmostraFitoBean;
@@ -9,6 +12,7 @@ import br.com.usinasantafe.pru.model.bean.estaticas.TalhaoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 import br.com.usinasantafe.pru.model.dao.AmostraFitoDAO;
+import br.com.usinasantafe.pru.model.dao.BoletimDAO;
 import br.com.usinasantafe.pru.model.dao.CabecFitoDAO;
 import br.com.usinasantafe.pru.model.dao.CaracOrganDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
@@ -41,11 +45,6 @@ public class FitoCTR {
     public void salvarRespFito(AmostraFitoBean amostraFitoBean, Long valor, Long ponto){
         RespFitoDAO respFitoDAO = new RespFitoDAO();
         respFitoDAO.salvarRespFito(amostraFitoBean, getCabecFitoAberto().getIdCabecFito(), valor, ponto);
-    }
-
-    public void atualRespFito(AmostraFitoBean amostraFitoBean, Long valor, Long ponto){
-        RespFitoDAO respFitoDAO = new RespFitoDAO();
-        respFitoDAO.atualRespFito(amostraFitoBean, getCabecFitoAberto().getIdCabecFito(), valor, ponto);
     }
 
     public void atualRespFito(Long valor){
@@ -113,9 +112,9 @@ public class FitoCTR {
         return amostraFitoDAO.hasAmostraCabec(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
     }
 
-    public boolean verCabecFitoAberto(){
+    public boolean verCabecAberto(){
         CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
-        return cabecFitoDAO.verCabecFitoAberto();
+        return cabecFitoDAO.verCabecAberto();
     }
 
     public boolean verTermQuestaoCabec(int posQuestao){
@@ -130,7 +129,7 @@ public class FitoCTR {
     public boolean verTermQuestao(int posQuestao){
         AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
-        List amostraCabecList = amostraFitoDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        List amostraCabecList = amostraFitoDAO.amostraList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
         boolean ret = (posQuestao == amostraCabecList.size());
         amostraCabecList.clear();
         return ret;
@@ -190,7 +189,7 @@ public class FitoCTR {
         return respFitoDAO.getRespFitoBean(idRespFito);
     }
 
-    public AmostraFitoBean getAmostraCabec(int posQuestao){
+    public AmostraFitoBean getAmostraCabecResp(int posQuestao){
         AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
         List amostraCabecList = amostraFitoDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
@@ -202,7 +201,8 @@ public class FitoCTR {
     public AmostraFitoBean getAmostraResp(int posQuestao){
         AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
-        List amostraCabecList = amostraFitoDAO.amostraCabecList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        List amostraCabecList = amostraFitoDAO.amostraList(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
+        Log.i("PRU", "QTDE AMOSTRA = " + amostraCabecList.size());
         AmostraFitoBean amostraFitoBean = (AmostraFitoBean) amostraCabecList.get(posQuestao - 1);
         amostraCabecList.clear();
         return amostraFitoBean;
@@ -222,6 +222,34 @@ public class FitoCTR {
 
     public void setIdRespFito(Long idRespFito) {
         this.idRespFito = idRespFito;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////// VERIFICAÇÃO PRA ENVIO //////////////////////////////////
+
+    public boolean verCabecFechado() {
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.verCabecFechado();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////// DADOS PRA ENVIO //////////////////////////////////////
+
+    public String dadosEnvioCabecFechado(){
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        return cabecFitoDAO.dadosEnvioCabecFechado();
+    }
+
+    public ArrayList<Long> idCabecList(){
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        return cabecFitoDAO.idCabecList();
+    }
+
+    public String dadosEnvioResp(ArrayList<Long> idCabecList){
+        RespFitoDAO respFitoDAO = new RespFitoDAO();
+        return respFitoDAO.dadosEnvioResp(respFitoDAO.getListRespEnvio(idCabecList));
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////

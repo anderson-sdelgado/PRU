@@ -23,6 +23,7 @@ public class ListaQuestaoPerdaActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
     private ListView questaoListView;
+    private Long amostra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,11 @@ public class ListaQuestaoPerdaActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        Long pos = pruContext.getPosPontoAmostra() + 1;
-        textViewTituloAmostra.setText("AMOSTRA " + pos);
+        textViewTituloAmostra.setText("AMOSTRA " + pruContext.getPosPontoAmostra());
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        AmostraPerdaBean amostraPerdaBean = pruContext.getPerdaCTR().getAmostraPerda(pos);
+        AmostraPerdaBean amostraPerdaBean = pruContext.getPerdaCTR().getAmostraPerda(pruContext.getPosPontoAmostra());
 
         itens.add("TARA = " + amostraPerdaBean.getTaraAmostraPerda());
         itens.add("TOLETE = " + amostraPerdaBean.getToleteAmostraPerda());
@@ -52,10 +52,10 @@ public class ListaQuestaoPerdaActivity extends ActivityGeneric {
         itens.add("PEDAÇO = " + amostraPerdaBean.getPedacoAmostraPerda());
         itens.add("REPIQUE = " + amostraPerdaBean.getRepiqueAmostraPerda());
         itens.add("OBSERVAÇÃO" +
-                "" + ((amostraPerdaBean.getPedraAmostraPerda() == 1) ? "\nPEDRA" : "") +
-                "" + ((amostraPerdaBean.getTocoArvoreAmostraPerda() == 1) ? "\nTOCO ARVORE" : "") +
-                "" + ((amostraPerdaBean.getPlantaDaninhasAmostraPerda() == 1) ? "\nPLANTA DANINHAS" : "") +
-                "" + ((amostraPerdaBean.getFormigueiroAmostraPerda() == 1) ? "\nFORMIGUEIROS" : ""));
+                "\n" + ((amostraPerdaBean.getPedraAmostraPerda() == 1) ? "CONTÉM PEDRA" : "NÃO CONTÉM PEDRA") +
+                "\n" + ((amostraPerdaBean.getTocoArvoreAmostraPerda() == 1) ? "CONTÉM TOCO ARVORE" : "NÃO CONTÉM  TOCO ARVORE") +
+                "\n" + ((amostraPerdaBean.getPlantaDaninhasAmostraPerda() == 1) ? "CONTÉM PLANTA DANINHAS" : "NÃO CONTÉM PLANTA DANINHAS") +
+                "\n" + ((amostraPerdaBean.getFormigueiroAmostraPerda() == 1) ? "CONTÉM FORMIGUEIROS" : "NÃO CONTÉM FORMIGUEIROS"));
 
         AdapterList adapterList = new AdapterList(this, itens);
         questaoListView = (ListView) findViewById(R.id.listViewQuestao);

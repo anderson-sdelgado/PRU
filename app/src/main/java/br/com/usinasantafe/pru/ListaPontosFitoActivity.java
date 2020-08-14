@@ -32,6 +32,7 @@ public class ListaPontosFitoActivity extends ActivityGeneric {
         Button buttonInserirPonto = (Button) findViewById(R.id.buttonInserirPonto);
         Button buttonExcluirAnalise = (Button) findViewById(R.id.buttonExcluirAnalise);
         Button buttonFinalizarAnalise = (Button)  findViewById(R.id.buttonFinalizarAnalise);
+        Button buttonParadaFito = (Button)  findViewById(R.id.buttonParadaFito);
 
         pruContext = (PRUContext) getApplication();
 
@@ -63,6 +64,7 @@ public class ListaPontosFitoActivity extends ActivityGeneric {
                 pruContext.setPosPontoAmostra(Long.valueOf(position + 1));
                 Intent it = new Intent(ListaPontosFitoActivity.this, ListaQuestaoFitoActivity.class);
                 startActivity(it);
+                finish();
 
             }
 
@@ -72,10 +74,10 @@ public class ListaPontosFitoActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                Long ponto = pruContext.getConfigCTR().getConfig().getPontoAmostraConfig();
                 pruContext.setVerPosTela(6);
-                Intent it = new Intent(ListaPontosFitoActivity.this, MsgPontoActivity.class);
+                Intent it = new Intent(ListaPontosFitoActivity.this, QuestaoFitoActivity.class);
                 startActivity(it);
+                finish();
 
             }
         });
@@ -136,11 +138,23 @@ public class ListaPontosFitoActivity extends ActivityGeneric {
                 else{
 
                     pruContext.getFitoCTR().fecharCabecFito();
-                    Intent it = new Intent( ListaPontosFitoActivity.this, MenuInicialActivity.class);
+                    Intent it = new Intent( ListaPontosFitoActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
 
                 }
+
+            }
+        });
+
+        buttonParadaFito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                pruContext.setVerPosTela(14);
+                Intent it = new Intent(ListaPontosFitoActivity.this, OSActivity.class);
+                startActivity(it);
+                finish();
 
             }
         });

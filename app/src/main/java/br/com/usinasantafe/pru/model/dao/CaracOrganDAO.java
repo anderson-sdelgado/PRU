@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.CaracOrganFitoBean;
-import br.com.usinasantafe.pru.model.bean.estaticas.ROrganCaracAmosFitoBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.ROCAFitoBean;
 
 public class CaracOrganDAO {
 
@@ -13,13 +13,13 @@ public class CaracOrganDAO {
 
     public List getCaracOrganList(Long idOrgan){
 
-        ROrganCaracAmosFitoBean rOrganCaracAmosFitoBeanBD = new ROrganCaracAmosFitoBean();
-        List<ROrganCaracAmosFitoBean> rOrganCaracList = rOrganCaracAmosFitoBeanBD.get("idOrgan", idOrgan);
+        ROCAFitoBean ROCAFitoBeanBD = new ROCAFitoBean();
+        List<ROCAFitoBean> rOrganCaracList = ROCAFitoBeanBD.get("idOrgan", idOrgan);
 
         ArrayList<Long> idCaracOrganList = new ArrayList<Long>();
 
-        for (ROrganCaracAmosFitoBean rOrganCaracAmosFitoBean : rOrganCaracList) {
-            idCaracOrganList.add(rOrganCaracAmosFitoBean.getIdCaracOrgan());
+        for (ROCAFitoBean ROCAFitoBean : rOrganCaracList) {
+            idCaracOrganList.add(ROCAFitoBean.getIdCaracOrgan());
         }
 
         CaracOrganFitoBean caracOrganFitoBean = new CaracOrganFitoBean();
