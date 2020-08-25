@@ -21,54 +21,74 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ListaAmostraSoqueiraActivity"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".RelatItemActivity"></activity>
+        <activity android:name=".RelatCabecActivity" />
+        <activity android:name=".MenuRelatorioActivity" />
+        <activity android:name=".EnvioDadosActivity" />
+        <activity
+            android:name=".ListaAmostraSoqueiraActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaQuestaoSoqueiraActivity"
+        <activity
+            android:name=".ListaQuestaoSoqueiraActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaQuestaoPerdaActivity"
+        <activity
+            android:name=".ListaQuestaoPerdaActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".QuestaoPerdaActivity"
+        <activity
+            android:name=".QuestaoPerdaActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".QuestaoSoqueiraActivity"
+        <activity
+            android:name=".QuestaoSoqueiraActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaObsActivity"
+        <activity
+            android:name=".ListaObsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".EquipActivity"
+        <activity
+            android:name=".EquipActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaAmostraPerdaActivity"
+        <activity
+            android:name=".ListaAmostraPerdaActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".QuestaoFitoActivity"
+        <activity
+            android:name=".QuestaoFitoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".MsgPontoActivity"
+        <activity
+            android:name=".MsgPontoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaQuestaoFitoActivity"
+        <activity
+            android:name=".ListaQuestaoFitoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaPontosFitoActivity"
+        <activity
+            android:name=".ListaPontosFitoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaCaracOrganActivity"
+        <activity
+            android:name=".ListaCaracOrganActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ListaOrganActivity"
+        <activity
+            android:name=".ListaOrganActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".TalhaoActivity"
+        <activity
+            android:name=".TalhaoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".SenhaActivity"
+        <activity
+            android:name=".SenhaActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -110,14 +130,15 @@
         <activity
             android:name=".MenuInicialActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" >
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ReceberAlarme">
-        </receiver>
+
+        <receiver android:name=".ReceberAlarme" />
     </application>
 
 </manifest>

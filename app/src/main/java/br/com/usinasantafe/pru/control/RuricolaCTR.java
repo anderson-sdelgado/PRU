@@ -6,8 +6,11 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.ParadaBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.RFuncaoAtivParBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
@@ -19,6 +22,7 @@ import br.com.usinasantafe.pru.model.dao.LiderDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.model.dao.ParadaDAO;
 import br.com.usinasantafe.pru.model.dao.RFuncaoAtivParDAO;
+import br.com.usinasantafe.pru.model.dao.TurmaDAO;
 import br.com.usinasantafe.pru.util.Tempo;
 
 public class RuricolaCTR {
@@ -33,7 +37,6 @@ public class RuricolaCTR {
         BoletimDAO boletimDAO = new BoletimDAO();
         return boletimDAO.verBolAberto();
     }
-
 
     //////////////////////////// SETAR CAMPOS ///////////////////////////////////////////////
 
@@ -61,6 +64,11 @@ public class RuricolaCTR {
         return paradaDAO.getParadaList();
     }
 
+    public ParadaBean getParada(Long idParada){
+        ParadaDAO paradaDAO = new ParadaDAO();
+        return paradaDAO.getParada(idParada);
+    }
+
     public BoletimRuricolaBean getBolAberto(){
         BoletimDAO boletimDAO = new BoletimDAO();
         return boletimDAO.getBolAberto();
@@ -71,9 +79,34 @@ public class RuricolaCTR {
         return funcDAO.getFunc(getBolAberto().getIdLiderBol());
     }
 
+    public FuncBean getFunc(Long matric){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.getFunc(matric);
+    }
+
+    public TurmaBean getTurma(Long idTurma){
+        TurmaDAO turmaDAO = new TurmaDAO();
+        return turmaDAO.getTurma(idTurma);
+    }
+
+    public AtividadeBean getAtividade(Long idAtiv){
+        AtivDAO ativDAO = new AtivDAO();
+        return ativDAO.getAtividade(idAtiv);
+    }
+
     public RFuncaoAtivParBean getFuncaoAtivParBean(Long idAtiv){
         RFuncaoAtivParDAO rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
         return rFuncaoAtivParDAO.getRFuncaoAtivPar(idAtiv);
+    }
+
+    public List bolFechadoList(){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.boletimFechadoList();
+    }
+
+    public List getListApont(Long idBol){
+        ApontDAO apontDAO = new ApontDAO();
+        return apontDAO.getListApont(idBol);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -116,6 +149,7 @@ public class RuricolaCTR {
         boletimRuricolaBean.setAtivPrincBol(configBean.getIdAtivConfig());
         boletimRuricolaBean.setIdTurmaBol(configBean.getIdTurmaConfig());
         boletimRuricolaBean.setTipoFuncBol(configBean.getIdTipoConfig());
+        deleteEnviados();
         BoletimDAO boletimDAO = new BoletimDAO();
         boletimDAO.salvarBolAberto(boletimRuricolaBean);
         return boletimDAO.getBolAberto();
@@ -142,11 +176,26 @@ public class RuricolaCTR {
         boletimDAO.salvarBolFechado();
     }
 
+    public void deleteEnviados(){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        Long idBol = boletimDAO.delBoletim();
+        if(idBol > 0L){
+            ApontDAO apontDAO = new ApontDAO();
+            List apontList = getListApont(idBol);
+            apontDAO.delListApont(apontList);
+            apontList.clear();
+            AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
+            List alocaFuncList = alocaFuncDAO.getListAlocaFunc(idBol);
+            alocaFuncDAO.delListAlocaFunc(alocaFuncList);
+            alocaFuncList.clear();
+        }
+    }
+
     ////////// VERIFICAÇÃO PRA ENVIO ///////////////
 
     public boolean verBolFechado() {
         BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.verCabecFechado();
+        return boletimDAO.verBolFechado();
     }
 
     ////////// DADOS PRA ENVIO ///////////////
@@ -168,43 +217,12 @@ public class RuricolaCTR {
 
     ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
 
-//    public void delBolFechadoMM(String retorno) {
-//        BoletimMMDAO boletimMMDAO = new BoletimMMDAO();
-//        boletimMMDAO.deleteBolFechado(retorno);
-//    }
+    public void updateBolAberto(String retorno){
+        BoletimDAO boletimDAO = new BoletimDAO();
+        boletimDAO.updateBolAberto(retorno);
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////
-
-    //////////////////////// MANIPULAR APONT DADOS MOTOMEC ////////////////////////////////////
-
-    ////////// DADOS PRA ENVIO ///////////////
-
-
-
-    ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
-//
-//    public void updateApontMM(String retorno) {
-//        ApontMMDAO apontMMDAO = new ApontMMDAO();
-//        apontMMDAO.updateApont(retorno);
-//    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////// ATUALIZAÇÃO DE DADOS POR CLASSE /////////////////////////////////////
-//
-//    public void atualDadosFunc(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-//        ArrayList operadorArrayList = new ArrayList();
-//        operadorArrayList.add("MotoristaBean");
-//        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, operadorArrayList);
-//    }
-//
-//    public void atualDadosTurno(Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
-//        ArrayList turnoArrayList = new ArrayList();
-//        turnoArrayList.add("TurnoBean");
-//        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, turnoArrayList);
-//    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////// VERIFICAÇÃO E ATUALIZAÇÃO DE DADOS ////////////////////////////
 
@@ -212,12 +230,6 @@ public class RuricolaCTR {
         OSDAO osDAO = new OSDAO();
         osDAO.verOS(dado, telaAtual, telaProx, progressDialog);
     }
-//
-//    public void verAtiv(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-//        ConfigCTR configCTR = new ConfigCTR();
-//        AtividadeDAO atividadeDAO = new AtividadeDAO();
-//        atividadeDAO.verAtiv(dado  + "_" + configCTR.getEquip().getNroEquip(), telaAtual, telaProx, progressDialog);
-//    }
 
     public boolean verLider(Long matricLider){
         LiderDAO liderDAO = new LiderDAO();

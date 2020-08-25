@@ -27,7 +27,7 @@ public class BoletimRuricolaBean extends Entidade {
 	@DatabaseField
 	private Long ativPrincBol;
 	@DatabaseField
-	private Long statusBol; //1 - Aberto; 2 - Encerrado
+	private Long statusBol; //1 - ABERTO; 2 - FECHADO; 3 - ENVIADO
 	@DatabaseField
 	private Long tipoFuncBol;
 

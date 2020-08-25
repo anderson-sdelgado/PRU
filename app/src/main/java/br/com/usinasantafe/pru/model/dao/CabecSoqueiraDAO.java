@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +63,25 @@ public class CabecSoqueiraDAO {
         cabecSoqueiraBean.commit();
     }
 
+    public List cabecListCresc(){
+        CabecSoqueiraBean cabecSoqueiraBean = new CabecSoqueiraBean();
+        List cabecList = cabecSoqueiraBean.getAndOrderBy("statusCabecSoqueira", 3L, "idCabecSoqueira", true);
+        return cabecList;
+    }
+
+    public Long delCabec(){
+        List cabecList = cabecListCresc();
+        int qtdeCEC = cabecList.size();
+        if (qtdeCEC > 10) {
+            CabecSoqueiraBean cabecSoqueiraBean = (CabecSoqueiraBean) cabecList.get(0);
+            cabecSoqueiraBean.delete();
+            return cabecSoqueiraBean.getIdCabecSoqueira();
+        }
+        else{
+            return 0L;
+        }
+    }
+
     public String dadosEnvioCabecFechado(){
 
         List cabecList = cabecSoqueiraFechadoList();
@@ -97,6 +119,39 @@ public class CabecSoqueiraDAO {
         cabecList.clear();
 
         return idCabecList;
+
+    }
+
+    public void updateCabecAberto(String retorno){
+
+        try{
+
+            int pos1 = retorno.indexOf("_") + 1;
+            String objPrinc = retorno.substring(pos1);
+
+            JSONObject jObjCabec = new JSONObject(objPrinc);
+            JSONArray jsonArrayCabec = jObjCabec.getJSONArray("cabec");
+
+            CabecSoqueiraBean cabecSoqueiraBean = new CabecSoqueiraBean();
+
+            for (int i = 0; i < jsonArrayCabec.length(); i++) {
+
+                JSONObject objCabec = jsonArrayCabec.getJSONObject(i);
+                Gson gsonBol = new Gson();
+                cabecSoqueiraBean = gsonBol.fromJson(objCabec.toString(), CabecSoqueiraBean.class);
+
+                List cabecSoqueiraList = cabecSoqueiraBean.get("idCabecSoqueira", cabecSoqueiraBean.getIdCabecSoqueira());
+                CabecSoqueiraBean cabecSoqueiraBeanBD = (CabecSoqueiraBean) cabecSoqueiraList.get(0);
+                cabecSoqueiraList.clear();
+
+                cabecSoqueiraBeanBD.setStatusCabecSoqueira(3L);
+                cabecSoqueiraBeanBD.update();
+
+            }
+
+        }
+        catch(Exception e){
+        }
 
     }
 

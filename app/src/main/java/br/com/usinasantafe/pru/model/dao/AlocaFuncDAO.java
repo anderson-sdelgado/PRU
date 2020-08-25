@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ApontRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.util.Tempo;
 
@@ -38,6 +39,18 @@ public class AlocaFuncDAO {
             }
         }
 
+    }
+
+    public List getListAlocaFunc(Long idBol){
+        AlocaFuncBean alocaFuncBean = new AlocaFuncBean();
+        return alocaFuncBean.get("idBolAlocaFunc", idBol);
+    }
+
+    public void delListAlocaFunc(List alocaFuncList){
+        for(int i = 0; i < alocaFuncList.size(); i++) {
+            AlocaFuncBean alocaFuncBean = (AlocaFuncBean) alocaFuncList.get(i);
+            alocaFuncBean.delete();
+        }
     }
 
 }

@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AmostraFitoBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.CaracOrganFitoBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.OrganFitoBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TalhaoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 import br.com.usinasantafe.pru.model.dao.AmostraFitoDAO;
-import br.com.usinasantafe.pru.model.dao.BoletimDAO;
 import br.com.usinasantafe.pru.model.dao.CabecFitoDAO;
 import br.com.usinasantafe.pru.model.dao.CaracOrganDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
@@ -34,6 +35,8 @@ public class FitoCTR {
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
         cabecFitoBean.setAuditorCabecFito(ruricolaCTR.getBolAberto().getIdLiderBol());
         cabecFitoBean.setOSCabecFito(ruricolaCTR.getBolAberto().getOsBol());
+
+        deleteEnviados();
 
         CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
         cabecFitoDAO.salvarCabecFitoAberto(cabecFitoBean);
@@ -117,6 +120,11 @@ public class FitoCTR {
         return cabecFitoDAO.verCabecAberto();
     }
 
+    public boolean verCabecFechado() {
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        return cabecFitoDAO.verCabecFechado();
+    }
+
     public boolean verTermQuestaoCabec(int posQuestao){
         AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
@@ -148,9 +156,29 @@ public class FitoCTR {
         return cabecFitoDAO.getCabecFitoAberto();
     }
 
+    public List cabecFechadoList() {
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        return cabecFitoDAO.cabecFitoFechadoList();
+    }
+
+    public FuncBean getFunc(Long matric){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.getFunc(matric);
+    }
+
     public List getOrganList(){
         OrganDAO organDAO = new OrganDAO();
         return organDAO.getOrganList();
+    }
+
+    public OrganFitoBean getOrganFito(Long idOrgan){
+        OrganDAO organDAO = new OrganDAO();
+        return organDAO.getOrganFito(idOrgan);
+    }
+
+    public CaracOrganFitoBean getCaracOrganFito(Long idCaracOrgan){
+        CaracOrganDAO caracOrganDAO =  new CaracOrganDAO();
+        return caracOrganDAO.getCaracOrgan(idCaracOrgan);
     }
 
     public List getCaracOrganList(){
@@ -226,15 +254,6 @@ public class FitoCTR {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-    ///////////////////////////////// VERIFICAÇÃO PRA ENVIO //////////////////////////////////
-
-    public boolean verCabecFechado() {
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.verCabecFechado();
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-
     //////////////////////////////////// DADOS PRA ENVIO //////////////////////////////////////
 
     public String dadosEnvioCabecFechado(){
@@ -250,6 +269,22 @@ public class FitoCTR {
     public String dadosEnvioResp(ArrayList<Long> idCabecList){
         RespFitoDAO respFitoDAO = new RespFitoDAO();
         return respFitoDAO.dadosEnvioResp(respFitoDAO.getListRespEnvio(idCabecList));
+    }
+
+    public void updateCabecAberto(String retorno){
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        cabecFitoDAO.updateCabecAberto(retorno);
+    }
+
+    public void deleteEnviados(){
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        Long idCabec = cabecFitoDAO.delCabec();
+        if(idCabec > 0L){
+            RespFitoDAO respFitoDAO = new RespFitoDAO();
+            List respList = respFitoDAO.getListResp(idCabec);
+            respFitoDAO.delListResp(respList);
+            respList.clear();
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////

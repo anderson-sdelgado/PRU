@@ -128,4 +128,12 @@ public class AtivDAO {
         rosAtivBean.deleteAll();
     }
 
+    public AtividadeBean getAtividade(Long idAtiv){
+        AtividadeBean atividadeBean = new AtividadeBean();
+        List atividadeList = atividadeBean.get("idAtiv", idAtiv);
+        atividadeBean = (AtividadeBean) atividadeList.get(0);
+        atividadeList.clear();
+        return atividadeBean;
+    }
+
 }

@@ -14,4 +14,12 @@ public class OrganDAO {
         return organFitoBean.all();
     }
 
+    public OrganFitoBean getOrganFito(Long idOrgan){
+        OrganFitoBean organFitoBean = new OrganFitoBean();
+        List organList = organFitoBean.get("idOrgan", idOrgan);
+        organFitoBean = (OrganFitoBean) organList.get(0);
+        organList.clear();
+        return organFitoBean;
+    }
+
 }

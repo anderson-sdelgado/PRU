@@ -13,8 +13,8 @@ public class CaracOrganDAO {
 
     public List getCaracOrganList(Long idOrgan){
 
-        ROCAFitoBean ROCAFitoBeanBD = new ROCAFitoBean();
-        List<ROCAFitoBean> rOrganCaracList = ROCAFitoBeanBD.get("idOrgan", idOrgan);
+        ROCAFitoBean rOCAFitoBeanBD = new ROCAFitoBean();
+        List<ROCAFitoBean> rOrganCaracList = rOCAFitoBeanBD.get("idOrgan", idOrgan);
 
         ArrayList<Long> idCaracOrganList = new ArrayList<Long>();
 
@@ -24,6 +24,16 @@ public class CaracOrganDAO {
 
         CaracOrganFitoBean caracOrganFitoBean = new CaracOrganFitoBean();
         return caracOrganFitoBean.in("idCaracOrgan", idCaracOrganList);
+
+    }
+
+    public CaracOrganFitoBean getCaracOrgan(Long idCaracOrgan){
+
+        CaracOrganFitoBean caracOrganFitoBean = new CaracOrganFitoBean();
+        List caracOrganList = caracOrganFitoBean.get("idCaracOrgan", idCaracOrgan);
+        caracOrganFitoBean = (CaracOrganFitoBean) caracOrganList.get(0);
+        caracOrganList.clear();
+        return caracOrganFitoBean;
 
     }
 

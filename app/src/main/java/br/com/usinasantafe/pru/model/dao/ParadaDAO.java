@@ -14,4 +14,12 @@ public class ParadaDAO {
         return paradaBean.orderBy("codParada", true);
     }
 
+    public ParadaBean getParada(Long idParada){
+        ParadaBean paradaBean = new ParadaBean();
+        List paradaList = paradaBean.get("idParada", idParada);
+        paradaBean = (ParadaBean) paradaList.get(0);
+        paradaList.clear();
+        return paradaBean;
+    }
+
 }

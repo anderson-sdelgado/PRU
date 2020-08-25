@@ -21,7 +21,9 @@ public class CabecPerdaBean extends Entidade {
     @DatabaseField
     private Long equipCabecPerda;
     @DatabaseField
-    private Long statusCabecPerda;
+    private String dthrCabecPerda;
+    @DatabaseField
+    private Long statusCabecPerda;// 1 - ABERTA; 2 - FECHADA; 3 - ENVIADO
 
     public CabecPerdaBean() {
     }
@@ -74,4 +76,11 @@ public class CabecPerdaBean extends Entidade {
         this.statusCabecPerda = statusCabecPerda;
     }
 
+    public String getDthrCabecPerda() {
+        return dthrCabecPerda;
+    }
+
+    public void setDthrCabecPerda(String dthrCabecPerda) {
+        this.dthrCabecPerda = dthrCabecPerda;
+    }
 }

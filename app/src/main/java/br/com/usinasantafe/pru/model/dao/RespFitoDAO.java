@@ -151,6 +151,18 @@ public class RespFitoDAO {
         return respFitoBean.get("statusRespFito", 0L);
     }
 
+    public List getListResp(Long idCabec){
+        RespFitoBean respFitoBean = new RespFitoBean();
+        return respFitoBean.get("idCabecRespFito", idCabec);
+    }
+
+    public void delListResp(List respList){
+        for(int i = 0; i < respList.size(); i++) {
+            RespFitoBean respFitoBean = (RespFitoBean) respList.get(i);
+            respFitoBean.delete();
+        }
+    }
+
     public List getListRespEnvio(ArrayList<Long> idCabecList){
 
         RespFitoBean respFitoBean = new RespFitoBean();

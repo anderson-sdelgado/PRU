@@ -110,6 +110,18 @@ public class AmostraSoqueiraDAO {
         return amostraPerdaBean.in("idCabecAmostraSoqueira", idCabecList);
     }
 
+    public List getListAmostra(Long idCabec){
+        AmostraPerdaBean amostraPerdaBean = new AmostraPerdaBean();
+        return amostraPerdaBean.get("idCabecAmostraSoqueira", idCabec);
+    }
+
+    public void delListAmostra(List amostraList){
+        for(int i = 0; i < amostraList.size(); i++) {
+            AmostraPerdaBean amostraPerdaBean = (AmostraPerdaBean) amostraList.get(i);
+            amostraPerdaBean.delete();
+        }
+    }
+
     public String dadosEnvioAmostra(List amostraList){
 
         JsonArray jsonArrayAmostra = new JsonArray();

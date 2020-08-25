@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.control.RuricolaCTR;
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.util.Tempo;
 
@@ -16,7 +18,7 @@ public class BoletimDAO {
     public BoletimDAO() {
     }
 
-    public boolean verCabecFechado(){
+    public boolean verBolFechado(){
         List boletimMMList = boletimFechadoList();
         boolean ret = (boletimMMList.size() > 0);
         boletimMMList.clear();
@@ -49,7 +51,7 @@ public class BoletimDAO {
         return boletimRuricolaBean.get("statusBol", 1L);
     }
 
-    private List boletimFechadoList(){
+    public List boletimFechadoList(){
         BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
         return boletimRuricolaBean.get("statusBol", 2L);
     }
@@ -61,6 +63,24 @@ public class BoletimDAO {
         boletimRuricolaBean.update();
     }
 
+    public List boletimListCresc(){
+        BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+        List boletimList = boletimRuricolaBean.getAndOrderBy("statusBol", 3L, "idBol", true);
+        return boletimList;
+    }
+
+    public Long delBoletim(){
+        List boletimList = boletimListCresc();
+        int qtdeCEC = boletimList.size();
+        if (qtdeCEC > 10) {
+            BoletimRuricolaBean boletimRuricolaBean = (BoletimRuricolaBean) boletimList.get(0);
+            boletimRuricolaBean.delete();
+            return boletimRuricolaBean.getIdBol();
+        }
+        else{
+            return 0L;
+        }
+    }
 
     public String dadosEnvioBolFechado(){
 
@@ -98,6 +118,39 @@ public class BoletimDAO {
         boletimList.clear();
 
         return idBolList;
+
+    }
+
+    public void updateBolAberto(String retorno){
+
+        try{
+
+            int pos1 = retorno.indexOf("_") + 1;
+            String objPrinc = retorno.substring(pos1);
+
+            JSONObject jObjBoletim = new JSONObject(objPrinc);
+            JSONArray jsonArrayBoletim = jObjBoletim.getJSONArray("boletim");
+
+            BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+
+            for (int i = 0; i < jsonArrayBoletim.length(); i++) {
+
+                JSONObject objBol = jsonArrayBoletim.getJSONObject(i);
+                Gson gsonBol = new Gson();
+                boletimRuricolaBean = gsonBol.fromJson(objBol.toString(), BoletimRuricolaBean.class);
+
+                List bolRuricolaList = boletimRuricolaBean.get("idBol", boletimRuricolaBean.getIdBol());
+                BoletimRuricolaBean boletimRuricolaBeanBD = (BoletimRuricolaBean) bolRuricolaList.get(0);
+                bolRuricolaList.clear();
+
+                boletimRuricolaBeanBD.setStatusBol(3L);
+                boletimRuricolaBeanBD.update();
+
+            }
+
+        }
+        catch(Exception e){
+        }
 
     }
 

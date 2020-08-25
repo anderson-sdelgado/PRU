@@ -27,6 +27,10 @@ public class PRUContext extends Application {
     //13 - Altera Amostra Soqueira
     //14 - Parada Fito
     //15 - Parada Perda
+    //16 - Relatorio Ruricola
+    //17 - Relatorio Fito
+    //18 - Relatorio Perda
+    //19 - Relatorio Soqueira
     public static String versaoAplic = "2.0";
     private RuricolaCTR ruricolaCTR;
     private FitoCTR fitoCTR;
@@ -34,6 +38,8 @@ public class PRUContext extends Application {
     private SoqueiraCTR soqueiraCTR;
     private Long posPontoAmostra;
     private int posQuestao;
+    private int posCabec;
+    private Long id;
 
     @Override
     public void onCreate() {
@@ -92,5 +98,21 @@ public class PRUContext extends Application {
 
     public void setPosQuestao(int posQuestao) {
         this.posQuestao = posQuestao;
+    }
+
+    public int getPosCabec() {
+        return posCabec;
+    }
+
+    public void setPosCabec(int posCabec) {
+        this.posCabec = posCabec;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

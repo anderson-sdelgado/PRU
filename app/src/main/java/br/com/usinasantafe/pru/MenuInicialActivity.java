@@ -3,8 +3,10 @@ package br.com.usinasantafe.pru;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -78,6 +80,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         itens.add("BOLETIM");
         itens.add("CONFIGURAÇÃO");
+        itens.add("ENVIO DE DADOS");
         itens.add("SAIR");
 
         AdapterList adapterList = new AdapterList(this, itens);
@@ -90,7 +93,10 @@ public class MenuInicialActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                if (position == 0) {
+                TextView textView = v.findViewById(R.id.textViewItemList);
+                String text = textView.getText().toString();
+
+                if(text.equals("BOLETIM")) {
 
                     if(pruContext.getConfigCTR().hasElements()){
 
@@ -101,11 +107,36 @@ public class MenuInicialActivity extends ActivityGeneric {
                         finish();
                     }
 
-                } else if (position == 1) {
+                }
+                else if(text.equals("CONFIGURAÇÃO")) {
                     Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
                     startActivity(it);
                     finish();
-                } else if (position == 2) {
+                }
+                else if(text.equals("ENVIO DE DADOS")) {
+                    if(EnvioDadosServ.getInstance().getStatusEnvio() == 2){
+                        Intent it = new Intent(MenuInicialActivity.this, EnvioDadosActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+
+                        String mensagem = "NÃO CONTÉM DADOS HÁ SEREM ENVIADOS.";
+
+                        AlertDialog.Builder alerta = new AlertDialog.Builder( MenuInicialActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage(mensagem);
+
+                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        alerta.show();
+
+                    }
+                }
+                else if(text.equals("SAIR")) {
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -166,11 +197,11 @@ public class MenuInicialActivity extends ActivityGeneric {
 
             if(EnvioDadosServ.getInstance().getStatusEnvio() == 1){
                 textViewProcessoNormal.setTextColor(Color.RED);
-                textViewProcessoNormal.setText("Existem Dados para serem Enviados");
+                textViewProcessoNormal.setText("CONTÉM DADOS PARA SEREM ENVIADOS");
             }
             else if(EnvioDadosServ.getInstance().getStatusEnvio() == 2){
                 textViewProcessoNormal.setTextColor(Color.GREEN);
-                textViewProcessoNormal.setText("Todos os Dados já foram Enviados");
+                textViewProcessoNormal.setText("NÃO CONTÉM DADOS HÁ SEREM ENVIADOS");
             }
 
             customHandler.postDelayed(this, 10000);

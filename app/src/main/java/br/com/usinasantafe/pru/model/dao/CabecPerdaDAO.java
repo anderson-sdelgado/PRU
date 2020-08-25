@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +69,25 @@ public class CabecPerdaDAO {
         cabecPerdaBean.commit();
     }
 
+    public List cabecListCresc(){
+        CabecPerdaBean cabecPerdaBean = new CabecPerdaBean();
+        List cabecList = cabecPerdaBean.getAndOrderBy("statusCabecPerda", 3L, "idCabecPerda", true);
+        return cabecList;
+    }
+
+    public Long delCabec(){
+        List cabecList = cabecListCresc();
+        int qtdeCEC = cabecList.size();
+        if (qtdeCEC > 10) {
+            CabecPerdaBean cabecPerdaBean = (CabecPerdaBean) cabecList.get(0);
+            cabecPerdaBean.delete();
+            return cabecPerdaBean.getIdCabecPerda();
+        }
+        else{
+            return 0L;
+        }
+    }
+
     public String dadosEnvioCabecFechado(){
 
         List cabecList = cabecPerdaFechadoList();
@@ -103,6 +125,39 @@ public class CabecPerdaDAO {
         cabecList.clear();
 
         return idCabecList;
+
+    }
+
+    public void updateCabecAberto(String retorno){
+
+        try{
+
+            int pos1 = retorno.indexOf("_") + 1;
+            String objPrinc = retorno.substring(pos1);
+
+            JSONObject jObjCabec = new JSONObject(objPrinc);
+            JSONArray jsonArrayCabec = jObjCabec.getJSONArray("cabec");
+
+            CabecPerdaBean cabecPerdaBean = new CabecPerdaBean();
+
+            for (int i = 0; i < jsonArrayCabec.length(); i++) {
+
+                JSONObject objCabec = jsonArrayCabec.getJSONObject(i);
+                Gson gsonCabec = new Gson();
+                cabecPerdaBean = gsonCabec.fromJson(objCabec.toString(), CabecPerdaBean.class);
+
+                List cabecPerdaList = cabecPerdaBean.get("idCabecPerda", cabecPerdaBean.getIdCabecPerda());
+                CabecPerdaBean cabecPerdaBeanBD = (CabecPerdaBean) cabecPerdaList.get(0);
+                cabecPerdaList.clear();
+
+                cabecPerdaBeanBD.setStatusCabecPerda(3L);
+                cabecPerdaBeanBD.update();
+
+            }
+
+        }
+        catch(Exception e){
+        }
 
     }
 

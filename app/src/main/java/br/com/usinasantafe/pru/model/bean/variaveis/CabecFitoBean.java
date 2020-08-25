@@ -18,7 +18,7 @@ public class CabecFitoBean extends Entidade {
     @DatabaseField
     private Long auditorCabecFito;
     @DatabaseField
-    private String dtCabecFito;
+    private String dthrCabecFito;
     @DatabaseField
     private Long osCabecFito;
     @DatabaseField
@@ -30,7 +30,7 @@ public class CabecFitoBean extends Entidade {
     @DatabaseField
     private Long ultPontoCabecFito;
     @DatabaseField
-    private Long statusCabecFito; // 1 - ABERTA; 2 - FECHADA;
+    private Long statusCabecFito; // 1 - ABERTA; 2 - FECHADA; 3 - ENVIADO
 
     public CabecFitoBean() {
     }
@@ -47,12 +47,12 @@ public class CabecFitoBean extends Entidade {
         this.auditorCabecFito = auditorCabecFito;
     }
 
-    public String getDtCabecFito() {
-        return dtCabecFito;
+    public String getDthrCabecFito() {
+        return dthrCabecFito;
     }
 
-    public void setDtCabecFito(String dtCabecFito) {
-        this.dtCabecFito = dtCabecFito;
+    public void setDthrCabecFito(String dthrCabecFito) {
+        this.dthrCabecFito = dthrCabecFito;
     }
 
     public Long getOSCabecFito() {

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.j256.ormlite.field.DatabaseField;
-
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
@@ -18,8 +16,6 @@ import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecSoqueiraBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
-import br.com.usinasantafe.pru.util.EnvioDadosServ;
-import br.com.usinasantafe.pru.util.Tempo;
 import br.com.usinasantafe.pru.model.pst.DatabaseHelper;
 
 public class ReceberAlarme extends BroadcastReceiver {
@@ -109,7 +105,7 @@ public class ReceberAlarme extends BroadcastReceiver {
             Log.i("PRU", "CABEC FITO");
             Log.i("PRU", "idCabecFito = " + cabecFitoBean.getIdCabecFito());
             Log.i("PRU", "auditorCabecFito = " + cabecFitoBean.getAuditorCabecFito());
-            Log.i("PRU", "dtCabecFito = " + cabecFitoBean.getDtCabecFito());
+            Log.i("PRU", "dtCabecFito = " + cabecFitoBean.getDthrCabecFito());
             Log.i("PRU", "osCabecFito = " + cabecFitoBean.getOSCabecFito());
             Log.i("PRU", "talhaoCabecFito = " + cabecFitoBean.getTalhaoCabecFito());
             Log.i("PRU", "idOrgCabecFito = " + cabecFitoBean.getIdOrgCabecFito());

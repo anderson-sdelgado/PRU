@@ -63,6 +63,18 @@ public class ApontDAO {
 
     }
 
+    public List getListApont(Long idBol){
+        ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
+        return apontRuricolaBean.get("idBolApont", idBol);
+    }
+
+    public void delListApont(List apontList){
+        for(int i = 0; i < apontList.size(); i++) {
+            ApontRuricolaBean apontRuricolaBean = (ApontRuricolaBean) apontList.get(i);
+            apontRuricolaBean.delete();
+        }
+    }
+
     public String dadosEnvioApont(List apontaList){
 
         JsonArray jsonArrayAponta = new JsonArray();

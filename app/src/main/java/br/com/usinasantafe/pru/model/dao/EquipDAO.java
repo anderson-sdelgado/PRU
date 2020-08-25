@@ -10,23 +10,23 @@ public class EquipDAO {
     public EquipDAO() {
     }
 
-    public boolean verEquip(Long codEquip){
-        List equipList = equipList(codEquip);
+    public boolean verEquip(Long nroEquip){
+        List equipList = equipList(nroEquip);
         boolean ret = equipList.size() > 0;
         equipList.clear();
         return ret;
     }
 
-    public EquipBean getEquip(Long codEquip){
-        List equipList = equipList(codEquip);
+    public EquipBean getEquip(Long nroEquip){
+        List equipList = equipList(nroEquip);
         EquipBean equipBean = (EquipBean) equipList.get(0);
         equipList.clear();
         return equipBean;
     }
 
-    private List equipList(Long codEquip){
+    private List equipList(Long nroEquip){
         EquipBean equipBean = new EquipBean();
-        List equipList = equipBean.get("nroEquip", codEquip);
+        List equipList = equipBean.get("nroEquip", nroEquip);
         return equipList;
     }
 
