@@ -51,15 +51,7 @@ public class ApontDAO {
     public List getListApontEnvio(ArrayList<Long> idBolList){
 
         ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
-
-        ArrayList pesqArrayList = new ArrayList();
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("statusApont");
-        pesquisa.setValor(1L);
-        pesquisa.setTipo(1);
-        pesqArrayList.add(pesquisa);
-
-        return apontRuricolaBean.inAndGet("idBolApont", idBolList, pesqArrayList);
+        return apontRuricolaBean.in("idBolApont", idBolList);
 
     }
 

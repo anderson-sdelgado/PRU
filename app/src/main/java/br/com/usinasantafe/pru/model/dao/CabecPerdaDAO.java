@@ -12,6 +12,8 @@ import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
+import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
+import br.com.usinasantafe.pru.util.Tempo;
 
 public class CabecPerdaDAO {
 
@@ -27,6 +29,13 @@ public class CabecPerdaDAO {
 
     public boolean verCabecPerdaFechado(){
         List cabecPerdaList = cabecPerdaFechadoList();
+        boolean ret = cabecPerdaList.size() > 0;
+        cabecPerdaList.clear();
+        return ret;
+    }
+
+    public boolean verCabecPerdaFechadoEnviado(){
+        List cabecPerdaList = cabecPerdaFechadoEnviadoList();
         boolean ret = cabecPerdaList.size() > 0;
         cabecPerdaList.clear();
         return ret;
@@ -49,7 +58,22 @@ public class CabecPerdaDAO {
         return cabecPerdaBean.get("statusCabecPerda", 2L);
     }
 
+    public List<CabecPerdaBean> cabecPerdaFechadoEnviadoList(){
+
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusCabecPerda");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(2);
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(pesquisa);
+
+        CabecPerdaBean cabecPerdaBean = new CabecPerdaBean();
+        return cabecPerdaBean.get(pesqArrayList);
+    }
+
     public void salvarCabecPerdaAberto(CabecPerdaBean cabecPerdaBean){
+        cabecPerdaBean.setDthrCabecPerda(Tempo.getInstance().data());
         cabecPerdaBean.setStatusCabecPerda(1L);
         cabecPerdaBean.insert();
     }

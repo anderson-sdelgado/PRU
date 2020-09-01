@@ -33,7 +33,9 @@ public class FitoCTR {
     public void salvarCabecFitoAberto(){
 
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
-        cabecFitoBean.setAuditorCabecFito(ruricolaCTR.getBolAberto().getIdLiderBol());
+
+        FuncDAO funcDAO = new FuncDAO();
+        cabecFitoBean.setAuditorCabecFito(funcDAO.getFuncMatric(ruricolaCTR.getBolAberto().getIdLiderBol()).getIdFunc());
         cabecFitoBean.setOSCabecFito(ruricolaCTR.getBolAberto().getOsBol());
 
         deleteEnviados();
@@ -125,6 +127,11 @@ public class FitoCTR {
         return cabecFitoDAO.verCabecFechado();
     }
 
+    public boolean verCabecFechadoEnviado() {
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        return cabecFitoDAO.verCabecFechadoEnviado();
+    }
+
     public boolean verTermQuestaoCabec(int posQuestao){
         AmostraFitoDAO amostraFitoDAO = new AmostraFitoDAO();
         cabecFitoBean = getCabecFitoBean();
@@ -161,9 +168,14 @@ public class FitoCTR {
         return cabecFitoDAO.cabecFitoFechadoList();
     }
 
+    public List cabecFechadoEnviadoList() {
+        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
+        return cabecFitoDAO.cabecFitoFechadoEnviadoList();
+    }
+
     public FuncBean getFunc(Long matric){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(matric);
+        return funcDAO.getFuncMatric(matric);
     }
 
     public List getOrganList(){
@@ -188,7 +200,7 @@ public class FitoCTR {
 
     public FuncBean getFuncCabec(){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(getCabecFitoAberto().getAuditorCabecFito());
+        return funcDAO.getFuncId(getCabecFitoAberto().getAuditorCabecFito());
     }
 
     public OSBean getOS(){
@@ -240,6 +252,11 @@ public class FitoCTR {
         return idRespFito;
     }
 
+    public List getListResp(Long idCabec){
+        RespFitoDAO respFitoDAO = new RespFitoDAO();
+        return respFitoDAO.getListResp(idCabec);
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////// SET DE CAMPOS ///////////////////////////////////////////
@@ -271,7 +288,7 @@ public class FitoCTR {
         return respFitoDAO.dadosEnvioResp(respFitoDAO.getListRespEnvio(idCabecList));
     }
 
-    public void updateCabecAberto(String retorno){
+    public void updateDados(String retorno){
         CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
         cabecFitoDAO.updateCabecAberto(retorno);
     }

@@ -66,7 +66,7 @@ public class MenuRelatorioActivity extends ActivityGeneric {
 
             if(text.equals("RURÍCOLA")) {
 
-                if(pruContext.getRuricolaCTR().verBolFechado()){
+                if(pruContext.getRuricolaCTR().verBolFechadoEnviado()){
                     verAcesso = true;
                     pruContext.setVerPosTela(16);
                 }
@@ -87,7 +87,7 @@ public class MenuRelatorioActivity extends ActivityGeneric {
             }
             else if(text.equals("FITO")) {
 
-                if(pruContext.getFitoCTR().verCabecFechado()){
+                if(pruContext.getFitoCTR().verCabecFechadoEnviado()){
                     verAcesso = true;
                     pruContext.setVerPosTela(17);
                 }
@@ -109,7 +109,7 @@ public class MenuRelatorioActivity extends ActivityGeneric {
             }
             else if(text.equals("PERDA")) {
 
-                if(pruContext.getPerdaCTR().verCabecFechado()){
+                if(pruContext.getPerdaCTR().verCabecFechadoEnviado()){
                     verAcesso = true;
                     pruContext.setVerPosTela(18);
                 }
@@ -131,7 +131,7 @@ public class MenuRelatorioActivity extends ActivityGeneric {
             }
             else if(text.equals("SOQUEIRA")) {
 
-                if(pruContext.getSoqueiraCTR().verCabecFechado()){
+                if(pruContext.getSoqueiraCTR().verCabecFechadoEnviado()){
                     verAcesso = true;
                     pruContext.setVerPosTela(19);
                 }

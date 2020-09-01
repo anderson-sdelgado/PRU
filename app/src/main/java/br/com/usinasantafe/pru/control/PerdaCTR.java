@@ -9,12 +9,10 @@ import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AmostraPerdaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
 import br.com.usinasantafe.pru.model.dao.AmostraPerdaDAO;
-import br.com.usinasantafe.pru.model.dao.CabecFitoDAO;
 import br.com.usinasantafe.pru.model.dao.CabecPerdaDAO;
 import br.com.usinasantafe.pru.model.dao.EquipDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
-import br.com.usinasantafe.pru.model.dao.RespFitoDAO;
 
 public class PerdaCTR {
 
@@ -82,6 +80,11 @@ public class PerdaCTR {
         return cabecPerdaDAO.verCabecPerdaAberto();
     }
 
+    public boolean verCabecFechadoEnviado(){
+        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
+        return cabecPerdaDAO.verCabecPerdaFechadoEnviado();
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////// GET DE CAMPOS ///////////////////////////////////////////
@@ -94,6 +97,11 @@ public class PerdaCTR {
     public List<CabecPerdaBean> cabecFechadoList(){
         CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
         return cabecPerdaDAO.cabecPerdaFechadoList();
+    }
+
+    public List<CabecPerdaBean> cabecFechadoEnviadoList(){
+        CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
+        return cabecPerdaDAO.cabecPerdaFechadoEnviadoList();
     }
 
     public CabecPerdaBean getCabecPerdaAberto(){
@@ -113,19 +121,18 @@ public class PerdaCTR {
 
     public FuncBean getFunc(){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(getCabecPerdaAberto().getAuditorCabecPerda());
+        return funcDAO.getFuncMatric(getCabecPerdaAberto().getAuditorCabecPerda());
     }
 
     public FuncBean getFunc(Long matric){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(matric);
+        return funcDAO.getFuncMatric(matric);
     }
 
     public OSBean getOS(){
         OSDAO osDAO = new OSDAO();
         return osDAO.getOS(getCabecPerdaAberto().getOsCabecPerda());
     }
-
 
     public AmostraPerdaBean getAmostraPerdaBean() {
         return amostraPerdaBean;
@@ -134,6 +141,11 @@ public class PerdaCTR {
     public AmostraPerdaBean getAmostraPerda(Long seqAmostraPerda){
         AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
         return amostraPerdaDAO.getAmostraPerda(getCabecPerdaAberto().getIdCabecPerda(), seqAmostraPerda);
+    }
+
+    public List getListAmostra(Long idCabec){
+        AmostraPerdaDAO amostraPerdaDAO = new AmostraPerdaDAO();
+        return amostraPerdaDAO.getListAmostra(idCabec);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,7 +194,7 @@ public class PerdaCTR {
         return amostraPerdaDAO.dadosEnvioAmostra(amostraPerdaDAO.getListAmostraEnvio(idCabecList));
     }
 
-    public void updateCabecAberto(String retorno){
+    public void updateDados(String retorno){
         CabecPerdaDAO cabecPerdaDAO = new CabecPerdaDAO();
         cabecPerdaDAO.updateCabecAberto(retorno);
     }

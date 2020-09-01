@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecSoqueiraBean;
+import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
+import br.com.usinasantafe.pru.util.Tempo;
 
 public class CabecSoqueiraDAO {
 
@@ -21,6 +21,20 @@ public class CabecSoqueiraDAO {
 
     public boolean verCabecAberto(){
         List cabecSoqueiraList = cabecSoqueiraAbertoList();
+        boolean ret = cabecSoqueiraList.size() > 0;
+        cabecSoqueiraList.clear();
+        return ret;
+    }
+
+    public boolean verCabecFechado(){
+        List cabecSoqueiraList = cabecSoqueiraFechadoList();
+        boolean ret = cabecSoqueiraList.size() > 0;
+        cabecSoqueiraList.clear();
+        return ret;
+    }
+
+    public boolean verCabecFechadoEnviado(){
+        List cabecSoqueiraList = cabecSoqueiraFechadoEnviadoList();
         boolean ret = cabecSoqueiraList.size() > 0;
         cabecSoqueiraList.clear();
         return ret;
@@ -43,7 +57,22 @@ public class CabecSoqueiraDAO {
         return cabecSoqueiraBean.get("statusCabecSoqueira", 2L);
     }
 
+    public List<CabecSoqueiraBean> cabecSoqueiraFechadoEnviadoList(){
+
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusCabecSoqueira");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(2);
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(pesquisa);
+
+        CabecSoqueiraBean cabecSoqueiraBean = new CabecSoqueiraBean();
+        return cabecSoqueiraBean.get(pesqArrayList);
+    }
+
     public void salvarCabecSoqueiraAberto(CabecSoqueiraBean cabecSoqueiraBean){
+        cabecSoqueiraBean.setDthrCabecSoqueira(Tempo.getInstance().data());
         cabecSoqueiraBean.setStatusCabecSoqueira(1L);
         cabecSoqueiraBean.insert();
     }

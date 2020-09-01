@@ -81,6 +81,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         itens.add("BOLETIM");
         itens.add("CONFIGURAÇÃO");
         itens.add("ENVIO DE DADOS");
+        itens.add("RELATÓRIO");
         itens.add("SAIR");
 
         AdapterList adapterList = new AdapterList(this, itens);
@@ -114,7 +115,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                     finish();
                 }
                 else if(text.equals("ENVIO DE DADOS")) {
-                    if(EnvioDadosServ.getInstance().getStatusEnvio() == 2){
+                    if(EnvioDadosServ.getInstance().getStatusEnvio() == 1){
                         Intent it = new Intent(MenuInicialActivity.this, EnvioDadosActivity.class);
                         startActivity(it);
                         finish();
@@ -135,6 +136,11 @@ public class MenuInicialActivity extends ActivityGeneric {
                         alerta.show();
 
                     }
+                }
+                else if(text.equals("RELATÓRIO")) {
+                    Intent it = new Intent(MenuInicialActivity.this, MenuRelatorioActivity.class);
+                    startActivity(it);
+                    finish();
                 }
                 else if(text.equals("SAIR")) {
                     Intent intent = new Intent(Intent.ACTION_MAIN);

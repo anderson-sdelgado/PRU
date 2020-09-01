@@ -8,9 +8,7 @@ import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AmostraSoqueiraBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecSoqueiraBean;
-import br.com.usinasantafe.pru.model.dao.AmostraPerdaDAO;
 import br.com.usinasantafe.pru.model.dao.AmostraSoqueiraDAO;
-import br.com.usinasantafe.pru.model.dao.CabecPerdaDAO;
 import br.com.usinasantafe.pru.model.dao.CabecSoqueiraDAO;
 import br.com.usinasantafe.pru.model.dao.EquipDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
@@ -80,6 +78,11 @@ public class SoqueiraCTR {
         return cabecSoqueiraDAO.verCabecAberto();
     }
 
+    public boolean verCabecFechadoEnviado(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.verCabecFechadoEnviado();
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////// GET DE CAMPOS ///////////////////////////////////////////
@@ -92,6 +95,11 @@ public class SoqueiraCTR {
     public List<CabecSoqueiraBean> cabecFechadoList(){
         CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
         return cabecSoqueiraDAO.cabecSoqueiraFechadoList();
+    }
+
+    public List<CabecSoqueiraBean> cabecFechadoEnviadoList(){
+        CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
+        return cabecSoqueiraDAO.cabecSoqueiraFechadoEnviadoList();
     }
 
     public CabecSoqueiraBean getCabecSoqueiraAberto(){
@@ -111,12 +119,12 @@ public class SoqueiraCTR {
 
     public FuncBean getFunc(){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(getCabecSoqueiraAberto().getAuditorCabecSoqueira());
+        return funcDAO.getFuncMatric(getCabecSoqueiraAberto().getAuditorCabecSoqueira());
     }
 
     public FuncBean getFunc(Long matric){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(matric);
+        return funcDAO.getFuncMatric(matric);
     }
 
     public OSBean getOS(){
@@ -131,6 +139,11 @@ public class SoqueiraCTR {
     public AmostraSoqueiraBean getAmostraSoqueira(Long seqAmostraSoqueira){
         AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
         return amostraSoqueiraDAO.getAmostraSoqueira(getCabecSoqueiraAberto().getIdCabecSoqueira(), seqAmostraSoqueira);
+    }
+
+    public List getListAmostra(Long idCabec){
+        AmostraSoqueiraDAO amostraSoqueiraDAO = new AmostraSoqueiraDAO();
+        return amostraSoqueiraDAO.getListAmostra(idCabec);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +165,7 @@ public class SoqueiraCTR {
 
     public boolean verCabecFechado() {
         CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
-        return cabecSoqueiraDAO.verCabecAberto();
+        return cabecSoqueiraDAO.verCabecFechado();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +188,7 @@ public class SoqueiraCTR {
         return amostraSoqueiraDAO.dadosEnvioAmostra(amostraSoqueiraDAO.getListAmostraEnvio(idCabecList));
     }
 
-    public void updateCabecAberto(String retorno){
+    public void updateDados(String retorno){
         CabecSoqueiraDAO cabecSoqueiraDAO = new CabecSoqueiraDAO();
         cabecSoqueiraDAO.updateCabecAberto(retorno);
     }

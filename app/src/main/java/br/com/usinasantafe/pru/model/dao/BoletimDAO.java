@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
+import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pru.util.Tempo;
 
 public class BoletimDAO {
@@ -18,17 +19,24 @@ public class BoletimDAO {
     public BoletimDAO() {
     }
 
+    public boolean verBolFechadoEnviado(){
+        List boletimList = boletimFechadoEnviadoList();
+        boolean ret = (boletimList.size() > 0);
+        boletimList.clear();
+        return ret;
+    }
+
     public boolean verBolFechado(){
-        List boletimMMList = boletimFechadoList();
-        boolean ret = (boletimMMList.size() > 0);
-        boletimMMList.clear();
+        List boletimList = boletimFechadoList();
+        boolean ret = (boletimList.size() > 0);
+        boletimList.clear();
         return ret;
     }
 
     public boolean verBolAberto(){
-        List boletimMMList = boletimAbertoList();
-        boolean ret = (boletimMMList.size() > 0);
-        boletimMMList.clear();
+        List boletimList = boletimAbertoList();
+        boolean ret = (boletimList.size() > 0);
+        boletimList.clear();
         return ret;
     }
 
@@ -54,6 +62,20 @@ public class BoletimDAO {
     public List boletimFechadoList(){
         BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
         return boletimRuricolaBean.get("statusBol", 2L);
+    }
+
+    public List boletimFechadoEnviadoList(){
+
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusBol");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(2);
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(pesquisa);
+
+        BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+        return boletimRuricolaBean.get(pesqArrayList);
     }
 
     public void salvarBolFechado() {

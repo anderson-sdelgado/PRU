@@ -122,7 +122,7 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                if(!pruContext.getFitoCTR().hasRespCabec()){
+                if(!pruContext.getSoqueiraCTR().verCabecAberto()){
 
                     String mensagem = "POR FAVOR, INSIRA AMOSTRA ANTES DE ENVIAR OS DADOS.";
 
@@ -140,8 +140,8 @@ public class ListaAmostraSoqueiraActivity extends ActivityGeneric {
                 }
                 else{
 
-                    pruContext.getFitoCTR().fecharCabecFito();
-                    Intent it = new Intent( ListaAmostraSoqueiraActivity.this, MenuInicialActivity.class);
+                    pruContext.getSoqueiraCTR().fecharCabecSoqueira();
+                    Intent it = new Intent( ListaAmostraSoqueiraActivity.this, MenuMotoMecActivity.class);
                     startActivity(it);
                     finish();
 

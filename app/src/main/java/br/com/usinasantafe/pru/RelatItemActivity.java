@@ -43,6 +43,11 @@ public class RelatItemActivity extends ActivityGeneric {
         Button buttonProxRelatItem = (Button) findViewById(R.id.buttonProxRelatItem);
         Button buttonRetRelatItem = (Button) findViewById(R.id.buttonRetRelatItem);
 
+        pruContext = (PRUContext) getApplication();
+
+        itens = new ArrayList<String>();
+
+        carregDados();
         exibirTituloItem();
         exibirItem();
 
@@ -50,8 +55,8 @@ public class RelatItemActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                if(pruContext.getPosCabec() > 0){
-                    pruContext.setPosCabec(pruContext.getPosCabec() - 1);
+                if(pruContext.getPosQuestao() > 0){
+                    pruContext.setPosCabec(pruContext.getPosQuestao() - 1);
                     exibirTituloItem();
                     exibirItem();
                 }
@@ -62,8 +67,9 @@ public class RelatItemActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                exibirTituloItem();
-                if(dadosList.size() < pruContext.getPosCabec()){
+                if(dadosList.size() < pruContext.getPosQuestao()){
+                    pruContext.setPosCabec(pruContext.getPosQuestao() - 1);
+                    exibirTituloItem();
                     exibirItem();
                 }
             }
@@ -81,23 +87,35 @@ public class RelatItemActivity extends ActivityGeneric {
 
     }
 
-    public void exibirTituloItem(){
-
+    public void carregDados(){
         if(pruContext.getVerPosTela() == 16){
-            textViewTituloRelatItem.setText("APONTAMENTO = " + (pruContext.getPosQuestao() + 1));
             dadosList = pruContext.getRuricolaCTR().getListApont(pruContext.getId());
         }
         else if(pruContext.getVerPosTela() == 17){
-            textViewTituloRelatItem.setText("AMOSTRA = " + (pruContext.getPosQuestao() + 1));
-            dadosList = pruContext.getFitoCTR().cabecFechadoList();
+            dadosList = pruContext.getFitoCTR().getListResp(pruContext.getId());
         }
         else if(pruContext.getVerPosTela() == 18){
-            textViewTituloRelatItem.setText("AMOSTRA = " + (pruContext.getPosQuestao() + 1));
-            dadosList = pruContext.getPerdaCTR().cabecFechadoList();
+            dadosList = pruContext.getPerdaCTR().getListAmostra(pruContext.getId());
         }
         else if(pruContext.getVerPosTela() == 19){
-            textViewTituloRelatItem.setText("AMOSTRA = " + (pruContext.getPosQuestao() + 1));
-            dadosList = pruContext.getSoqueiraCTR().cabecFechadoList();
+            dadosList = pruContext.getSoqueiraCTR().getListAmostra(pruContext.getId());
+        }
+    }
+
+    public void exibirTituloItem(){
+
+        if(pruContext.getVerPosTela() == 16){
+            textViewTituloRelatItem.setText("APONTAMENTO " + (pruContext.getPosQuestao() + 1));
+            dadosList = pruContext.getRuricolaCTR().getListApont(pruContext.getId());
+        }
+        else if(pruContext.getVerPosTela() == 17){
+            textViewTituloRelatItem.setText("AMOSTRA " + (pruContext.getPosQuestao() + 1));
+        }
+        else if(pruContext.getVerPosTela() == 18){
+            textViewTituloRelatItem.setText("AMOSTRA " + (pruContext.getPosQuestao() + 1));
+        }
+        else if(pruContext.getVerPosTela() == 19){
+            textViewTituloRelatItem.setText("AMOSTRA " + (pruContext.getPosQuestao() + 1));
         }
 
     }

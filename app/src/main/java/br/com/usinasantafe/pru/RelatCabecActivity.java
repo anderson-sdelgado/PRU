@@ -79,7 +79,6 @@ public class RelatCabecActivity extends ActivityGeneric {
 
                 if(pruContext.getPosCabec() > 0){
                     pruContext.setPosCabec(pruContext.getPosCabec() - 1);
-                    exibirTituloCabec();
                     exibirCabec();
                 }
 
@@ -91,8 +90,8 @@ public class RelatCabecActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                exibirTituloCabec();
                 if(dadosList.size() < pruContext.getPosCabec()){
+                    pruContext.setPosCabec(pruContext.getPosCabec() + 1);
                     exibirCabec();
                 }
 
@@ -118,22 +117,22 @@ public class RelatCabecActivity extends ActivityGeneric {
         if(pruContext.getVerPosTela() == 16){
             textViewTituloRelatCabec.setText("BOLETIM RURÍCOLA");
             buttonItemCabec.setText("APONTAMENTO(S)");
-            dadosList = pruContext.getRuricolaCTR().bolFechadoList();
+            dadosList = pruContext.getRuricolaCTR().bolFechadoEnviadoList();
         }
         else if(pruContext.getVerPosTela() == 17){
             textViewTituloRelatCabec.setText("BOLETIM FITO");
             buttonItemCabec.setText("AMOSTRA(S)");
-            dadosList = pruContext.getFitoCTR().cabecFechadoList();
+            dadosList = pruContext.getFitoCTR().cabecFechadoEnviadoList();
         }
         else if(pruContext.getVerPosTela() == 18){
             textViewTituloRelatCabec.setText("BOLETIM PERDA");
             buttonItemCabec.setText("AMOSTRA(S)");
-            dadosList = pruContext.getPerdaCTR().cabecFechadoList();
+            dadosList = pruContext.getPerdaCTR().cabecFechadoEnviadoList();
         }
         else if(pruContext.getVerPosTela() == 19){
             textViewTituloRelatCabec.setText("BOLETIM SOQUEIRA");
             buttonItemCabec.setText("AMOSTRA(S)");
-            dadosList = pruContext.getSoqueiraCTR().cabecFechadoList();
+            dadosList = pruContext.getSoqueiraCTR().cabecFechadoEnviadoList();
         }
 
     }
@@ -189,7 +188,7 @@ public class RelatCabecActivity extends ActivityGeneric {
     }
 
     public void setItemSoqueira(ArrayList<String> itens){
-        itens.add("DATA HORA = " + cabecSoqueiraBean.getDthrCabecPerda());
+        itens.add("DATA HORA = " + cabecSoqueiraBean.getDthrCabecSoqueira());
         itens.add("AUDITOR = " + pruContext.getSoqueiraCTR().getFunc(cabecSoqueiraBean.getAuditorCabecSoqueira()).getMatricFunc() + " - " + pruContext.getSoqueiraCTR().getFunc(cabecSoqueiraBean.getAuditorCabecSoqueira()).getNomeFunc());
         itens.add("NRO OS = " + cabecSoqueiraBean.getOsCabecSoqueira());
         itens.add("EQUIPAMENTO = " +  pruContext.getSoqueiraCTR().getEquip(cabecSoqueiraBean.getEquipCabecSoqueira()).getNroEquip() + " - " + pruContext.getSoqueiraCTR().getEquip(cabecSoqueiraBean.getEquipCabecSoqueira()).getDescrClasseEquip());

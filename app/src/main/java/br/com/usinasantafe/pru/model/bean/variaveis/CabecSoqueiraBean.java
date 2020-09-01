@@ -19,7 +19,7 @@ public class CabecSoqueiraBean extends Entidade {
     @DatabaseField
     private Long equipCabecSoqueira;
     @DatabaseField
-    private String dthrCabecPerda;
+    private String dthrCabecSoqueira;
     @DatabaseField
     private Long statusCabecSoqueira;// 1 - ABERTA; 2 - FECHADA; 3 - ENVIADO
 
@@ -58,12 +58,12 @@ public class CabecSoqueiraBean extends Entidade {
         this.equipCabecSoqueira = equipCabecSoqueira;
     }
 
-    public String getDthrCabecPerda() {
-        return dthrCabecPerda;
+    public String getDthrCabecSoqueira() {
+        return dthrCabecSoqueira;
     }
 
-    public void setDthrCabecPerda(String dthrCabecPerda) {
-        this.dthrCabecPerda = dthrCabecPerda;
+    public void setDthrCabecSoqueira(String dthrCabecSoqueira) {
+        this.dthrCabecSoqueira = dthrCabecSoqueira;
     }
 
     public Long getStatusCabecSoqueira() {

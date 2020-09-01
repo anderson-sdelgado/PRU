@@ -12,6 +12,8 @@ import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
+import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
+import br.com.usinasantafe.pru.util.Tempo;
 
 public class CabecFitoDAO {
 
@@ -19,6 +21,7 @@ public class CabecFitoDAO {
     }
 
     public void salvarCabecFitoAberto(CabecFitoBean cabecFitoBean){
+        cabecFitoBean.setDthrCabecFito(Tempo.getInstance().data());
         cabecFitoBean.setUltPontoCabecFito(0L);
         cabecFitoBean.setStatusCabecFito(1L);
         cabecFitoBean.insert();
@@ -33,6 +36,13 @@ public class CabecFitoDAO {
 
     public boolean verCabecFechado(){
         List cabecFitoList = cabecFitoFechadoList();
+        boolean ret = cabecFitoList.size() > 0;
+        cabecFitoList.clear();
+        return ret;
+    }
+
+    public boolean verCabecFechadoEnviado(){
+        List cabecFitoList = cabecFitoFechadoEnviadoList();
         boolean ret = cabecFitoList.size() > 0;
         cabecFitoList.clear();
         return ret;
@@ -53,6 +63,20 @@ public class CabecFitoDAO {
     public List cabecFitoFechadoList(){
         CabecFitoBean cabecFitoBean = new CabecFitoBean();
         return cabecFitoBean.get("statusCabecFito", 2L);
+    }
+
+    public List cabecFitoFechadoEnviadoList(){
+
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusCabecFito");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(2);
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(pesquisa);
+
+        CabecFitoBean cabecFitoBean = new CabecFitoBean();
+        return cabecFitoBean.get(pesqArrayList);
     }
 
     public void delCabecFito(Long idCabecFito){

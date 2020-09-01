@@ -3,8 +3,10 @@ package br.com.usinasantafe.pru.control;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pru.EnvioDadosActivity;
 import br.com.usinasantafe.pru.MenuInicialActivity;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
@@ -18,6 +20,7 @@ import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.model.dao.TipoApontDAO;
 import br.com.usinasantafe.pru.model.dao.TurmaDAO;
 import br.com.usinasantafe.pru.util.AtualDadosServ;
+import br.com.usinasantafe.pru.util.EnvioDadosServ;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
 
 public class ConfigCTR {
@@ -218,13 +221,21 @@ public class ConfigCTR {
 
     ////////////////ENVIO DADOS/////////////////////
 
+    public void envioDados(EnvioDadosActivity envioDadosActivity){
+        EnvioDadosServ.getInstance().envioDados(envioDadosActivity);
+    }
+
+
     public String dadosEnvioRuricola(){
 
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
         String dadosEnvioBoletim = ruricolaCTR.dadosEnvioBolFechado();
-        String dadosEnvioApont = ruricolaCTR.dadosEnvioApont(ruricolaCTR.idBolList());
+        ArrayList<Long> idBolList = ruricolaCTR.idBolList();
+        String dadosEnvioApont = ruricolaCTR.dadosEnvioApont(idBolList);
+        String dadosEnvioAlocaFunc = ruricolaCTR.dadosEnvioAlocaFunc(idBolList);
+        idBolList.clear();
 
-        return dadosEnvioBoletim + "_" + dadosEnvioApont;
+        return dadosEnvioBoletim + "_" + dadosEnvioApont + "|" + dadosEnvioAlocaFunc;
 
     }
 

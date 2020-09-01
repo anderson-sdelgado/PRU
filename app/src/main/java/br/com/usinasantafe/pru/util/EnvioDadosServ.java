@@ -178,7 +178,7 @@ public class EnvioDadosServ {
         ConfigCTR configCTR = new ConfigCTR();
         if(result.trim().startsWith("GRAVOU-RURICOLA")){
             RuricolaCTR ruricolaCTR = new RuricolaCTR();
-            ruricolaCTR.updateBolAberto(result);
+            ruricolaCTR.updateDados(result);
             if(configCTR.verifDadosFito()){
                 posEnvio = 2;
                 enviarDadosFito();
@@ -196,7 +196,7 @@ public class EnvioDadosServ {
             }
         } else if (result.trim().startsWith("GRAVOU-FITO")) {
             FitoCTR fitoCTR = new FitoCTR();
-            fitoCTR.updateCabecAberto(result);
+            fitoCTR.updateDados(result);
             if(configCTR.verifDadosPerda()){
                 posEnvio = 3;
                 enviarDadosPerda();
@@ -210,7 +210,7 @@ public class EnvioDadosServ {
             }
         } else if (result.trim().contains("GRAVOU-PERDA")) {
             PerdaCTR perdaCTR = new PerdaCTR();
-            perdaCTR.updateCabecAberto(result);
+            perdaCTR.updateDados(result);
             if(configCTR.verifDadosSoqueira()){
                 posEnvio = 4;
                 enviarDadosSoqueira();
@@ -220,8 +220,8 @@ public class EnvioDadosServ {
             }
         } else if (result.trim().contains("GRAVOU-SOQUEIRA")) {
             SoqueiraCTR soqueiraCTR = new SoqueiraCTR();
-            soqueiraCTR.updateCabecAberto(result);
-            posEnvio = 5;
+            soqueiraCTR.updateDados(result);
+            posEnvio = 5 ;
         }
 
     }

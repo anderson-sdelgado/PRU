@@ -38,6 +38,11 @@ public class RuricolaCTR {
         return boletimDAO.verBolAberto();
     }
 
+    public boolean verBolFechadoEnviado() {
+        BoletimDAO boletimDAO = new BoletimDAO();
+        return boletimDAO.verBolFechadoEnviado();
+    }
+
     //////////////////////////// SETAR CAMPOS ///////////////////////////////////////////////
 
     public void setIdParada(Long idParada) {
@@ -76,12 +81,12 @@ public class RuricolaCTR {
 
     public FuncBean getFunc(){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(getBolAberto().getIdLiderBol());
+        return funcDAO.getFuncMatric(getBolAberto().getIdLiderBol());
     }
 
     public FuncBean getFunc(Long matric){
         FuncDAO funcDAO = new FuncDAO();
-        return funcDAO.getFunc(matric);
+        return funcDAO.getFuncMatric(matric);
     }
 
     public TurmaBean getTurma(Long idTurma){
@@ -99,9 +104,9 @@ public class RuricolaCTR {
         return rFuncaoAtivParDAO.getRFuncaoAtivPar(idAtiv);
     }
 
-    public List bolFechadoList(){
+    public List bolFechadoEnviadoList(){
         BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.boletimFechadoList();
+        return boletimDAO.boletimFechadoEnviadoList();
     }
 
     public List getListApont(Long idBol){
@@ -215,9 +220,14 @@ public class RuricolaCTR {
         return apontDAO.dadosEnvioApont(apontDAO.getListApontEnvio(idBolList));
     }
 
+    public String dadosEnvioAlocaFunc(ArrayList<Long> idBolList){
+        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
+        return alocaFuncDAO.dadosEnvioAlocaFunc(alocaFuncDAO.getListAlocaFuncEnvio(idBolList));
+    }
+
     ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
 
-    public void updateBolAberto(String retorno){
+    public void updateDados(String retorno){
         BoletimDAO boletimDAO = new BoletimDAO();
         boletimDAO.updateBolAberto(retorno);
     }

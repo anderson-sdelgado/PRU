@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
+import br.com.usinasantafe.pru.util.Tempo;
 
 public class MenuMotoMecActivity extends ActivityGeneric {
 
@@ -51,23 +53,36 @@ public class MenuMotoMecActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                if (position == 0) {
-                    pruContext.setVerPosTela(2);
-                    Intent it = new Intent(MenuMotoMecActivity.this, OSActivity.class);
-                    startActivity(it);
-                    finish();
-                } else if (position == 1) {
-                    pruContext.setVerPosTela(3);
-                    Intent it = new Intent(MenuMotoMecActivity.this, OSActivity.class);
-                    startActivity(it);
-                    finish();
-                } else if (position == 2) {
+                TextView textView = (TextView) v.findViewById(R.id.textViewItemList);
+                String text = textView.getText().toString();
+
+                if (text.equals("TRABALHANDO")) {
+                    if (pruContext.getConfigCTR().getConfig().getDtUltApontConfig().equals(Tempo.getInstance().data())) {
+                        Toast.makeText(MenuMotoMecActivity.this, "POR FAVOR! ESPERE 1 MINUTO PARA REALIZAR UM NOVO APONTAMENTO.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        pruContext.setVerPosTela(2);
+                        Intent it = new Intent(MenuMotoMecActivity.this, OSActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                } else if (text.equals("PARADO")) {
+                    if (pruContext.getConfigCTR().getConfig().getDtUltApontConfig().equals(Tempo.getInstance().data())) {
+                        Toast.makeText(MenuMotoMecActivity.this, "POR FAVOR! ESPERE 1 MINUTO PARA REALIZAR UM NOVO APONTAMENTO.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        pruContext.setVerPosTela(3);
+                        Intent it = new Intent(MenuMotoMecActivity.this, OSActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                } else if (text.equals("FINALIZAR BOLETIM")) {
                     pruContext.getRuricolaCTR().salvarBolFechado();
                     Intent it = new Intent(MenuMotoMecActivity.this, MenuInicialActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if (position == 3) {
+                else if (text.equals("ALOCA/DESALOCA FUNCIONÁRIO")) {
                     pruContext.setVerPosTela(4);
                     Intent it = new Intent(MenuMotoMecActivity.this, ListaFuncActivity.class);
                     startActivity(it);

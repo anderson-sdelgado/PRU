@@ -1,5 +1,10 @@
 package br.com.usinasantafe.pru.model.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
@@ -51,6 +56,32 @@ public class AlocaFuncDAO {
             AlocaFuncBean alocaFuncBean = (AlocaFuncBean) alocaFuncList.get(i);
             alocaFuncBean.delete();
         }
+    }
+
+    public List getListAlocaFuncEnvio(ArrayList<Long> idBolList){
+        AlocaFuncBean alocaFuncBean = new AlocaFuncBean();
+        return alocaFuncBean.in("idBolAlocaFunc", idBolList);
+    }
+
+    public String dadosEnvioAlocaFunc(List alocaFuncList){
+
+        JsonArray jsonArrayAlocaFunc = new JsonArray();
+
+        for (int i = 0; i < alocaFuncList.size(); i++) {
+
+            AlocaFuncBean alocaFuncBean = (AlocaFuncBean) alocaFuncList.get(i);
+            Gson gson = new Gson();
+            jsonArrayAlocaFunc.add(gson.toJsonTree(alocaFuncBean, alocaFuncBean.getClass()));
+
+        }
+
+        alocaFuncList.clear();
+
+        JsonObject jsonAlocaFunc = new JsonObject();
+        jsonAlocaFunc.add("alocafunc", jsonArrayAlocaFunc);
+
+        return jsonAlocaFunc.toString();
+
     }
 
 }
