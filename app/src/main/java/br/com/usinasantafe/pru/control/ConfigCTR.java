@@ -6,8 +6,8 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.EnvioDadosActivity;
-import br.com.usinasantafe.pru.MenuInicialActivity;
+import br.com.usinasantafe.pru.view.EnvioDadosActivity;
+import br.com.usinasantafe.pru.view.MenuInicialActivity;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
@@ -271,7 +271,23 @@ public class ConfigCTR {
 
     /////////////////////////////////////////////////
 
+    ////////////////////////////// ATUALIZAÇÃO DE DADOS POR CLASSE /////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////////////////////////////
+    public void atualDadosParada(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList operadorArrayList = new ArrayList();
+        operadorArrayList.add("ParadaBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, operadorArrayList);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////// VERIFICAÇÃO E ATUALIZAÇÃO DE DADOS ////////////////////////////
+
+    public void verOS(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        OSDAO osDAO = new OSDAO();
+        osDAO.verOS(dado, telaAtual, telaProx, progressDialog);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

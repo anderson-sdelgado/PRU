@@ -12,13 +12,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.usinasantafe.pru.MenuInicialActivity;
+import br.com.usinasantafe.pru.view.MenuInicialActivity;
 import br.com.usinasantafe.pru.control.ConfigCTR;
 import br.com.usinasantafe.pru.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
@@ -96,18 +93,6 @@ public class VerifDadosServ {
 
     }
 
-    public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, String variavel) {
-
-        urlsConexaoHttp = new UrlsConexaoHttp();
-        this.telaAtual = telaAtual;
-        this.telaProx = telaProx;
-        this.variavel = variavel;
-        this.dado = dado;
-        this.tipo = tipo;
-
-        envioDados();
-
-    }
 
     public void envioDados() {
 

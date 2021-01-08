@@ -31,7 +31,7 @@ public class PRUContext extends Application {
     //17 - Relatorio Fito
     //18 - Relatorio Perda
     //19 - Relatorio Soqueira
-    public static String versaoAplic = "2.0";
+    public static String versaoAplic = "3.00";
     private RuricolaCTR ruricolaCTR;
     private FitoCTR fitoCTR;
     private PerdaCTR perdaCTR;

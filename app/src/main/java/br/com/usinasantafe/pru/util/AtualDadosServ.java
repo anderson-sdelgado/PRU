@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import br.com.usinasantafe.pru.MenuInicialActivity;
+import br.com.usinasantafe.pru.view.MenuInicialActivity;
 import br.com.usinasantafe.pru.util.connHttp.GetBDGenerico;
 import br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pru.model.pst.GenericRecordable;
@@ -260,11 +260,48 @@ public class AtualDadosServ {
 
 	}
 
-	public void atualizarAplic(String versao, ProgressDialog progressDialog, MenuInicialActivity p){
+
+	public void atualGenericoBD(Context telaAtual, Class telaProx, ProgressDialog progressDialog, ArrayList classeArrayList){
+
+		try {
+
+			this.tipoReceb = 1;
+			this.telaAtual = telaAtual;
+			this.telaProx = telaProx;
+			this.progressDialog = progressDialog;
+			tabAtualArrayList = new ArrayList();
+
+			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
+
+			for (Field field : retClasse.getDeclaredFields()) {
+				String campo = field.getName();
+				Log.i("PMM", "Campo = " + campo);
+				for (int i = 0; i < classeArrayList.size(); i++) {
+					String classe = (String) classeArrayList.get(i);
+					if(campo.equals(classe)){
+						tabAtualArrayList.add(campo);
+					}
+				}
+			}
+
+			classe = (String) tabAtualArrayList.get(contAtualBD);
+			String[] url = {classe};
+			contAtualBD++;
+
+			GetBDGenerico getBDGenerico = new GetBDGenerico();
+			getBDGenerico.execute(url);
+
+		} catch (Exception e) {
+			Log.i("PMM", "ERRO = " + e);
+		}
+
+	}
+
+	public void atualizarAplic(String versao, ProgressDialog progressDialog, MenuInicialActivity menuInicialActivity){
 
 		this.versao = versao;
 		this.progressDialog = progressDialog;
-		this.menuInicialActivity =  p;
+		this.menuInicialActivity =  menuInicialActivity;
 
 		try {
 

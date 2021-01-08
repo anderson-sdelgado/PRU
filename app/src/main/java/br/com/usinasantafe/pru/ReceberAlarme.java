@@ -17,6 +17,8 @@ import br.com.usinasantafe.pru.model.bean.variaveis.CabecPerdaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.CabecSoqueiraBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 import br.com.usinasantafe.pru.model.pst.DatabaseHelper;
+import br.com.usinasantafe.pru.util.EnvioDadosServ;
+import br.com.usinasantafe.pru.util.Tempo;
 
 public class ReceberAlarme extends BroadcastReceiver {
 
@@ -31,15 +33,15 @@ public class ReceberAlarme extends BroadcastReceiver {
 
         exibir();
 
-//        if(Tempo.getInstance().getDatahora() != null) {
-//            Tempo.getInstance().getDatahora().setTime(Tempo.getInstance().getDatahora().getTime() + 60000L);
-//        }
+        if(Tempo.getInstance().getDatahora() != null) {
+            Tempo.getInstance().getDatahora().setTime(Tempo.getInstance().getDatahora().getTime() + 60000L);
+        }
 
-//        Log.i("PRU", "DATA HORA = " + Tempo.getInstance().data());
-//        if(EnvioDadosServ.getInstance().verifDadosEnvio()){
-//            Log.i("PRU", "ENVIANDO");
-//            EnvioDadosServ.getInstance().envioDados(context);
-//        }
+        Log.i("PRU", "DATA HORA = " + Tempo.getInstance().data());
+        if(EnvioDadosServ.getInstance().verifDados()){
+            Log.i("PRU", "ENVIANDO");
+            EnvioDadosServ.getInstance().envioDados(context);
+        }
     }
 
     public void exibir(){
