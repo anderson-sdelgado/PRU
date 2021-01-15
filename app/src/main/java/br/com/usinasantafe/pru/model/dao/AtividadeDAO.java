@@ -16,9 +16,9 @@ import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.ROSAtivBean;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
 
-public class AtivDAO {
+public class AtividadeDAO {
 
-    public AtivDAO() {
+    public AtividadeDAO() {
     }
 
     public void verAtiv(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){

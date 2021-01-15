@@ -69,6 +69,11 @@ public class FuncDAO {
         }
     }
 
+    public void alocFunc(FuncBean funcBean){
+        funcBean.setTipoAlocaFunc(1L);
+        funcBean.update();
+    }
+
     public FuncBean getFuncMatric(Long matricFunc){
         List funcList = funcMatricList(matricFunc);
         FuncBean funcBean = (FuncBean) funcList.get(0);

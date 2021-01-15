@@ -9,9 +9,9 @@ public class LiderDAO {
     public LiderDAO() {
     }
 
-    public boolean verLider(Long codLider){
+    public boolean verLider(Long matricLider){
         LiderBean liderBean = new LiderBean();
-        List liderList = liderBean.get("codLider", codLider);
+        List liderList = liderBean.get("matricLider", matricLider);
         boolean ret = liderList.size() > 0;
         liderList.clear();
         return ret;

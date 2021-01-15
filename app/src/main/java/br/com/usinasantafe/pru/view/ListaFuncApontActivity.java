@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -28,10 +29,10 @@ public class ListaFuncApontActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_func_apont);
 
-        Button buttonDesmarcarTodos = (Button) findViewById(R.id.buttonDesmarcarTodosFuncAloc);
-        Button buttonMarcarTodos = (Button) findViewById(R.id.buttonMarcarTodosFuncAloc);
-        Button buttonRetListaFunc = (Button) findViewById(R.id.buttonRetFuncAloc);
-        Button buttonSalvarListaFunc = (Button) findViewById(R.id.buttonSalvarFuncAloc);
+        Button buttonDesmarcarTodosFuncApont = (Button) findViewById(R.id.buttonDesmarcarTodosFuncApont);
+        Button buttonMarcarTodosFuncApont = (Button) findViewById(R.id.buttonMarcarTodosFuncApont);
+        Button buttonRetFuncApont = (Button) findViewById(R.id.buttonRetFuncApont);
+        Button buttonSalvarFuncApont = (Button) findViewById(R.id.buttonSalvarFuncApont);
 
         pruContext = (PRUContext) getApplication();
         itens = new ArrayList<>();
@@ -48,10 +49,10 @@ public class ListaFuncApontActivity extends ActivityGeneric {
         }
 
         adapterListChoice = new AdapterListChoice(this, itens);
-        funcListView = (ListView) findViewById(R.id.listFuncAloc);
+        funcListView = (ListView) findViewById(R.id.listFuncApont);
         funcListView.setAdapter(adapterListChoice);
 
-        buttonDesmarcarTodos.setOnClickListener(new View.OnClickListener() {
+        buttonDesmarcarTodosFuncApont.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -65,13 +66,13 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 }
 
                 adapterListChoice = new AdapterListChoice(ListaFuncApontActivity.this, itens);
-                funcListView = (ListView) findViewById(R.id.listFunc);
+                funcListView = (ListView) findViewById(R.id.listFuncApont);
                 funcListView.setAdapter(adapterListChoice);
 
             }
         });
 
-        buttonMarcarTodos.setOnClickListener(new View.OnClickListener() {
+        buttonMarcarTodosFuncApont.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -85,13 +86,13 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                 }
 
                 adapterListChoice = new AdapterListChoice(ListaFuncApontActivity.this, itens);
-                funcListView = (ListView) findViewById(R.id.listFunc);
+                funcListView = (ListView) findViewById(R.id.listFuncApont);
                 funcListView.setAdapter(adapterListChoice);
 
             }
         });
 
-        buttonRetListaFunc.setOnClickListener(new View.OnClickListener() {
+        buttonRetFuncApont.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -110,7 +111,7 @@ public class ListaFuncApontActivity extends ActivityGeneric {
             }
         });
 
-        buttonSalvarListaFunc.setOnClickListener(new View.OnClickListener() {
+        buttonSalvarFuncApont.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -119,7 +120,6 @@ public class ListaFuncApontActivity extends ActivityGeneric {
 
                 for (int i = 0; i < itens.size(); i++) {
                     ViewHolderChoice viewHolderChoice = itens.get(i);
-
                     if(viewHolderChoice.isSelected()){
                         FuncBean funcBean = (FuncBean) funcList.get(i);
                         funcSelectedList.add(funcBean);
@@ -129,14 +129,43 @@ public class ListaFuncApontActivity extends ActivityGeneric {
 
                 if(funcSelectedList.size() > 0){
 
-                    pruContext.getRuricolaCTR().salvaApont(funcList);
+                    Long idFuncRet = pruContext.getRuricolaCTR().verApont(funcSelectedList);
 
-                    Intent it = new Intent(ListaFuncApontActivity.this, MenuMotoMecActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(idFuncRet == 0L){
+
+                        pruContext.getRuricolaCTR().salvaApont(funcSelectedList);
+
+                        funcSelectedList.clear();
+
+                        Intent it = new Intent(ListaFuncApontActivity.this, MenuMotoMecActivity.class);
+                        startActivity(it);
+                        finish();
+
+                    }
+                    else{
+
+                        funcSelectedList.clear();
+
+                        FuncBean funcBean = pruContext.getRuricolaCTR().getFuncId(idFuncRet);
+
+                        AlertDialog.Builder alerta = new AlertDialog.Builder( ListaFuncApontActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage("OPERAÇÃO/PARADA JÁ APONTADA PARA O COLABORADOR: " + funcBean.getNomeFunc() + "!");
+                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        alerta.show();
+
+                    }
 
                 }
                 else{
+
+                    funcSelectedList.clear();
+
                     AlertDialog.Builder alerta = new AlertDialog.Builder( ListaFuncApontActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("POR FAVOR! SELECIONE O(S) COLABOR(ES) DA TURMA.");
@@ -147,9 +176,10 @@ public class ListaFuncApontActivity extends ActivityGeneric {
                         }
                     });
                     alerta.show();
+
                 }
 
-                funcSelectedList.clear();
+
 
             }
 

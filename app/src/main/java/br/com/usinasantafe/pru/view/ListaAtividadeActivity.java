@@ -1,6 +1,8 @@
 package br.com.usinasantafe.pru.view;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -80,8 +82,7 @@ public class ListaAtividadeActivity extends ActivityGeneric {
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                AtividadeBean atividadeBean = new AtividadeBean();
-                atividadeBean = (AtividadeBean) ativArrayList.get(position);
+                AtividadeBean atividadeBean = (AtividadeBean) ativArrayList.get(position);
 
                 pruContext.getConfigCTR().setAtivConfig(atividadeBean.getIdAtiv());
 
@@ -91,7 +92,7 @@ public class ListaAtividadeActivity extends ActivityGeneric {
 
                     switch ((int) pruContext.getConfigCTR().getConfig().getIdTipoConfig().longValue()) {
                         case 1:
-                            it = new Intent(ListaAtividadeActivity.this, ListaFuncActivity.class);
+                            it = new Intent(ListaAtividadeActivity.this, ListaFuncAlocActivity.class);
                             break;
                         case 2:
                             pruContext.getRuricolaCTR().salvarBolAberto();
@@ -102,41 +103,68 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                             break;
                     }
 
+                    ativArrayList.clear();
+                    startActivity(it);
+                    finish();
+
                 }
                 else if (pruContext.getVerPosTela() == 2) {
 
                     pruContext.getRuricolaCTR().setIdParada(0L);
 
                     if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1){
+                        ativArrayList.clear();
                         it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
+                        startActivity(it);
+                        finish();
                     }
                     else{
-                        pruContext.getRuricolaCTR().salvaApont();
-//                        RFuncaoAtivParBean rFuncaoAtivParBean = pruContext.getRuricolaCTR().getFuncaoAtivParBean(atividadeBean.getIdAtiv());
-//                        if(rFuncaoAtivParBean.getCodFuncao() == 1L){
-//                            it = new Intent(ListaAtividadeActivity.this, TalhaoActivity.class);
-//                        }
-//                        else if(rFuncaoAtivParBean.getCodFuncao() == 2L){
-//                            pruContext.setVerPosTela(8);
-//                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
-//                        }
-//                        else if(rFuncaoAtivParBean.getCodFuncao() == 3L){
-//                            pruContext.setVerPosTela(11);
-//                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
-//                        }
-//                        else{
+
+                        if(pruContext.getRuricolaCTR().verApont()){
+                            pruContext.getRuricolaCTR().salvaApont();
+                            //                        RFuncaoAtivParBean rFuncaoAtivParBean = pruContext.getRuricolaCTR().getFuncaoAtivParBean(atividadeBean.getIdAtiv());
+                            //                        if(rFuncaoAtivParBean.getCodFuncao() == 1L){
+                            //                            it = new Intent(ListaAtividadeActivity.this, TalhaoActivity.class);
+                            //                        }
+                            //                        else if(rFuncaoAtivParBean.getCodFuncao() == 2L){
+                            //                            pruContext.setVerPosTela(8);
+                            //                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
+                            //                        }
+                            //                        else if(rFuncaoAtivParBean.getCodFuncao() == 3L){
+                            //                            pruContext.setVerPosTela(11);
+                            //                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
+                            //                        }
+                            //                        else{
+                            ativArrayList.clear();
                             it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
-//                        }
+                            startActivity(it);
+                            finish();
+                            //                        }
+                        }
+                        else{
+                            AlertDialog.Builder alerta = new AlertDialog.Builder( ListaAtividadeActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("OPERAÇÃO JÁ APONTADA PARA O COLABORADOR!");
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            alerta.show();
+                        }
+
                     }
 
                 }
                 else //if (pruContext.getVerPosTela() == 3)
                 {
+                    ativArrayList.clear();
                     it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
+                    startActivity(it);
+                    finish();
                 }
 
-                startActivity(it);
-                finish();
             }
 
         });

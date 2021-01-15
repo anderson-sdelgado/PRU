@@ -64,7 +64,6 @@ public class AdapterListChoice extends BaseAdapter {
             public void onClick(View v) {
 
                 Integer pos = (Integer)  viewHolder.checkBox.getTag();
-
                 if(itens.get(pos).isSelected()){
                     itens.get(pos).setSelected(false);
                 }else {

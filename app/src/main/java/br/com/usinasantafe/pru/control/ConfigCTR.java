@@ -12,7 +12,7 @@ import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
-import br.com.usinasantafe.pru.model.dao.AtivDAO;
+import br.com.usinasantafe.pru.model.dao.AtividadeDAO;
 import br.com.usinasantafe.pru.model.dao.ConfigDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.LiderDAO;
@@ -45,9 +45,9 @@ public class ConfigCTR {
         configDAO.salvarConfig(configBean);
     }
 
-    public boolean verLider(Long codLider){
+    public boolean verLider(Long matricLider){
         LiderDAO liderDAO = new LiderDAO();
-        return liderDAO.verLider(codLider);
+        return liderDAO.verLider(matricLider);
     }
 
     public boolean verFunc(Long matricFunc){
@@ -154,8 +154,8 @@ public class ConfigCTR {
         OSDAO osDAO = new OSDAO();
         osDAO.deleteAll();
 
-        AtivDAO ativDAO = new AtivDAO();
-        ativDAO.deleteAll();
+        AtividadeDAO atividadeDAO = new AtividadeDAO();
+        atividadeDAO.deleteAll();
 
     }
 

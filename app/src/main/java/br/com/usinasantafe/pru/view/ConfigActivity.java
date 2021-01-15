@@ -345,6 +345,7 @@ public class ConfigActivity extends ActivityGeneric {
                         if(ver){
 
                             configBean.setNumLinhaConfig(Long.valueOf(editTextNLinhaConfig.getText().toString()));
+                            configBean.setSenhaConfig(editTextSenhaConfig.getText().toString().trim());
                             pruContext.getConfigCTR().salvarConfig(configBean);
 
                             Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);

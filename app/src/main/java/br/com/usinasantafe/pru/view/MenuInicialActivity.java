@@ -55,22 +55,35 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         ConexaoWeb conexaoWeb = new ConexaoWeb();
 
-        if(conexaoWeb.verificaConexao(this))
-        {
-            progressBar = new ProgressDialog(this);
-            if(pruContext.getConfigCTR().hasElements()){
-                progressBar.setCancelable(true);
-                progressBar.setMessage("Buscando Atualização...");
-                progressBar.show();
-                pruContext.getConfigCTR().verAtualAplic(pruContext.versaoAplic, this, progressBar);
-            }
-            else{
-                progressBar.dismiss();
-            }
+        progressBar = new ProgressDialog(this);
+
+        if(pruContext.getRuricolaCTR().verBolAberto()){
+
+            Intent it = new Intent(MenuInicialActivity.this, MenuMotoMecActivity.class);
+            startActivity(it);
+            finish();
 
         }
         else{
-            startTimer("N_SD");
+
+            if(conexaoWeb.verificaConexao(this))
+            {
+
+                if(pruContext.getConfigCTR().hasElements()){
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("Buscando Atualização...");
+                    progressBar.show();
+                    pruContext.getConfigCTR().verAtualAplic(pruContext.versaoAplic, this, progressBar);
+                }
+                else{
+                    progressBar.dismiss();
+                }
+
+            }
+            else{
+                startTimer("N_SD");
+            }
+
         }
 
         listarMenuInicial();

@@ -71,7 +71,7 @@ public class AmostraSoqueiraDAO {
         List<AmostraSoqueiraBean> amostraSoqueiraBeanList = amostraSoqueiraBean.get(pesqArrayList);
         pesqArrayList.clear();
 
-        amostraSoqueiraBean = (AmostraSoqueiraBean) amostraSoqueiraBeanList.get(0);
+        amostraSoqueiraBean = amostraSoqueiraBeanList.get(0);
         amostraSoqueiraBean.delete();
         amostraSoqueiraBeanList.clear();
 

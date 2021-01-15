@@ -25,7 +25,7 @@ public class SoqueiraCTR {
 
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
         CabecSoqueiraBean cabecSoqueiraBean = new CabecSoqueiraBean();
-        cabecSoqueiraBean.setAuditorCabecSoqueira(ruricolaCTR.getFunc().getMatricFunc());
+        cabecSoqueiraBean.setAuditorCabecSoqueira(ruricolaCTR.getFuncMatric().getMatricFunc());
         cabecSoqueiraBean.setOsCabecSoqueira(ruricolaCTR.getBolAberto().getOsBol());
         cabecSoqueiraBean.setEquipCabecSoqueira(codEquip);
 

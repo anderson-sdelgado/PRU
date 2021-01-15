@@ -12,50 +12,50 @@
     tools:context=".view.ListaFuncApontActivity">
 
     <TextView
-        android:id="@+id/textViewTituloFuncAloc"
+        android:id="@+id/textViewTituloFuncApont"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_funcionarios" />
 
     <ListView
-        android:id="@+id/listFuncAloc"
+        android:id="@+id/listFuncApont"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <LinearLayout
-        android:id="@+id/rightRL2"
+        android:id="@+id/rightRelativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonDesmarcarTodosFuncAloc"
+            android:id="@+id/buttonDesmarcarTodosFuncApont"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/texto_desmarcar" />
 
         <Button
-            android:id="@+id/buttonMarcarTodosFuncAloc"
+            android:id="@+id/buttonMarcarTodosFuncApont"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/texto_marcar" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonRetFuncAloc"
+        android:id="@+id/buttonRetFuncApont"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_retornar" />
 
     <Button
-        android:id="@+id/buttonSalvarFuncAloc"
+        android:id="@+id/buttonSalvarFuncApont"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -25,7 +25,7 @@ public class PerdaCTR {
 
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
         CabecPerdaBean cabecPerdaBean = new CabecPerdaBean();
-        cabecPerdaBean.setAuditorCabecPerda(ruricolaCTR.getFunc().getMatricFunc());
+        cabecPerdaBean.setAuditorCabecPerda(ruricolaCTR.getFuncMatric().getMatricFunc());
         cabecPerdaBean.setOsCabecPerda(ruricolaCTR.getBolAberto().getOsBol());
         cabecPerdaBean.setEquipCabecPerda(codEquip);
         cabecPerdaBean.setTipoColheitaCabecPerda(1L);

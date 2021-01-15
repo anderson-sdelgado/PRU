@@ -80,7 +80,7 @@ public class ReceberAlarme extends BroadcastReceiver {
             Log.i("PRU", "osAponta = " + apontRuricolaBean.getOsApont());
             Log.i("PRU", "atividadeAponta = " + apontRuricolaBean.getAtivApont());
             Log.i("PRU", "paradaAponta = " + apontRuricolaBean.getParadaApont());
-            Log.i("PRU", "funcAponta = " + apontRuricolaBean.getFuncApont());
+            Log.i("PRU", "funcAponta = " + apontRuricolaBean.getIdFuncApont());
             Log.i("PRU", "dthrAponta = " + apontRuricolaBean.getDthrApont());
 
         }

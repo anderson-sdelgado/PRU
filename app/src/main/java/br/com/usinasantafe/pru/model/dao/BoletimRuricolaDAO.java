@@ -14,9 +14,9 @@ import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pru.util.Tempo;
 
-public class BoletimDAO {
+public class BoletimRuricolaDAO {
 
-    public BoletimDAO() {
+    public BoletimRuricolaDAO() {
     }
 
     public boolean verBolFechadoEnviado(){

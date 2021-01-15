@@ -9,7 +9,6 @@ import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.ApontRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.util.Tempo;
 
@@ -32,7 +31,7 @@ public class AlocaFuncDAO {
         for (FuncBean funcAlocBean : funcAlocList) {
             for (FuncBean funcBean : funcList) {
                 if((funcAlocBean.getMatricFunc() == funcBean.getMatricFunc())
-                    && (funcAlocBean.getTipoAlocaFunc() != funcBean.getTipoAlocaFunc())){
+                        && (funcAlocBean.getTipoAlocaFunc() != funcBean.getTipoAlocaFunc())){
                     AlocaFuncBean alocaFuncBean = new AlocaFuncBean();
                     alocaFuncBean.setIdBolAlocaFunc(boletimRuricolaBean.getIdBol());
                     alocaFuncBean.setIdExtBolAlocaFunc(boletimRuricolaBean.getIdExtBol());

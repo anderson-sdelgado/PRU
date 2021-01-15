@@ -11,12 +11,14 @@ import br.com.usinasantafe.pru.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.ParadaBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.RFuncaoAtivParBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.AlocaFuncBean;
+import br.com.usinasantafe.pru.model.bean.variaveis.ApontRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.BoletimRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pru.model.dao.AlocaFuncDAO;
-import br.com.usinasantafe.pru.model.dao.ApontDAO;
-import br.com.usinasantafe.pru.model.dao.AtivDAO;
-import br.com.usinasantafe.pru.model.dao.BoletimDAO;
+import br.com.usinasantafe.pru.model.dao.ApontRuricolaDAO;
+import br.com.usinasantafe.pru.model.dao.AtividadeDAO;
+import br.com.usinasantafe.pru.model.dao.BoletimRuricolaDAO;
 import br.com.usinasantafe.pru.model.dao.FuncDAO;
 import br.com.usinasantafe.pru.model.dao.LiderDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
@@ -34,13 +36,33 @@ public class RuricolaCTR {
     }
 
     public boolean verBolAberto(){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.verBolAberto();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        return boletimRuricolaDAO.verBolAberto();
     }
 
     public boolean verBolFechadoEnviado() {
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.verBolFechadoEnviado();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        return boletimRuricolaDAO.verBolFechadoEnviado();
+    }
+
+    public boolean verApont() {
+        ConfigCTR configCTR = new ConfigCTR();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
+        return apontRuricolaDAO.verApont(boletimRuricolaDAO.getBolAberto(), configCTR.getConfig(), idParada);
+    }
+
+    public Long verApont(List<FuncBean> funcBeans) {
+        ConfigCTR configCTR = new ConfigCTR();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
+        return apontRuricolaDAO.verApont(boletimRuricolaDAO.getBolAberto(), configCTR.getConfig(), idParada, funcBeans);
+    }
+
+    public boolean verQtdeApont(){
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
+        return apontRuricolaDAO.verQtdeApont(boletimRuricolaDAO.getBolAberto());
     }
 
     //////////////////////////// SETAR CAMPOS ///////////////////////////////////////////////
@@ -75,18 +97,23 @@ public class RuricolaCTR {
     }
 
     public BoletimRuricolaBean getBolAberto(){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.getBolAberto();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        return boletimRuricolaDAO.getBolAberto();
     }
 
-    public FuncBean getFunc(){
+    public FuncBean getFuncMatric(){
         FuncDAO funcDAO = new FuncDAO();
         return funcDAO.getFuncMatric(getBolAberto().getIdLiderBol());
     }
 
-    public FuncBean getFunc(Long matric){
+    public FuncBean getFuncMatric(Long matric){
         FuncDAO funcDAO = new FuncDAO();
         return funcDAO.getFuncMatric(matric);
+    }
+
+    public FuncBean getFuncId(Long idFunc){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.getFuncId(idFunc);
     }
 
     public TurmaBean getTurma(Long idTurma){
@@ -95,8 +122,8 @@ public class RuricolaCTR {
     }
 
     public AtividadeBean getAtividade(Long idAtiv){
-        AtivDAO ativDAO = new AtivDAO();
-        return ativDAO.getAtividade(idAtiv);
+        AtividadeDAO atividadeDAO = new AtividadeDAO();
+        return atividadeDAO.getAtividade(idAtiv);
     }
 
     public RFuncaoAtivParBean getFuncaoAtivParBean(Long idAtiv){
@@ -105,13 +132,13 @@ public class RuricolaCTR {
     }
 
     public List bolFechadoEnviadoList(){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.boletimFechadoEnviadoList();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        return boletimRuricolaDAO.boletimFechadoEnviadoList();
     }
 
     public List getListApont(Long idBol){
-        ApontDAO apontDAO = new ApontDAO();
-        return apontDAO.getListApont(idBol);
+        ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
+        return apontRuricolaDAO.getListApont(idBol);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -124,9 +151,11 @@ public class RuricolaCTR {
         ConfigCTR configCTR = new ConfigCTR();
         ConfigBean configBean = configCTR.getConfig();
         BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
-        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
         boletimRuricolaBean.setIdLiderBol(configBean.getMatricFuncConfig());
         boletimRuricolaBean = salvarBolAberto(boletimRuricolaBean, configBean);
+        FuncDAO funcDAO = new FuncDAO();
+        funcDAO.alocFunc(funcDAO.getFuncId(boletimRuricolaBean.getIdLiderBol()));
+        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
         alocaFuncDAO.alocaFunc(boletimRuricolaBean);
     }
 
@@ -134,9 +163,12 @@ public class RuricolaCTR {
         ConfigCTR configCTR = new ConfigCTR();
         ConfigBean configBean = configCTR.getConfig();
         BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+        FuncDAO funcDAO = new FuncDAO();
+        FuncBean funcBean = funcDAO.getFuncMatric(matricColab);
+        boletimRuricolaBean.setIdLiderBol(funcBean.getIdFunc());
+        salvarBolAberto(boletimRuricolaBean, configBean);
+        funcDAO.alocFunc(funcBean);
         AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
-        boletimRuricolaBean.setIdLiderBol(matricColab);
-        boletimRuricolaBean = salvarBolAberto(boletimRuricolaBean, configBean);
         alocaFuncDAO.alocaFunc(boletimRuricolaBean);
     }
 
@@ -150,47 +182,47 @@ public class RuricolaCTR {
     }
 
     private BoletimRuricolaBean salvarBolAberto(BoletimRuricolaBean boletimRuricolaBean, ConfigBean configBean){
+        deleteEnviados();
         boletimRuricolaBean.setOsBol(configBean.getNroOSConfig());
         boletimRuricolaBean.setAtivPrincBol(configBean.getIdAtivConfig());
         boletimRuricolaBean.setIdTurmaBol(configBean.getIdTurmaConfig());
         boletimRuricolaBean.setTipoFuncBol(configBean.getIdTipoConfig());
-        deleteEnviados();
-        BoletimDAO boletimDAO = new BoletimDAO();
-        boletimDAO.salvarBolAberto(boletimRuricolaBean);
-        return boletimDAO.getBolAberto();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        boletimRuricolaDAO.salvarBolAberto(boletimRuricolaBean);
+        return boletimRuricolaDAO.getBolAberto();
     }
 
     public void alocaFunc(List funcAlocList){
-        BoletimDAO boletimDAO = new BoletimDAO();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
         ConfigCTR configCTR = new ConfigCTR();
         ConfigBean configBean = configCTR.getConfig();
-        alocaFunc(funcAlocList, boletimDAO.getBolAberto(), configBean.getIdTurmaConfig());
+        alocaFunc(funcAlocList, boletimRuricolaDAO.getBolAberto(), configBean.getIdTurmaConfig());
     }
 
     private void alocaFunc(List funcAlocList, BoletimRuricolaBean boletimRuricolaBean, Long idTurmaConfig){
-        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
         FuncDAO funcDAO = new FuncDAO();
-        List funcList = funcDAO.getFuncAlocList(idTurmaConfig);
-        alocaFuncDAO.alocaFunc(boletimRuricolaBean, funcAlocList, funcList);
+        List<FuncBean> funcList = funcDAO.getFuncAlocList(idTurmaConfig);
         funcDAO.atualFuncAloc(funcAlocList);
+        AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
+        alocaFuncDAO.alocaFunc(boletimRuricolaBean, funcAlocList, funcList);
         funcList.clear();
     }
 
     public void salvarBolFechado() {
-        BoletimDAO boletimDAO = new BoletimDAO();
-        boletimDAO.salvarBolFechado();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        boletimRuricolaDAO.salvarBolFechado();
     }
 
     public void deleteEnviados(){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        Long idBol = boletimDAO.delBoletim();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        Long idBol = boletimRuricolaDAO.delBoletim();
         if(idBol > 0L){
-            ApontDAO apontDAO = new ApontDAO();
-            List apontList = getListApont(idBol);
-            apontDAO.delListApont(apontList);
+            ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
+            List<ApontRuricolaBean> apontList = getListApont(idBol);
+            apontRuricolaDAO.delListApont(apontList);
             apontList.clear();
             AlocaFuncDAO alocaFuncDAO = new AlocaFuncDAO();
-            List alocaFuncList = alocaFuncDAO.getListAlocaFunc(idBol);
+            List<AlocaFuncBean> alocaFuncList = alocaFuncDAO.getListAlocaFunc(idBol);
             alocaFuncDAO.delListAlocaFunc(alocaFuncList);
             alocaFuncList.clear();
         }
@@ -199,25 +231,25 @@ public class RuricolaCTR {
     ////////// VERIFICAÇÃO PRA ENVIO ///////////////
 
     public boolean verBolFechado() {
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.verBolFechado();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        return boletimRuricolaDAO.verBolFechado();
     }
 
     ////////// DADOS PRA ENVIO ///////////////
 
     public String dadosEnvioBolFechado(){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.dadosEnvioBolFechado();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        return boletimRuricolaDAO.dadosEnvioBolFechado();
     }
 
     public ArrayList<Long> idBolList(){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        return boletimDAO.idBolList();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        return boletimRuricolaDAO.idBolList();
     }
 
     public String dadosEnvioApont(ArrayList<Long> idBolList){
-        ApontDAO apontDAO = new ApontDAO();
-        return apontDAO.dadosEnvioApont(apontDAO.getListApontEnvio(idBolList));
+        ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
+        return apontRuricolaDAO.dadosEnvioApont(apontRuricolaDAO.getListApontEnvio(idBolList));
     }
 
     public String dadosEnvioAlocaFunc(ArrayList<Long> idBolList){
@@ -228,8 +260,8 @@ public class RuricolaCTR {
     ////////// MANIPULAÇÃO RETORNO DE ENVIO ///////////////
 
     public void updateDados(String retorno){
-        BoletimDAO boletimDAO = new BoletimDAO();
-        boletimDAO.updateBolAberto(retorno);
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        boletimRuricolaDAO.updateBolAberto(retorno);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -257,8 +289,8 @@ public class RuricolaCTR {
     //////////////////// RETORNO DE LISTA DAS ATIVIDADES DA OS /////////////////////////////
 
         public ArrayList getAtivArrayList(Long nroOS){
-            AtivDAO ativDAO = new AtivDAO();
-            return ativDAO.retAtivArrayList(nroOS);
+            AtividadeDAO atividadeDAO = new AtividadeDAO();
+            return atividadeDAO.retAtivArrayList(nroOS);
         }
 
     //////////////////////////////////////////////////////////////////////////////////////
@@ -267,19 +299,19 @@ public class RuricolaCTR {
 
     public void salvaApont() {
         ConfigCTR configCTR = new ConfigCTR();
-        BoletimDAO boletimDAO = new BoletimDAO();
-        ApontDAO apontDAO = new ApontDAO();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
         String dataHora = Tempo.getInstance().data();
-        apontDAO.salvaApont(boletimDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora);
+        apontRuricolaDAO.salvaApont(boletimRuricolaDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora);
         configCTR.setDtUltApontConfig(dataHora);
     }
 
     public void salvaApont(List<FuncBean> funcBeans) {
         ConfigCTR configCTR = new ConfigCTR();
-        BoletimDAO boletimDAO = new BoletimDAO();
-        ApontDAO apontDAO = new ApontDAO();
+        BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
+        ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
         String dataHora = Tempo.getInstance().data();
-        apontDAO.salvaApont(boletimDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora, funcBeans);
+        apontRuricolaDAO.salvaApont(boletimRuricolaDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora, funcBeans);
         configCTR.setDtUltApontConfig(dataHora);
     }
 

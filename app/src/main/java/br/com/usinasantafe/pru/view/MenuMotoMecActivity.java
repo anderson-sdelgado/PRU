@@ -1,5 +1,7 @@
 package br.com.usinasantafe.pru.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -79,14 +81,29 @@ public class MenuMotoMecActivity extends ActivityGeneric {
                         finish();
                     }
                 } else if (text.equals("FINALIZAR BOLETIM")) {
-                    pruContext.getRuricolaCTR().salvarBolFechado();
-                    Intent it = new Intent(MenuMotoMecActivity.this, MenuInicialActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(pruContext.getRuricolaCTR().verQtdeApont()){
+                        pruContext.getRuricolaCTR().salvarBolFechado();
+                        Intent it = new Intent(MenuMotoMecActivity.this, MenuInicialActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alerta = new AlertDialog.Builder( MenuMotoMecActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage("POR FAVOR! REALIZE APONTAMENTOS NO BOLETIM PARA PODER ENCERRÁ-LO.");
+                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        alerta.show();
+                    }
+
                 }
                 else if (text.equals("ALOCA/DESALOCA FUNCIONÁRIO")) {
                     pruContext.setVerPosTela(4);
-                    Intent it = new Intent(MenuMotoMecActivity.this, ListaFuncActivity.class);
+                    Intent it = new Intent(MenuMotoMecActivity.this, ListaFuncAlocActivity.class);
                     startActivity(it);
                     finish();
                 }

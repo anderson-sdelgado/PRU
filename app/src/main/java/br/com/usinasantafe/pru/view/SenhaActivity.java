@@ -49,8 +49,6 @@ public class SenhaActivity extends ActivityGeneric {
 
                 }
 
-
-
             }
         });
 
