@@ -35,7 +35,7 @@ public class FitoCTR {
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
 
         FuncDAO funcDAO = new FuncDAO();
-        cabecFitoBean.setAuditorCabecFito(funcDAO.getFuncMatric(ruricolaCTR.getBolAberto().getIdLiderBol()).getIdFunc());
+        cabecFitoBean.setAuditorCabecFito(funcDAO.getFuncMatric(ruricolaCTR.getBolAberto().getMatricLiderBol()).getIdFunc());
         cabecFitoBean.setOSCabecFito(ruricolaCTR.getBolAberto().getOsBol());
 
         deleteEnviados();

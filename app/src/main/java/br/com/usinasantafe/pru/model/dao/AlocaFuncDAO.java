@@ -1,5 +1,7 @@
 package br.com.usinasantafe.pru.model.dao;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -21,7 +23,7 @@ public class AlocaFuncDAO {
         AlocaFuncBean alocaFuncBean = new AlocaFuncBean();
         alocaFuncBean.setIdBolAlocaFunc(boletimRuricolaBean.getIdBol());
         alocaFuncBean.setIdExtBolAlocaFunc(boletimRuricolaBean.getIdExtBol());
-        alocaFuncBean.setMatricFuncAlocaFunc(boletimRuricolaBean.getIdLiderBol());
+        alocaFuncBean.setMatricFuncAlocaFunc(boletimRuricolaBean.getMatricLiderBol());
         alocaFuncBean.setDthrAlocaFunc(Tempo.getInstance().data());
         alocaFuncBean.setTipoAlocaFunc(1L);
         alocaFuncBean.insert();
@@ -30,8 +32,9 @@ public class AlocaFuncDAO {
     public void alocaFunc(BoletimRuricolaBean boletimRuricolaBean, List<FuncBean> funcAlocList, List<FuncBean> funcList) {
         for (FuncBean funcAlocBean : funcAlocList) {
             for (FuncBean funcBean : funcList) {
-                if((funcAlocBean.getMatricFunc() == funcBean.getMatricFunc())
-                        && (funcAlocBean.getTipoAlocaFunc() != funcBean.getTipoAlocaFunc())){
+
+                if((funcAlocBean.getMatricFunc().equals(funcBean.getMatricFunc()))
+                        && (!funcAlocBean.getTipoAlocaFunc().equals(funcBean.getTipoAlocaFunc()))){
                     AlocaFuncBean alocaFuncBean = new AlocaFuncBean();
                     alocaFuncBean.setIdBolAlocaFunc(boletimRuricolaBean.getIdBol());
                     alocaFuncBean.setIdExtBolAlocaFunc(boletimRuricolaBean.getIdExtBol());

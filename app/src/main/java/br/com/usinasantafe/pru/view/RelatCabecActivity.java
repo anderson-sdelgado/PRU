@@ -167,7 +167,7 @@ public class RelatCabecActivity extends ActivityGeneric {
     public void setItemRuricola(ArrayList<String> itens){
         itens.add("DATA HORA INICIAL = " + boletimRuricolaBean.getDthrInicioBol());
         itens.add("DATA HORA FINAL = " + boletimRuricolaBean.getDthrFimBol());
-        itens.add("LÍDER = " + pruContext.getRuricolaCTR().getFuncMatric(boletimRuricolaBean.getIdLiderBol()).getMatricFunc() + " - " + pruContext.getRuricolaCTR().getFuncMatric(boletimRuricolaBean.getIdLiderBol()).getNomeFunc());
+        itens.add("LÍDER = " + pruContext.getRuricolaCTR().getFuncMatric(boletimRuricolaBean.getMatricLiderBol()).getMatricFunc() + " - " + pruContext.getRuricolaCTR().getFuncMatric(boletimRuricolaBean.getMatricLiderBol()).getNomeFunc());
         itens.add("TURMA = " + pruContext.getRuricolaCTR().getTurma(boletimRuricolaBean.getIdTurmaBol()).getCodTurma() + " - " + pruContext.getRuricolaCTR().getTurma(boletimRuricolaBean.getIdTurmaBol()).getDescrTurma());
         itens.add("NRO OS = " + boletimRuricolaBean.getOsBol());
         itens.add("ATIVIDADE = " + pruContext.getRuricolaCTR().getAtividade(boletimRuricolaBean.getAtivPrincBol()).getCodAtiv() + " - " +  pruContext.getRuricolaCTR().getAtividade(boletimRuricolaBean.getAtivPrincBol()).getDescrAtiv());

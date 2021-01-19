@@ -142,7 +142,7 @@ public class RelatItemActivity extends ActivityGeneric {
 
     public void setItemRuricola(ArrayList<String> itens){
         itens.add("DATA HORA = " + apontRuricolaBean.getDthrApont());
-        itens.add("FUNCIONÁRIO = " + pruContext.getRuricolaCTR().getFuncMatric(apontRuricolaBean.getIdFuncApont()).getMatricFunc() + " - " + pruContext.getRuricolaCTR().getFuncMatric(apontRuricolaBean.getIdFuncApont()).getNomeFunc());
+        itens.add("FUNCIONÁRIO = " + pruContext.getRuricolaCTR().getFuncMatric(apontRuricolaBean.getMatricFuncApont()).getMatricFunc() + " - " + pruContext.getRuricolaCTR().getFuncMatric(apontRuricolaBean.getMatricFuncApont()).getNomeFunc());
         itens.add("NRO OS = " + apontRuricolaBean.getOsApont());
         if(apontRuricolaBean.getParadaApont() == 0) {
             itens.add("ATIVIDADE = " + pruContext.getRuricolaCTR().getAtividade(apontRuricolaBean.getAtivApont()).getCodAtiv() + " - " +  pruContext.getRuricolaCTR().getAtividade(apontRuricolaBean.getAtivApont()).getDescrAtiv());

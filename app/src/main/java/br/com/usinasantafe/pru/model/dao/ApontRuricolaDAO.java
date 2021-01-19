@@ -32,7 +32,7 @@ public class ApontRuricolaDAO {
         apontRuricolaBean.setOsApont(configBean.getNroOSConfig());
         apontRuricolaBean.setAtivApont(configBean.getIdAtivConfig());
         apontRuricolaBean.setParadaApont(idParada);
-        apontRuricolaBean.setIdFuncApont(boletimRuricolaBean.getIdLiderBol());
+        apontRuricolaBean.setMatricFuncApont(boletimRuricolaBean.getMatricLiderBol());
         if(verApont(apontRuricolaBean)){
             return true;
         }
@@ -47,7 +47,7 @@ public class ApontRuricolaDAO {
 
         for (FuncBean funcBean : funcBeans) {
 
-            List<ApontRuricolaBean> apontRuricolaList = getApont(boletimRuricolaBean.getIdBol(), funcBean.getIdFunc());
+            List<ApontRuricolaBean> apontRuricolaList = getApont(boletimRuricolaBean.getIdBol(), funcBean.getMatricFunc());
 
             if(apontRuricolaList.size() > 0){
 
@@ -56,7 +56,7 @@ public class ApontRuricolaDAO {
                 if ((configBean.getNroOSConfig().equals(apontRuricolaBean.getOsApont()))
                         && (configBean.getIdAtivConfig().equals(apontRuricolaBean.getAtivApont()))
                         && (idParada.equals(apontRuricolaBean.getParadaApont()))
-                        && (funcBean.getIdFunc().equals(apontRuricolaBean.getIdFuncApont()))) {
+                        && (funcBean.getMatricFunc().equals(apontRuricolaBean.getMatricFuncApont()))) {
                     return funcBean.getIdFunc();
                 }
 
@@ -76,7 +76,7 @@ public class ApontRuricolaDAO {
         apontRuricolaBean.setAtivApont(configBean.getIdAtivConfig());
         apontRuricolaBean.setParadaApont(idParada);
         apontRuricolaBean.setDthrApont(dataHora);
-        apontRuricolaBean.setIdFuncApont(boletimRuricolaBean.getIdLiderBol());
+        apontRuricolaBean.setMatricFuncApont(boletimRuricolaBean.getMatricLiderBol());
         apontRuricolaBean.insert();
     }
 
@@ -89,7 +89,7 @@ public class ApontRuricolaDAO {
             apontRuricolaBean.setAtivApont(configBean.getIdAtivConfig());
             apontRuricolaBean.setParadaApont(idParada);
             apontRuricolaBean.setDthrApont(dataHora);
-            apontRuricolaBean.setIdFuncApont(funcBean.getIdFunc());
+            apontRuricolaBean.setMatricFuncApont(funcBean.getMatricFunc());
             apontRuricolaBean.insert();
         }
     }
@@ -102,7 +102,7 @@ public class ApontRuricolaDAO {
             if ((apontRuricolaBD.getOsApont().equals(apontRuricolaBean.getOsApont()))
                     && (apontRuricolaBD.getAtivApont().equals(apontRuricolaBean.getAtivApont()))
                     && (apontRuricolaBD.getParadaApont().equals(apontRuricolaBean.getParadaApont()))
-                    && (apontRuricolaBD.getIdFuncApont().equals(apontRuricolaBean.getIdFuncApont()))) {
+                    && (apontRuricolaBD.getMatricFuncApont().equals(apontRuricolaBean.getMatricFuncApont()))) {
                 return false;
             } else {
                 return true;
@@ -113,11 +113,11 @@ public class ApontRuricolaDAO {
         }
     }
 
-    public List<ApontRuricolaBean> getApont(Long idBol, Long idFunc){
+    public List<ApontRuricolaBean> getApont(Long idBol, Long matricFunc){
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqIdBolApont(idBol));
-        pesqArrayList.add(getPesqIdFuncApont(idFunc));
+        pesqArrayList.add(getPesqMatricFuncApont(matricFunc));
 
         ApontRuricolaBean apontRuricolaBean = new ApontRuricolaBean();
         return apontRuricolaBean.getAndOrderBy(pesqArrayList, "idApont", false);
@@ -171,10 +171,10 @@ public class ApontRuricolaDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqIdFuncApont(Long idFuncApont){
+    private EspecificaPesquisa getPesqMatricFuncApont(Long matricFuncApont){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idFuncApont");
-        pesquisa.setValor(idFuncApont);
+        pesquisa.setCampo("matricFuncApont");
+        pesquisa.setValor(matricFuncApont);
         pesquisa.setTipo(1);
         return pesquisa;
     }

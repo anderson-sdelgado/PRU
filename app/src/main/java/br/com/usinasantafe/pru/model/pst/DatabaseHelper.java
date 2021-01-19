@@ -37,7 +37,7 @@ import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pru_db";
-	public static final int FORCA_BD_VERSION = 1;
+	public static final int FORCA_BD_VERSION = 2;
 
 	private static DatabaseHelper instance;
 	
@@ -108,13 +108,67 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			int newVersion) {
 		
 		try {
-			
-			if(oldVersion == 1 && newVersion == 2){
-				//TableUtils.createTable(cs, ConfiguracaoTO.class);
-				oldVersion = 2;
+
+			if((oldVersion <= 1) && (newVersion > 1)){
+
+				TableUtils.dropTable(cs, AmostraFitoBean.class, true);
+				TableUtils.dropTable(cs, AtividadeBean.class, true);
+				TableUtils.dropTable(cs, CaracOrganFitoBean.class, true);
+				TableUtils.dropTable(cs, EquipBean.class, true);
+				TableUtils.dropTable(cs, FuncBean.class, true);
+				TableUtils.dropTable(cs, LiderBean.class, true);
+				TableUtils.dropTable(cs, OrganFitoBean.class, true);
+				TableUtils.dropTable(cs, OSBean.class, true);
+				TableUtils.dropTable(cs, ParadaBean.class, true);
+				TableUtils.dropTable(cs, RFuncaoAtivParBean.class, true);
+				TableUtils.dropTable(cs, ROCAFitoBean.class, true);
+				TableUtils.dropTable(cs, ROSAtivBean.class, true);
+				TableUtils.dropTable(cs, TalhaoBean.class, true);
+				TableUtils.dropTable(cs, TipoApontBean.class, true);
+				TableUtils.dropTable(cs, TurmaBean.class, true);
+
+				TableUtils.dropTable(cs, AlocaFuncBean.class, true);
+				TableUtils.dropTable(cs, AmostraPerdaBean.class, true);
+				TableUtils.dropTable(cs, AmostraSoqueiraBean.class, true);
+				TableUtils.dropTable(cs, ApontRuricolaBean.class, true);
+				TableUtils.dropTable(cs, BoletimRuricolaBean.class, true);
+				TableUtils.dropTable(cs, CabecFitoBean.class, true);
+				TableUtils.dropTable(cs, CabecPerdaBean.class, true);
+				TableUtils.dropTable(cs, CabecSoqueiraBean.class, true);
+				TableUtils.dropTable(cs, ConfigBean.class, true);
+				TableUtils.dropTable(cs, RespFitoBean.class, true);
+
+				/////////////////////////////////////////////////////////////////
+
+				TableUtils.createTable(cs, AmostraFitoBean.class);
+				TableUtils.createTable(cs, AtividadeBean.class);
+				TableUtils.createTable(cs, CaracOrganFitoBean.class);
+				TableUtils.createTable(cs, EquipBean.class);
+				TableUtils.createTable(cs, FuncBean.class);
+				TableUtils.createTable(cs, LiderBean.class);
+				TableUtils.createTable(cs, OrganFitoBean.class);
+				TableUtils.createTable(cs, OSBean.class);
+				TableUtils.createTable(cs, ParadaBean.class);
+				TableUtils.createTable(cs, RFuncaoAtivParBean.class);
+				TableUtils.createTable(cs, ROCAFitoBean.class);
+				TableUtils.createTable(cs, ROSAtivBean.class);
+				TableUtils.createTable(cs, TalhaoBean.class);
+				TableUtils.createTable(cs, TipoApontBean.class);
+				TableUtils.createTable(cs, TurmaBean.class);
+
+				TableUtils.createTable(cs, AlocaFuncBean.class);
+				TableUtils.createTable(cs, AmostraPerdaBean.class);
+				TableUtils.createTable(cs, AmostraSoqueiraBean.class);
+				TableUtils.createTable(cs, ApontRuricolaBean.class);
+				TableUtils.createTable(cs, BoletimRuricolaBean.class);
+				TableUtils.createTable(cs, CabecFitoBean.class);
+				TableUtils.createTable(cs, CabecPerdaBean.class);
+				TableUtils.createTable(cs, CabecSoqueiraBean.class);
+				TableUtils.createTable(cs, ConfigBean.class);
+				TableUtils.createTable(cs, RespFitoBean.class);
+
 			}
-			
-			
+
 		} catch (Exception e) {
 			Log.e(DatabaseHelper.class.getName(), "Erro atualizando banco de dados...", e);
 		}

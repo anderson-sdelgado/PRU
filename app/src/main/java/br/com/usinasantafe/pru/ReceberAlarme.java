@@ -57,7 +57,7 @@ public class ReceberAlarme extends BroadcastReceiver {
             Log.i("PRU", "BOLETIM");
             Log.i("PRU", "idBoletim = " + boletimRuricolaBean.getIdBol());
             Log.i("PRU", "idExtBoletim = " + boletimRuricolaBean.getIdExtBol());
-            Log.i("PRU", "idLiderBoletim = " + boletimRuricolaBean.getIdLiderBol());
+            Log.i("PRU", "idLiderBoletim = " + boletimRuricolaBean.getMatricLiderBol());
             Log.i("PRU", "idTurmaBoletim = " + boletimRuricolaBean.getIdTurmaBol());
             Log.i("PRU", "osBoletim = " + boletimRuricolaBean.getOsBol());
             Log.i("PRU", "ativPrincBoletim = " + boletimRuricolaBean.getAtivPrincBol());
@@ -80,7 +80,7 @@ public class ReceberAlarme extends BroadcastReceiver {
             Log.i("PRU", "osAponta = " + apontRuricolaBean.getOsApont());
             Log.i("PRU", "atividadeAponta = " + apontRuricolaBean.getAtivApont());
             Log.i("PRU", "paradaAponta = " + apontRuricolaBean.getParadaApont());
-            Log.i("PRU", "funcAponta = " + apontRuricolaBean.getIdFuncApont());
+            Log.i("PRU", "funcAponta = " + apontRuricolaBean.getMatricFuncApont());
             Log.i("PRU", "dthrAponta = " + apontRuricolaBean.getDthrApont());
 
         }

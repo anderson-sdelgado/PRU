@@ -15,7 +15,7 @@ public class BoletimRuricolaBean extends Entidade {
 	@DatabaseField
 	private Long idExtBol;
 	@DatabaseField
-    private Long idLiderBol;
+    private Long matricLiderBol;
 	@DatabaseField
 	private Long idTurmaBol;
 	@DatabaseField
@@ -50,12 +50,12 @@ public class BoletimRuricolaBean extends Entidade {
 		this.idExtBol = idExtBol;
 	}
 
-	public Long getIdLiderBol() {
-		return idLiderBol;
+	public Long getMatricLiderBol() {
+		return matricLiderBol;
 	}
 
-	public void setIdLiderBol(Long idLiderBol) {
-		this.idLiderBol = idLiderBol;
+	public void setMatricLiderBol(Long matricLiderBol) {
+		this.matricLiderBol = matricLiderBol;
 	}
 
 	public Long getIdTurmaBol() {
