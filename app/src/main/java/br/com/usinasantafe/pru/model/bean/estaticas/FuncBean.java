@@ -14,7 +14,9 @@ public class FuncBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
-    @DatabaseField(id=true)
+    @DatabaseField(generatedId=true)
+    private Long idFuncCel;
+    @DatabaseField
     private Long idFunc;
     @DatabaseField
     private Long idTurma;
@@ -26,6 +28,14 @@ public class FuncBean extends Entidade {
     private Long tipoAlocaFunc;  //1 - Alocado; 2 - Desalocado
 
     public FuncBean() {
+    }
+
+    public Long getIdFuncCel() {
+        return idFuncCel;
+    }
+
+    public void setIdFuncCel(Long idFuncCel) {
+        this.idFuncCel = idFuncCel;
     }
 
     public Long getIdFunc() {

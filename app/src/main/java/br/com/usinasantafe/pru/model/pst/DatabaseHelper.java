@@ -37,7 +37,7 @@ import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pru_db";
-	public static final int FORCA_BD_VERSION = 2;
+	public static final int FORCA_BD_VERSION = 3;
 
 	private static DatabaseHelper instance;
 	
@@ -109,7 +109,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		try {
 
-			if((oldVersion <= 1) && (newVersion > 1)){
+			if((oldVersion <= 2) && (newVersion > 2)){
 
 				TableUtils.dropTable(cs, AmostraFitoBean.class, true);
 				TableUtils.dropTable(cs, AtividadeBean.class, true);
