@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pru.view;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
     private List<FuncBean> funcList;
     private AdapterListChoice adapterListChoice;
     private ArrayList<ViewHolderChoice> itens;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
         Button buttonMarcarTodosFuncAloc = (Button) findViewById(R.id.buttonMarcarTodosFuncAloc);
         Button buttonRetFuncAloc = (Button) findViewById(R.id.buttonRetFuncAloc);
         Button buttonSalvarFuncAloc = (Button) findViewById(R.id.buttonSalvarFuncAloc);
+        Button buttonAtualFuncAloc = (Button) findViewById(R.id.buttonAtualFuncAloc);
 
         itens = new ArrayList<>();
 
@@ -53,6 +56,40 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
             viewHolderChoice.setDescrCheckBox(qtde + " - " + funcBean.getNomeFunc());
             itens.add(viewHolderChoice);
         }
+
+        buttonAtualFuncAloc.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if(pruContext.getVerPosTela() == 1) {
+
+                    progressBar = new ProgressDialog(v.getContext());
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("Atualizando Funcionários...");
+                    progressBar.show();
+
+                    pruContext.getConfigCTR().atualDadosAlocFunc( ListaFuncAlocActivity.this, ListaFuncAlocActivity.class, progressBar);
+
+                }
+                else if(pruContext.getVerPosTela() == 4) {
+
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaFuncAlocActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("ATUALIZAÇÃO DOS FUNCIONÁRIOS SÓ PODEM SER REALIZADA NO INÍCIO DO BOLETIM.");
+                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    alerta.show();
+
+                }
+
+
+            }
+        });
 
         adapterListChoice = new AdapterListChoice(this, itens);
         funcListView = (ListView) findViewById(R.id.listFuncAloc);
@@ -110,7 +147,7 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 if(pruContext.getVerPosTela() == 1) {
-                    Intent it = new Intent(ListaFuncAlocActivity.this, MenuMotoMecActivity.class);
+                    Intent it = new Intent(ListaFuncAlocActivity.this, ListaAtividadeActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -143,7 +180,6 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
 
                 }
 
-
                 if(verSelecao){
 
                     if(pruContext.getVerPosTela() == 1) {
@@ -160,6 +196,7 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
 
                 }
                 else{
+
                     AlertDialog.Builder alerta = new AlertDialog.Builder(ListaFuncAlocActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("POR FAVOR! SELECIONE O(S) COLABORADOR(ES) DA TURMA.");
@@ -170,6 +207,7 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
                         }
                     });
                     alerta.show();
+
                 }
 
             }

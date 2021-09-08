@@ -12,8 +12,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,9 +52,7 @@ public class MenuInicialActivity extends ActivityGeneric {
         }
 
         customHandler.postDelayed(updateTimerThread, 0);
-
         ConexaoWeb conexaoWeb = new ConexaoWeb();
-
         progressBar = new ProgressDialog(this);
 
         if(pruContext.getRuricolaCTR().verBolAberto()){

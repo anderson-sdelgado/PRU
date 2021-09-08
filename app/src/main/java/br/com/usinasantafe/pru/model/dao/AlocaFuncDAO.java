@@ -32,7 +32,6 @@ public class AlocaFuncDAO {
     public void alocaFunc(BoletimRuricolaBean boletimRuricolaBean, List<FuncBean> funcAlocList, List<FuncBean> funcList) {
         for (FuncBean funcAlocBean : funcAlocList) {
             for (FuncBean funcBean : funcList) {
-
                 if((funcAlocBean.getMatricFunc().equals(funcBean.getMatricFunc()))
                         && (!funcAlocBean.getTipoAlocaFunc().equals(funcBean.getTipoAlocaFunc()))){
                     AlocaFuncBean alocaFuncBean = new AlocaFuncBean();

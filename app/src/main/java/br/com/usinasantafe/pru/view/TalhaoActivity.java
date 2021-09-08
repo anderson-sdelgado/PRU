@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pru.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import br.com.usinasantafe.pru.model.bean.variaveis.CabecFitoBean;
 public class TalhaoActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,23 @@ public class TalhaoActivity extends ActivityGeneric {
 
         Button buttonOkTalhao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancTalhao = (Button) findViewById(R.id.buttonCancPadrao);
+        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
+
+        buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("Atualizando Talhão...");
+                progressBar.show();
+
+                pruContext.getConfigCTR().atualDadosTalhao(TalhaoActivity.this, TalhaoActivity.class, progressBar);
+
+            }
+
+        });
 
         buttonOkTalhao.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,7 +40,13 @@ public class BoletimRuricolaDAO {
         return ret;
     }
 
-    public void salvarBolAberto(BoletimRuricolaBean boletimRuricolaBean){
+    public void salvarBolAberto(Long matricLider, Long nroOSConfig, Long idAtivConfig, Long idTurmaConfig, Long idTipoConfig){
+        BoletimRuricolaBean boletimRuricolaBean = new BoletimRuricolaBean();
+        boletimRuricolaBean.setMatricLiderBol(matricLider);
+        boletimRuricolaBean.setOsBol(nroOSConfig);
+        boletimRuricolaBean.setAtivPrincBol(idAtivConfig);
+        boletimRuricolaBean.setIdTurmaBol(idTurmaConfig);
+        boletimRuricolaBean.setTipoFuncBol(idTipoConfig);
         boletimRuricolaBean.setIdExtBol(0L);
         boletimRuricolaBean.setDthrInicioBol(Tempo.getInstance().data());
         boletimRuricolaBean.setStatusBol(1L);

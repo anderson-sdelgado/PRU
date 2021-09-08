@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pru.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import br.com.usinasantafe.pru.R;
 public class FuncActivity extends ActivityGeneric {
 
     private PRUContext pruContext;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,22 @@ public class FuncActivity extends ActivityGeneric {
 
         Button buttonOkLider = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancLider = (Button) findViewById(R.id.buttonCancPadrao);
+        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
+
+        buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("Atualizando Paradas...");
+                progressBar.show();
+
+                pruContext.getConfigCTR().atualDadosFunc(FuncActivity.this, FuncActivity.class, progressBar);
+
+            }
+        });
 
         buttonOkLider.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("rawtypes")

@@ -225,7 +225,6 @@ public class ConfigCTR {
         EnvioDadosServ.getInstance().envioDados(envioDadosActivity);
     }
 
-
     public String dadosEnvioRuricola(){
 
         RuricolaCTR ruricolaCTR = new RuricolaCTR();
@@ -274,9 +273,47 @@ public class ConfigCTR {
     ////////////////////////////// ATUALIZAÇÃO DE DADOS POR CLASSE /////////////////////////////////////
 
     public void atualDadosParada(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        ArrayList operadorArrayList = new ArrayList();
-        operadorArrayList.add("ParadaBean");
-        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, operadorArrayList);
+        ArrayList classeArrayList = new ArrayList();
+        classeArrayList.add("ParadaBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
+    }
+
+    public void atualDadosEquip(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList classeArrayList = new ArrayList();
+        classeArrayList.add("EquipBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
+    }
+
+    public void atualDadosFunc(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList classeArrayList = new ArrayList();
+        classeArrayList.add("LiderBean");
+        classeArrayList.add("FuncBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
+    }
+
+    public void atualDadosCaracOrgan(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList classeArrayList = new ArrayList();
+        classeArrayList.add("ROCAFitoBean");
+        classeArrayList.add("CaracOrganFitoBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
+    }
+
+    public void atualDadosAlocFunc(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList classeArrayList = new ArrayList();
+        classeArrayList.add("FuncBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
+    }
+
+    public void atualDadosOrgan(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList classeArrayList = new ArrayList();
+        classeArrayList.add("OrganFitoBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
+    }
+
+    public void atualDadosTalhao(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList classeArrayList = new ArrayList();
+        classeArrayList.add("TalhaoBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -288,6 +325,5 @@ public class ConfigCTR {
         osDAO.verOS(dado, telaAtual, telaProx, progressDialog);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

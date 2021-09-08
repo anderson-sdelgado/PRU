@@ -1,5 +1,6 @@
 package br.com.usinasantafe.pru.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ public class ListaOrganActivity extends ActivityGeneric {
     private PRUContext pruContext;
     private ListView organListView;
     private List<OrganFitoBean> organList;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class ListaOrganActivity extends ActivityGeneric {
         pruContext = (PRUContext) getApplication();
 
         Button buttonRetOrgan = (Button) findViewById(R.id.buttonRetOrgan);
+        Button buttonAtualOrgan = (Button) findViewById(R.id.buttonAtualOrgan);
 
         ArrayList<String> itens = new ArrayList<String>();
 
@@ -36,6 +39,21 @@ public class ListaOrganActivity extends ActivityGeneric {
         for (OrganFitoBean organFitoBean : organList) {
             itens.add(organFitoBean.getDescrOrgan());
         }
+
+        buttonAtualOrgan.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("Atualizando Organismo...");
+                progressBar.show();
+
+                pruContext.getConfigCTR().atualDadosOrgan(ListaOrganActivity.this, ListaOrganActivity.class, progressBar);
+
+            }
+        });
 
         AdapterList adapterList = new AdapterList(this, itens);
         organListView = (ListView) findViewById(R.id.listOrgan);

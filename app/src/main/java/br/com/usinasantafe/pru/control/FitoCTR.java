@@ -117,11 +117,6 @@ public class FitoCTR {
         return amostraFitoDAO.hasAmostraCabec(cabecFitoBean.getIdOrgCabecFito(), cabecFitoBean.getIdCaracOrgCabecFito());
     }
 
-    public boolean verCabecAberto(){
-        CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
-        return cabecFitoDAO.verCabecAberto();
-    }
-
     public boolean verCabecFechado() {
         CabecFitoDAO cabecFitoDAO = new CabecFitoDAO();
         return cabecFitoDAO.verCabecFechado();

@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pru.view;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
     private ListView caracOrganListView;
     private PRUContext pruContext;
     private List<CaracOrganFitoBean> caracOrganList;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
         pruContext = (PRUContext) getApplication();
 
         Button buttonRetCaracOrgan = (Button) findViewById(R.id.buttonRetCaracOrgan);
+        Button buttonAtualCaracOrgan = (Button) findViewById(R.id.buttonAtualCaracOrgan);
 
         caracOrganList = pruContext.getFitoCTR().getCaracOrganList();
 
@@ -38,6 +41,21 @@ public class ListaCaracOrganActivity extends ActivityGeneric {
         for (CaracOrganFitoBean caracOrganFitoBean : caracOrganList) {
             itens.add(caracOrganFitoBean.getDescrCaracOrgan());
         }
+
+        buttonAtualCaracOrgan.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("Atualizando Característica Organismo...");
+                progressBar.show();
+
+                pruContext.getConfigCTR().atualDadosCaracOrgan(ListaCaracOrganActivity.this, ListaCaracOrganActivity.class, progressBar);
+
+            }
+        });
 
         AdapterList adapterList = new AdapterList(this, itens);
         caracOrganListView = (ListView) findViewById(R.id.listCaracOrgan);

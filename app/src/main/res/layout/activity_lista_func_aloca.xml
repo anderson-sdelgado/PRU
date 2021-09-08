@@ -48,17 +48,33 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonRetFuncAloc"
+        android:id="@+id/buttonAtualFuncAloc"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_retornar" />
+        android:text="@string/texto_atualizar_dados" />
 
-    <Button
-        android:id="@+id/buttonSalvarFuncAloc"
-        style="@style/BotaoAvulso"
+    <LinearLayout
+        android:id="@+id/rightRelativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_ok" />
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/buttonRetFuncAloc"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/texto_padrao_retornar" />
+
+        <Button
+            android:id="@+id/buttonSalvarFuncAloc"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/texto_padrao_ok" />
+
+    </LinearLayout>
 
 </LinearLayout>

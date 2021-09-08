@@ -122,24 +122,10 @@ public class ListaAtividadeActivity extends ActivityGeneric {
 
                         if(pruContext.getRuricolaCTR().verApont()){
                             pruContext.getRuricolaCTR().salvaApont();
-                            //                        RFuncaoAtivParBean rFuncaoAtivParBean = pruContext.getRuricolaCTR().getFuncaoAtivParBean(atividadeBean.getIdAtiv());
-                            //                        if(rFuncaoAtivParBean.getCodFuncao() == 1L){
-                            //                            it = new Intent(ListaAtividadeActivity.this, TalhaoActivity.class);
-                            //                        }
-                            //                        else if(rFuncaoAtivParBean.getCodFuncao() == 2L){
-                            //                            pruContext.setVerPosTela(8);
-                            //                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
-                            //                        }
-                            //                        else if(rFuncaoAtivParBean.getCodFuncao() == 3L){
-                            //                            pruContext.setVerPosTela(11);
-                            //                            it = new Intent(ListaAtividadeActivity.this, EquipActivity.class);
-                            //                        }
-                            //                        else{
                             ativArrayList.clear();
                             it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
                             startActivity(it);
                             finish();
-                            //                        }
                         }
                         else{
                             AlertDialog.Builder alerta = new AlertDialog.Builder( ListaAtividadeActivity.this);
@@ -148,7 +134,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
                                 }
                             });
                             alerta.show();
@@ -157,7 +142,7 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                     }
 
                 }
-                else //if (pruContext.getVerPosTela() == 3)
+                else
                 {
                     ativArrayList.clear();
                     it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
