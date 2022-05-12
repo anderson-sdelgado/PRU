@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.estaticas.AmostraFitoBean;
-import br.com.usinasantafe.pru.model.bean.variaveis.ApontRuricolaBean;
 import br.com.usinasantafe.pru.model.bean.variaveis.RespFitoBean;
 import br.com.usinasantafe.pru.model.pst.EspecificaPesquisa;
 
@@ -37,12 +36,6 @@ public class RespFitoDAO {
         respFitoList.clear();
     }
 
-    public void atualRespFito(AmostraFitoBean amostraFitoBean, Long ponto, Long valor, Long idCabecFito){
-        RespFitoBean respFitoBean = getRespFitoBean(idCabecFito, ponto, amostraFitoBean.getIdAmostra());
-        respFitoBean.setValorRespFito(valor);
-        respFitoBean.update();
-    }
-
     public void atualRespFito(Long idRespFito,Long valor){
         RespFitoBean respFitoBean = getRespFitoBean(idRespFito);
         respFitoBean.setValorRespFito(valor);
@@ -51,61 +44,30 @@ public class RespFitoDAO {
 
     public List<RespFitoBean> respFitoList(Long idCabecFito, Long ponto, Long idAmostra){
 
-        ArrayList listaPesq = new ArrayList();
+        ArrayList pesqArrayList = new ArrayList();
 
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idCabecRespFito");
-        pesquisa.setValor(idCabecFito);
-        pesquisa.setTipo(1);
-        listaPesq.add(pesquisa);
-
-        EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-        pesquisa2.setCampo("pontoRespFito");
-        pesquisa2.setValor(ponto);
-        pesquisa2.setTipo(1);
-        listaPesq.add(pesquisa2);
-
-        EspecificaPesquisa pesquisa3 = new EspecificaPesquisa();
-        pesquisa3.setCampo("idAmostraRespFito");
-        pesquisa3.setValor(idAmostra);
-        pesquisa3.setTipo(1);
-        listaPesq.add(pesquisa3);
+        pesqArrayList.add(getPesqIdCabecRespFito(idCabecFito));
+        pesqArrayList.add(getPesqPontoRespFito(ponto));
+        pesqArrayList.add(getPesqIdAmostra(idAmostra));
 
         RespFitoBean respFitoBean = new RespFitoBean();
-        List<RespFitoBean> respFitoList = respFitoBean.get(listaPesq);
-        listaPesq.clear();
+        List<RespFitoBean> respFitoList = respFitoBean.get(pesqArrayList);
+        pesqArrayList.clear();
 
         return respFitoList;
     }
 
     public List<RespFitoBean> getRespPontoFitoList(Long idCabecFito, Long ponto){
 
-        ArrayList listaPesq = new ArrayList();
-
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idCabecRespFito");
-        pesquisa.setValor(idCabecFito);
-        pesquisa.setTipo(1);
-        listaPesq.add(pesquisa);
-
-        EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-        pesquisa2.setCampo("pontoRespFito");
-        pesquisa2.setValor(ponto);
-        pesquisa2.setTipo(1);
-        listaPesq.add(pesquisa2);
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdCabecRespFito(idCabecFito));
+        pesqArrayList.add(getPesqPontoRespFito(ponto));
 
         RespFitoBean respFitoBean = new RespFitoBean();
-        List<RespFitoBean> respFitoList = respFitoBean.get(listaPesq);
-        listaPesq.clear();
+        List<RespFitoBean> respFitoList = respFitoBean.get(pesqArrayList);
+        pesqArrayList.clear();
 
         return respFitoList;
-    }
-
-    public RespFitoBean getRespFitoBean(Long idCabecFito, Long ponto, Long idAmostra){
-        List respFitoList = respFitoList(idCabecFito, ponto, idAmostra);
-        RespFitoBean respFitoBean = (RespFitoBean) respFitoList.get(0);
-        respFitoList.clear();
-        return respFitoBean;
     }
 
     public RespFitoBean getRespFitoBean(Long idRespFito){
@@ -165,15 +127,10 @@ public class RespFitoDAO {
 
     public List getListRespEnvio(ArrayList<Long> idCabecList){
 
-        RespFitoBean respFitoBean = new RespFitoBean();
-
         ArrayList pesqArrayList = new ArrayList();
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("statusRespFito");
-        pesquisa.setValor(1L);
-        pesquisa.setTipo(1);
-        pesqArrayList.add(pesquisa);
+        pesqArrayList.add(getPesqStatusRespFito());
 
+        RespFitoBean respFitoBean = new RespFitoBean();
         return respFitoBean.inAndGet("idCabecRespFito", idCabecList, pesqArrayList);
 
     }
@@ -197,6 +154,38 @@ public class RespFitoDAO {
 
         return jsonResp.toString();
 
+    }
+
+    private EspecificaPesquisa getPesqIdCabecRespFito(Long idCabecFito){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idCabecRespFito");
+        pesquisa.setValor(idCabecFito);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqPontoRespFito(Long ponto){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("pontoRespFito");
+        pesquisa.setValor(ponto);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqIdAmostra(Long idAmostra){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idAmostraRespFito");
+        pesquisa.setValor(idAmostra);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqStatusRespFito(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusRespFito");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(1);
+        return pesquisa;
     }
 
 }

@@ -11,7 +11,7 @@ public class TipoApontDAO {
 
     public TipoApontBean getTipoApont(Long idTipo){
         TipoApontBean tipoApontBean = new TipoApontBean();
-        List tipoApontList = tipoApontBean.get("idTipo", idTipo);
+        List<TipoApontBean> tipoApontList = tipoApontBean.get("idTipo", idTipo);
         tipoApontBean = (TipoApontBean) tipoApontList.get(0);
         tipoApontList.clear();
         return  tipoApontBean;
@@ -21,7 +21,7 @@ public class TipoApontDAO {
         return new TipoApontBean().hasElements();
     }
 
-    public List allTipoApont(){
+    public List<TipoApontBean> allTipoApont(){
         TipoApontBean tipoApontBean = new TipoApontBean();
         return tipoApontBean.all();
     }

@@ -71,7 +71,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                     progressBar.setCancelable(true);
                     progressBar.setMessage("Buscando Atualização...");
                     progressBar.show();
-                    pruContext.getConfigCTR().verAtualAplic(pruContext.versaoAplic, this, progressBar);
+                    pruContext.getConfigCTR().verAtualAplic(pruContext.versaoAPP, this, progressBar);
                 }
                 else{
                     progressBar.dismiss();

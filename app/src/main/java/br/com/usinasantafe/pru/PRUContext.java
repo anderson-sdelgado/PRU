@@ -31,7 +31,6 @@ public class PRUContext extends Application {
     //17 - Relatorio Fito
     //18 - Relatorio Perda
     //19 - Relatorio Soqueira
-    public static String versaoAplic = "3.02";
     private RuricolaCTR ruricolaCTR;
     private FitoCTR fitoCTR;
     private PerdaCTR perdaCTR;
@@ -40,6 +39,9 @@ public class PRUContext extends Application {
     private int posQuestao;
     private int posCabec;
     private Long id;
+
+    public static String versaoAPP = "3.03";
+    public static String versaoWS = "3.03";
 
     @Override
     public void onCreate() {

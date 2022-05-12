@@ -87,7 +87,6 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
 
                 }
 
-
             }
         });
 

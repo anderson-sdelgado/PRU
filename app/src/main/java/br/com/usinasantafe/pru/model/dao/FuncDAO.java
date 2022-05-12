@@ -17,23 +17,15 @@ public class FuncDAO {
 
     public boolean verFunc(Long matricFunc, Long idTurma){
 
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdTurma(idTurma));
+        pesqArrayList.add(getPesqMatricTurma(matricFunc));
+
         FuncBean funcBean = new FuncBean();
-
-        ArrayList listaPesq = new ArrayList();
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idTurma");
-        pesquisa.setValor(idTurma);
-        listaPesq.add(pesquisa);
-
-        EspecificaPesquisa pesquisa2 = new EspecificaPesquisa();
-        pesquisa2.setCampo("matricFunc");
-        pesquisa2.setValor(matricFunc);
-        listaPesq.add(pesquisa2);
-
-        List funcList = funcBean.get(listaPesq);
+        List<FuncBean> funcList = funcBean.get(pesqArrayList);
         boolean ret = (funcList.size() > 0);
         funcList.clear();
-        listaPesq.clear();
+        pesqArrayList.clear();
 
         return ret;
 
@@ -86,6 +78,22 @@ public class FuncDAO {
         FuncBean funcBean = (FuncBean) funcList.get(0);
         funcList.clear();
         return funcBean;
+    }
+
+    private EspecificaPesquisa getPesqIdTurma(Long idTurma){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idTurma");
+        pesquisa.setValor(idTurma);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqMatricTurma(Long matricFunc){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("matricFunc");
+        pesquisa.setValor(matricFunc);
+        pesquisa.setTipo(1);
+        return pesquisa;
     }
 
 }

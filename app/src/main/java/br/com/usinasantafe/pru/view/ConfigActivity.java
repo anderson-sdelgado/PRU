@@ -25,8 +25,8 @@ public class ConfigActivity extends ActivityGeneric {
     private ProgressDialog progressBar;
     private AdapterList adapterList;
     private AlertDialog alerta;
-    private List tipoApontList;
-    private List turmaList;
+    private List<TipoApontBean> tipoApontList;
+    private List<TurmaBean> turmaList;
     private TextView textViewTipoConfig;
     private TextView textViewTurmaConfig;
     private TextView textViewFuncConfig;
@@ -194,8 +194,6 @@ public class ConfigActivity extends ActivityGeneric {
             }
 
         });
-
-
 
         buttonAtualBDConfig.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -17,7 +17,7 @@ public class TurmaDAO {
         return  turmaBean;
     }
 
-    public List allTurma(){
+    public List<TurmaBean> allTurma(){
         TurmaBean turmaBean = new TurmaBean();
         return turmaBean.orderBy("codTurma", true);
     }

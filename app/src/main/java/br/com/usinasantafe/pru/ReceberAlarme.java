@@ -31,7 +31,7 @@ public class ReceberAlarme extends BroadcastReceiver {
 
         Log.i("PRU", "RODANDO");
 
-        exibir();
+//        exibir();
 
         if(Tempo.getInstance().getDatahora() != null) {
             Tempo.getInstance().getDatahora().setTime(Tempo.getInstance().getDatahora().getTime() + 60000L);

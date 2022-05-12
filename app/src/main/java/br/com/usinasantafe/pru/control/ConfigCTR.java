@@ -88,12 +88,12 @@ public class ConfigCTR {
         return turmaDAO.getTurma(idTurma);
     }
 
-    public List allTipoApont(){
+    public List<TipoApontBean> allTipoApont(){
         TipoApontDAO tipoApontDAO = new TipoApontDAO();
         return tipoApontDAO.allTipoApont();
     }
 
-    public List allTurma(){
+    public List<TurmaBean> allTurma(){
         TurmaDAO turmaDAO = new TurmaDAO();
         return turmaDAO.allTurma();
     }

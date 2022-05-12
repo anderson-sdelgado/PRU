@@ -4,29 +4,33 @@ import br.com.usinasantafe.pru.PRUContext;
 
 public class UrlsConexaoHttp {
 
-    private int tipoEnvio = 1;
+    public static String versao = "?versao=" + PRUContext.versaoWS.replace(".", "_");
 
-    public static String urlPrincipal = "http://www.usinasantafe.com.br/prudev/view/";
-    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/prudev/view/";
+    public static String urlPrincipal = "https://www.usinasantafe.com.br/prudev/view/";
+    public static String urlPrincEnvio = "https://www.usinasantafe.com.br/prudev/view/";
+
+//    public static String urlPrincipal = "https://www.usinasantafe.com.br/pruqa/view/";
+//    public static String urlPrincEnvio = "https://www.usinasantafe.com.br/pruqa/view/";
+
+//    public static String urlPrincipal = "https://www.usinasantafe.com.br/pruprod/" + versao + "/view/";
+//    public static String urlPrincEnvio = "https://www.usinasantafe.com.br/pruprod/" + versao + "/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pru.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp";
 
-    public static String put = "?versao=" + PRUContext.versaoAplic.replace(".", "_");
-
-    public static String AmostraFitoBean = urlPrincipal + "amostrafito.php" + put;
-    public static String AtividadeBean = urlPrincipal + "atividade.php" + put;
-    public static String CaracOrganFitoBean = urlPrincipal + "caracorganfito.php" + put;
-    public static String EquipBean = urlPrincipal + "equip.php" + put;
-    public static String FuncBean = urlPrincipal + "func.php" + put;
-    public static String LiderBean = urlPrincipal + "lider.php" + put;
-    public static String OrganFitoBean = urlPrincipal + "organfito.php" + put;
-    public static String ParadaBean = urlPrincipal + "parada.php" + put;
-    public static String RFuncaoAtivParBean = urlPrincipal + "rfuncaoativpar.php" + put;
-    public static String ROCAFitoBean = urlPrincipal + "rocafito.php" + put;
-    public static String TalhaoBean = urlPrincipal + "talhao.php" + put;
-    public static String TipoApontBean = urlPrincipal + "tipoapont.php" + put;
-    public static String TurmaBean = urlPrincipal + "turma.php" + put;
+    public static String AmostraFitoBean = urlPrincipal + "amostrafito.php";
+    public static String AtividadeBean = urlPrincipal + "atividade.php";
+    public static String CaracOrganFitoBean = urlPrincipal + "caracorganfito.php";
+    public static String EquipBean = urlPrincipal + "equip.php";
+    public static String FuncBean = urlPrincipal + "func.php";
+    public static String LiderBean = urlPrincipal + "lider.php";
+    public static String OrganFitoBean = urlPrincipal + "organfito.php";
+    public static String ParadaBean = urlPrincipal + "parada.php";
+    public static String RFuncaoAtivParBean = urlPrincipal + "rfuncaoativpar.php";
+    public static String ROCAFitoBean = urlPrincipal + "rocafito.php";
+//    public static String TalhaoBean = urlPrincipal + "talhao.php";
+    public static String TipoApontBean = urlPrincipal + "tipoapont.php";
+    public static String TurmaBean = urlPrincipal + "turma.php";
 
     public UrlsConexaoHttp() {
     }
@@ -50,11 +54,11 @@ public class UrlsConexaoHttp {
     public String urlVerifica(String classe) {
         String retorno = "";
         if (classe.equals("OS")) {
-            retorno = urlPrincEnvio + "os.php" + put;
+            retorno = urlPrincEnvio + "os.php";
         } else if (classe.equals("Ativ")) {
-            retorno = urlPrincEnvio + "atualosativ.php" + put;
+            retorno = urlPrincEnvio + "atualosativ.php";
         } else if (classe.equals("Atualiza")) {
-            retorno = urlPrincEnvio + "atualaplic.php" + put;
+            retorno = urlPrincEnvio + "atualaplic.php";
         }
         return retorno;
     }

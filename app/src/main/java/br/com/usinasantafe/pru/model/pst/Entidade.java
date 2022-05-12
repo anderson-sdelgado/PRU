@@ -1,40 +1,40 @@
 package br.com.usinasantafe.pru.model.pst;
 
-import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
+import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings({"rawtypes","unchecked"})
 public abstract class Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Dao dao;
-
+	
 	private Dao daoImpl(){
-
+		
 		try {
-
+			
 			if(dao == null){
 				DatabaseHelper instance = DatabaseHelper.getInstance();
 				dao = instance.getDao(getClass());
 			}
-
+			
 			return dao;
-
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-
-
+		
+		
 	}
-
+	
 	public void insert() {
 		try {
 			this.daoImpl().create(this);
@@ -42,9 +42,9 @@ public abstract class Entidade implements Serializable {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public void update() {
-
+		
 		try {
 			this.daoImpl().update(this);
 		} catch (SQLException e) {
@@ -59,7 +59,7 @@ public abstract class Entidade implements Serializable {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public void deleteAll()  {
 		try {
 			DeleteBuilder<String, Object> deleteBuilder = this.daoImpl().deleteBuilder();
@@ -153,22 +153,22 @@ public abstract class Entidade implements Serializable {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public List orderBy(String campo, boolean order){
 		try {
-
+			
 			QueryBuilder<String, Object> queryBuilder =
 					this.daoImpl().queryBuilder();
 			queryBuilder.orderBy(campo, order);
 			PreparedQuery preparedQuery = queryBuilder.prepare();
 			return this.daoImpl().query(preparedQuery);
-
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
-
+	
+	
 	public boolean exists(String campo, Object valor){
 		try {
 			if(this.daoImpl().queryForEq(campo, valor).size() > 0){
@@ -180,7 +180,7 @@ public abstract class Entidade implements Serializable {
 		return false;
 	}
 
-
+	
 	public boolean hasElements() {
 		return all().size() > 0;
 	}
@@ -265,4 +265,32 @@ public abstract class Entidade implements Serializable {
 		this.daoImpl().clearObjectCache();
 		dao = null;
 	}
+
+	public List dif(String campo, Object valor) {
+		try {
+			QueryBuilder<String, Object> queryBuilder =
+					this.daoImpl().queryBuilder();
+			Where<String, Object> where = queryBuilder.where();
+			where.ne(campo, valor);
+			PreparedQuery preparedQuery = queryBuilder.prepare();
+			return this.daoImpl().query(preparedQuery);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List difAndOrderBy(String campo, Object valor, String col, boolean order) {
+		try {
+			QueryBuilder<String, Object> queryBuilder =
+					this.daoImpl().queryBuilder();
+			Where<String, Object> where = queryBuilder.where();
+			where.ne(campo, valor);
+			queryBuilder.orderBy(col, order);
+			PreparedQuery preparedQuery = queryBuilder.prepare();
+			return this.daoImpl().query(preparedQuery);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
