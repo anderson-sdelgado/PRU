@@ -3,7 +3,6 @@ package br.com.usinasantafe.pru.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import br.com.usinasantafe.pru.PRUContext;
@@ -25,38 +24,29 @@ public class FuncActivity extends ActivityGeneric {
         Button buttonCancLider = (Button) findViewById(R.id.buttonCancPadrao);
         Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
 
-        buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
+        buttonAtualPadrao.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            progressBar = new ProgressDialog(v.getContext());
+            progressBar.setCancelable(true);
+            progressBar.setMessage("Atualizando Paradas...");
+            progressBar.show();
 
-                progressBar = new ProgressDialog(v.getContext());
-                progressBar.setCancelable(true);
-                progressBar.setMessage("Atualizando Paradas...");
-                progressBar.show();
+            pruContext.getConfigCTR().atualDadosFunc(FuncActivity.this, FuncActivity.class, progressBar);
 
-                pruContext.getConfigCTR().atualDadosFunc(FuncActivity.this, FuncActivity.class, progressBar);
-
-            }
         });
 
-        buttonOkLider.setOnClickListener(new View.OnClickListener() {
-            @SuppressWarnings("rawtypes")
-            @Override
-            public void onClick(View v) {
+        buttonOkLider.setOnClickListener(v -> {
 
-                if (!editTextPadrao.getText().toString().equals("")) {
+            if (!editTextPadrao.getText().toString().equals("")) {
 
-                    Long matricFunc = Long.parseLong(editTextPadrao.getText().toString());
+                Long matricFunc = Long.parseLong(editTextPadrao.getText().toString());
 
-                    if (pruContext.getRuricolaCTR().verLider(matricFunc) && (pruContext.getRuricolaCTR().verFunc(matricFunc))){
+                if (pruContext.getRuricolaCTR().verLider(matricFunc) && (pruContext.getRuricolaCTR().verFunc(matricFunc))){
 
-                        pruContext.getRuricolaCTR().salvarBolAberto(matricFunc);
-                        Intent it = new Intent(FuncActivity.this, MenuMotoMecActivity.class);
-                        startActivity(it);
-                        finish();
-
-                    }
+                    pruContext.getRuricolaCTR().salvarBolAberto(matricFunc);
+                    Intent it = new Intent(FuncActivity.this, MenuApontActivity.class);
+                    startActivity(it);
+                    finish();
 
                 }
 
@@ -64,13 +54,9 @@ public class FuncActivity extends ActivityGeneric {
 
         });
 
-        buttonCancLider.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (editTextPadrao.getText().toString().length() > 0) {
-                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
-                }
+        buttonCancLider.setOnClickListener(v -> {
+            if (editTextPadrao.getText().toString().length() > 0) {
+                editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
             }
         });
 

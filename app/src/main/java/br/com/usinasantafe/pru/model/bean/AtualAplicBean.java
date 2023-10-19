@@ -6,34 +6,52 @@ package br.com.usinasantafe.pru.model.bean;
 
 public class AtualAplicBean {
 
-    private Long idCelularAtual;
-    private String versaoAtual;
-    private String versaoNova;
+    private Long nroAparelho;
+    private Long nroOS;
+    private String versao;
+    private String dthr;
+    private String token;
 
     public AtualAplicBean() {
     }
 
-    public Long getIdCelularAtual() {
-        return idCelularAtual;
+    public Long getNroAparelho() {
+        return nroAparelho;
     }
 
-    public void setIdCelularAtual(Long idCelularAtual) {
-        this.idCelularAtual = idCelularAtual;
+    public void setNroAparelho(Long nroAparelho) {
+        this.nroAparelho = nroAparelho;
     }
 
-    public String getVersaoAtual() {
-        return versaoAtual;
+    public Long getNroOS() {
+        return nroOS;
     }
 
-    public void setVersaoAtual(String versaoAtual) {
-        this.versaoAtual = versaoAtual;
+    public void setNroOS(Long nroOS) {
+        this.nroOS = nroOS;
     }
 
-    public String getVersaoNova() {
-        return versaoNova;
+    public String getVersao() {
+        return versao;
     }
 
-    public void setVersaoNova(String versaoNova) {
-        this.versaoNova = versaoNova;
+    public void setVersao(String versao) {
+        this.versao = versao;
+    }
+
+    public String getDthr() {
+        return dthr;
+    }
+
+    public void setDthr(String dthr) {
+        this.dthr = dthr;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

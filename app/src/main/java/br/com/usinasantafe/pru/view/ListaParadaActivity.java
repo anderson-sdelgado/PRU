@@ -2,11 +2,8 @@ package br.com.usinasantafe.pru.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -31,39 +28,31 @@ public class ListaParadaActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        Button buttonAtualParada = (Button) findViewById(R.id.buttonAtualParada);
-        Button buttonRetMenuParada = (Button) findViewById(R.id.buttonRetMenuParada);
+        Button buttonAtualParada = findViewById(R.id.buttonAtualParada);
+        Button buttonRetMenuParada = findViewById(R.id.buttonRetMenuParada);
 
-        buttonAtualParada.setOnClickListener(new View.OnClickListener() {
+        buttonAtualParada.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            progressBar = new ProgressDialog(v.getContext());
+            progressBar.setCancelable(true);
+            progressBar.setMessage("Atualizando Paradas...");
+            progressBar.show();
 
-                progressBar = new ProgressDialog(v.getContext());
-                progressBar.setCancelable(true);
-                progressBar.setMessage("Atualizando Paradas...");
-                progressBar.show();
+            pruContext.getConfigCTR().atualDadosParada(ListaParadaActivity.this, ListaParadaActivity.class, progressBar);
 
-                pruContext.getConfigCTR().atualDadosParada(ListaParadaActivity.this, ListaParadaActivity.class, progressBar);
-
-            }
         });
 
-        buttonRetMenuParada.setOnClickListener(new View.OnClickListener() {
+        buttonRetMenuParada.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            Intent it = new Intent(ListaParadaActivity.this, ListaAtividadeActivity.class);
+            startActivity(it);
+            finish();
 
-                Intent it = new Intent(ListaParadaActivity.this, ListaAtividadeActivity.class);
-                startActivity(it);
-                finish();
-
-            }
         });
 
         listParada = pruContext.getRuricolaCTR().getParadaList();
 
-        ArrayList<String> itens = new ArrayList<String>();
+        ArrayList<String> itens = new ArrayList();
 
         for (int i = 0; i < listParada.size(); i++) {
             ParadaBean paradaBean = (ParadaBean) listParada.get(i);
@@ -71,53 +60,40 @@ public class ListaParadaActivity extends ActivityGeneric {
         }
 
         AdapterList adapterList = new AdapterList(this, itens);
-        lista = (ListView) findViewById(R.id.listViewMotParada);
+        lista = findViewById(R.id.listViewMotParada);
         lista.setAdapter(adapterList);
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lista.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            ParadaBean paradaBean = (ParadaBean) listParada.get(position);
 
-                ParadaBean paradaBean = (ParadaBean) listParada.get(position);
+            pruContext.getRuricolaCTR().setIdParada(paradaBean.getIdParada());
 
-                pruContext.getRuricolaCTR().setIdParada(paradaBean.getIdParada());
+            Intent it;
+            if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1) {
+                it = new Intent(ListaParadaActivity.this, ListaFuncApontActivity.class);
+                startActivity(it);
+                finish();
 
-                Intent it;
-                if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1) {
-                    it = new Intent(ListaParadaActivity.this, ListaFuncApontActivity.class);
+                listParada.clear();
+
+            } else {
+                if(pruContext.getRuricolaCTR().verApont()){
+                    pruContext.getRuricolaCTR().salvaApont();
+                    it = new Intent(ListaParadaActivity.this, MenuApontActivity.class);
                     startActivity(it);
                     finish();
 
                     listParada.clear();
 
+                } else {
+                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaParadaActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("PARADA JÁ APONTADA PARA O COLABORADOR!");
+                    alerta.setPositiveButton("OK", (dialog, which) -> {
+                    });
+                    alerta.show();
                 }
-                else{
-                    if(pruContext.getRuricolaCTR().verApont()){
-                        pruContext.getRuricolaCTR().salvaApont();
-                        it = new Intent(ListaParadaActivity.this, MenuMotoMecActivity.class);
-                        startActivity(it);
-                        finish();
-
-                        listParada.clear();
-
-                    }
-                    else{
-                        AlertDialog.Builder alerta = new AlertDialog.Builder( ListaParadaActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("PARADA JÁ APONTADA PARA O COLABORADOR!");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                        alerta.show();
-                    }
-                }
-
-
             }
 
         });

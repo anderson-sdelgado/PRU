@@ -26,6 +26,8 @@ public class ApontRuricolaBean extends Entidade  {
 	private String dthrApont;
 	@DatabaseField
 	private Long matricFuncApont;
+	@DatabaseField
+	private Long statusApont;  //1 - NÃO ENVIADO; 2 - ENVIADO
 
 	public ApontRuricolaBean() {
 	}
@@ -88,5 +90,13 @@ public class ApontRuricolaBean extends Entidade  {
 
 	public void setMatricFuncApont(Long matricFuncApont) {
 		this.matricFuncApont = matricFuncApont;
+	}
+
+	public Long getStatusApont() {
+		return statusApont;
+	}
+
+	public void setStatusApont(Long statusApont) {
+		this.statusApont = statusApont;
 	}
 }

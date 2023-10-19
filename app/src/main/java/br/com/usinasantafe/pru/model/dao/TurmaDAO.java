@@ -9,10 +9,15 @@ public class TurmaDAO {
     public TurmaDAO() {
     }
 
+    public boolean hasTurma(){
+        TurmaBean turmaBean = new TurmaBean();
+        return turmaBean.hasElements();
+    }
+
     public TurmaBean getTurma(Long idTurma){
         TurmaBean turmaBean = new TurmaBean();
-        List turmaList = turmaBean.get("idTurma", idTurma);
-        turmaBean = (TurmaBean) turmaList.get(0);
+        List<TurmaBean> turmaList = turmaBean.get("idTurma", idTurma);
+        turmaBean = turmaList.get(0);
         turmaList.clear();
         return  turmaBean;
     }

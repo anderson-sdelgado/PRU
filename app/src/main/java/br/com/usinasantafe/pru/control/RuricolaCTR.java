@@ -22,6 +22,7 @@ import br.com.usinasantafe.pru.model.dao.LiderDAO;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.model.dao.ParadaDAO;
 import br.com.usinasantafe.pru.model.dao.TurmaDAO;
+import br.com.usinasantafe.pru.util.EnvioDadosServ;
 import br.com.usinasantafe.pru.util.Tempo;
 
 public class RuricolaCTR {
@@ -59,6 +60,11 @@ public class RuricolaCTR {
         BoletimRuricolaDAO boletimRuricolaDAO = new BoletimRuricolaDAO();
         ApontRuricolaDAO apontRuricolaDAO = new ApontRuricolaDAO();
         return apontRuricolaDAO.verQtdeApont(boletimRuricolaDAO.getBolAberto());
+    }
+
+    public boolean hasTurma(){
+        TurmaDAO turmaDAO = new TurmaDAO();
+        return turmaDAO.hasTurma();
     }
 
     //////////////////////////// SETAR CAMPOS ///////////////////////////////////////////////
@@ -243,11 +249,6 @@ public class RuricolaCTR {
 
     //////////////////////////////// VERIFICAÇÃO E ATUALIZAÇÃO DE DADOS ////////////////////////////
 
-    public void verOS(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        OSDAO osDAO = new OSDAO();
-        osDAO.verOS(dado, telaAtual, telaProx, progressDialog);
-    }
-
     public boolean verLider(Long matricLider){
         LiderDAO liderDAO = new LiderDAO();
         return liderDAO.verLider(matricLider);
@@ -279,6 +280,7 @@ public class RuricolaCTR {
         String dataHora = Tempo.getInstance().data();
         apontRuricolaDAO.salvaApont(boletimRuricolaDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora);
         configCTR.setDtUltApontConfig(dataHora);
+        EnvioDadosServ.getInstance().envioDados();
     }
 
     public void salvaApont(List<FuncBean> funcBeans) {
@@ -288,6 +290,7 @@ public class RuricolaCTR {
         String dataHora = Tempo.getInstance().data();
         apontRuricolaDAO.salvaApont(boletimRuricolaDAO.getBolAberto(), configCTR.getConfig(), idParada, dataHora, funcBeans);
         configCTR.setDtUltApontConfig(dataHora);
+        EnvioDadosServ.getInstance().envioDados();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -3,11 +3,17 @@ package br.com.usinasantafe.pru.control;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pru.view.EnvioDadosActivity;
-import br.com.usinasantafe.pru.view.MenuInicialActivity;
+import br.com.usinasantafe.pru.model.bean.AtualAplicBean;
+import br.com.usinasantafe.pru.model.bean.estaticas.ROSAtivBean;
+import br.com.usinasantafe.pru.model.dao.AtualAplicDAO;
 import br.com.usinasantafe.pru.model.bean.estaticas.OSBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TipoApontBean;
 import br.com.usinasantafe.pru.model.bean.estaticas.TurmaBean;
@@ -22,6 +28,7 @@ import br.com.usinasantafe.pru.model.dao.TurmaDAO;
 import br.com.usinasantafe.pru.util.AtualDadosServ;
 import br.com.usinasantafe.pru.util.EnvioDadosServ;
 import br.com.usinasantafe.pru.util.VerifDadosServ;
+import br.com.usinasantafe.pru.view.TelaInicialActivity;
 
 public class ConfigCTR {
 
@@ -30,7 +37,7 @@ public class ConfigCTR {
 
     ///////////////////////////////////////// CONFIG //////////////////////////////////////////////
 
-    public boolean hasElements(){
+    public boolean hasElemConfig(){
         ConfigDAO configDAO = new ConfigDAO();
         return configDAO.hasElements();
     }
@@ -38,6 +45,11 @@ public class ConfigCTR {
     public boolean hasElementsTipoApont(){
         TipoApontDAO tipoApontDAO = new TipoApontDAO();
         return tipoApontDAO.hasElementsTipoApont();
+    }
+
+    public void salvarConfig(Long nroAparelho){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.salvarConfig(nroAparelho);
     }
 
     public void salvarConfig(ConfigBean configBean){
@@ -53,10 +65,6 @@ public class ConfigCTR {
     public boolean verFunc(Long matricFunc){
         FuncDAO funcDAO = new FuncDAO();
         return funcDAO.verFunc(matricFunc);
-    }
-
-    public void verAtualAplic(String versaoAplic, MenuInicialActivity menuInicialActivity, ProgressDialog progressDialog) {
-        VerifDadosServ.getInstance().verAtualAplic(versaoAplic, menuInicialActivity, progressDialog);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,14 +130,49 @@ public class ConfigCTR {
         configDAO.setAtivConfig(idAtiv);
     }
 
-    public void setDtServConfig(String dtServConfig){
-        ConfigDAO configDAO = new ConfigDAO();
-        configDAO.setDtServConfig(dtServConfig);
-    }
-
     public void setPontoAmostraConfig(Long ponto){
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.setPontoAmostraConfig(ponto);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////// ATUALIZAR APLIC /////////////////////////////////////////
+
+    public void verToken(String versao, Long nroAparelho, Context telaAtual, ProgressDialog progressDialog){
+        AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+        VerifDadosServ.getInstance().verifDados(atualAplicDAO.dadosAplic(nroAparelho, versao), telaAtual, progressDialog);
+    }
+
+    public void recToken(String result, Context telaAtual, ProgressDialog progressDialog) {
+
+        AtualAplicBean atualAplicBean = new AtualAplicBean();
+
+        try {
+
+            JSONObject jObj = new JSONObject(result);
+            JSONArray jsonArray = jObj.getJSONArray("dados");
+
+            if (jsonArray.length() > 0) {
+                AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+                atualAplicBean = atualAplicDAO.recAparelho(jsonArray);
+            }
+
+            salvarConfig(atualAplicBean.getNroAparelho());
+            progressDialog.dismiss();
+            progressDialog = new ProgressDialog(telaAtual);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage("ATUALIZANDO ...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setProgress(0);
+            progressDialog.setMax(100);
+            progressDialog.show();
+
+            AtualDadosServ.getInstance().atualTodasTabBD(telaAtual, progressDialog);
+
+        } catch (Exception e) {
+            VerifDadosServ.getInstance().msgSemTerm("FALHA EM SALVAR DADOS DO APARELHO! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,52 +221,9 @@ public class ConfigCTR {
         return verif;
     }
 
-    public boolean verifDadosFito(){
-
-        FitoCTR fitoCTR = new FitoCTR();
-
-        boolean verif = false;
-
-        if(fitoCTR.verCabecFechado()){
-            verif = true;
-        }
-
-        return verif;
-    }
-
-    public boolean verifDadosPerda(){
-
-        PerdaCTR perdaCTR = new PerdaCTR();
-
-        boolean verif = false;
-
-        if(perdaCTR.verCabecFechado()){
-            verif = true;
-        }
-
-        return verif;
-    }
-
-    public boolean verifDadosSoqueira(){
-
-        SoqueiraCTR soqueiraCTR = new SoqueiraCTR();
-
-        boolean verif = false;
-
-        if(soqueiraCTR.verCabecFechado()){
-            verif = true;
-        }
-
-        return verif;
-    }
-
     /////////////////////////////////////////////////
 
     ////////////////ENVIO DADOS/////////////////////
-
-    public void envioDados(EnvioDadosActivity envioDadosActivity){
-        EnvioDadosServ.getInstance().envioDados(envioDadosActivity);
-    }
 
     public String dadosEnvioRuricola(){
 
@@ -238,35 +238,6 @@ public class ConfigCTR {
 
     }
 
-    public String dadosEnvioFito(){
-
-        FitoCTR fitoCTR = new FitoCTR();
-        String dadosEnvioCabec = fitoCTR.dadosEnvioCabecFechado();
-        String dadosEnvioResp = fitoCTR.dadosEnvioResp(fitoCTR.idCabecList());
-
-        return dadosEnvioCabec + "_" + dadosEnvioResp;
-
-    }
-
-    public String dadosEnvioPerda(){
-
-        PerdaCTR perdaCTR = new PerdaCTR();
-        String dadosEnvioCabec = perdaCTR.dadosEnvioCabecFechado();
-        String dadosEnvioAmostra = perdaCTR.dadosEnvioAmostra(perdaCTR.idCabecList());
-
-        return dadosEnvioCabec + "_" + dadosEnvioAmostra;
-
-    }
-
-    public String dadosEnvioSoqueira(){
-
-        SoqueiraCTR soqueiraCTR = new SoqueiraCTR();
-        String dadosEnvioCabec = soqueiraCTR.dadosEnvioCabecFechado();
-        String dadosEnvioAmostra = soqueiraCTR.dadosEnvioAmostra(soqueiraCTR.idCabecList());
-
-        return dadosEnvioCabec + "_" + dadosEnvioAmostra;
-
-    }
 
     /////////////////////////////////////////////////
 
@@ -304,25 +275,14 @@ public class ConfigCTR {
         AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
     }
 
-    public void atualDadosOrgan(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        ArrayList classeArrayList = new ArrayList();
-        classeArrayList.add("OrganFitoBean");
-        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
-    }
-
-    public void atualDadosTalhao(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        ArrayList classeArrayList = new ArrayList();
-        classeArrayList.add("TalhaoBean");
-        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList);
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////// VERIFICAÇÃO E ATUALIZAÇÃO DE DADOS ////////////////////////////
 
-    public void verOS(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+    public void verOS(String nroOS, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
         OSDAO osDAO = new OSDAO();
-        osDAO.verOS(dado, telaAtual, telaProx, progressDialog);
+        AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+        osDAO.verOS(atualAplicDAO.getAtualNroOS(Long.parseLong(nroOS)), telaAtual, telaProx, progressDialog);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////

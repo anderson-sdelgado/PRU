@@ -3,25 +3,16 @@ package br.com.usinasantafe.pru.util;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.usinasantafe.pru.view.MenuInicialActivity;
 import br.com.usinasantafe.pru.control.ConfigCTR;
-import br.com.usinasantafe.pru.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pru.model.dao.OSDAO;
 import br.com.usinasantafe.pru.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp;
-import br.com.usinasantafe.pru.model.pst.GenericRecordable;
 
 /**
  * Created by anderson on 16/11/2015.
@@ -29,22 +20,14 @@ import br.com.usinasantafe.pru.model.pst.GenericRecordable;
 public class VerifDadosServ {
 
     private static VerifDadosServ instance = null;
-    private GenericRecordable genericRecordable;
     private UrlsConexaoHttp urlsConexaoHttp;
     private Context telaAtual;
     private Class telaProx;
-    private String variavel;
     private ProgressDialog progressDialog;
     private String dado;
-    private String tipo;
-    private AtualAplicBean atualAplicBean;
-    private MenuInicialActivity menuInicialActivity;
-    private boolean verTerm;
+    private String classe;
     private PostVerGenerico postVerGenerico;
-
-    public VerifDadosServ() {
-        //genericRecordable = new GenericRecordable();
-    }
+    public static int status;
 
     public static VerifDadosServ getInstance() {
         if (instance == null)
@@ -55,49 +38,47 @@ public class VerifDadosServ {
     public void manipularDadosHttp(String result) {
 
         if (!result.equals("")) {
-            if (this.tipo.equals("OS")) {
+            if (this.classe.equals("OS")) {
                 OSDAO osDAO = new OSDAO();
-                osDAO.recDadosOS(result);
-            } else if (this.tipo.equals("Atualiza")) {
-                String verAtual = result.trim();
-                if (verAtual.equals("S")) {
-                    AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
-                    atualizarAplicativo.setContext(this.menuInicialActivity);
-                    atualizarAplicativo.execute();
-                } else {
-                    this.menuInicialActivity.startTimer(verAtual);
-                }
+                osDAO.recDadosOS(result.trim());
+            } else if (this.classe.equals("Token")) {
+                ConfigCTR configCTR = new ConfigCTR();
+                configCTR.recToken(result.trim(), telaAtual, progressDialog);
             }
         }
 
     }
 
-    public String manipLocalClasse(String classe) {
-        if (classe.contains("TO")) {
-            classe = urlsConexaoHttp.localPSTEstatica + classe;
-        }
-        return classe;
-    }
-
     public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
-        verTerm = false;
         urlsConexaoHttp = new UrlsConexaoHttp();
         this.telaAtual = telaAtual;
         this.telaProx = telaProx;
         this.progressDialog = progressDialog;
         this.dado = dado;
-        this.tipo = tipo;
+        this.classe = tipo;
 
-        envioDados();
+        envioVerif();
 
     }
 
+    public void verifDados(String dado, Context telaAtual, ProgressDialog progressDialog) {
 
-    public void envioDados() {
+        this.urlsConexaoHttp = new UrlsConexaoHttp();
+        this.telaAtual = telaAtual;
+        this.progressDialog = progressDialog;
+        this.classe = "Token";
+        this.dado = dado;
 
-        String[] url = {urlsConexaoHttp.urlVerifica(tipo)};
-        Map<String, Object> parametrosPost = new HashMap<String, Object>();
+        envioVerif();
+
+    }
+
+    public void envioVerif() {
+
+        status = 2;
+        String[] url = {urlsConexaoHttp.urlVerifica(classe)};
+        Map<String, Object> parametrosPost = new HashMap<>();
         parametrosPost.put("dado", String.valueOf(dado));
 
         postVerGenerico = new PostVerGenerico();
@@ -106,40 +87,8 @@ public class VerifDadosServ {
 
     }
 
-    public void verAtualAplic(String versaoAplic, MenuInicialActivity menuInicialActivity, ProgressDialog progressDialog) {
-
-        AtualAplicBean atualAplicBean = new AtualAplicBean();
-        ConfigCTR configCTR = new ConfigCTR();
-        atualAplicBean.setIdCelularAtual(configCTR.getConfig().getNumLinhaConfig());
-        atualAplicBean.setVersaoAtual(versaoAplic);
-
-        urlsConexaoHttp = new UrlsConexaoHttp();
-        this.progressDialog = progressDialog;
-        this.tipo = "Atualiza";
-        this.menuInicialActivity = menuInicialActivity;
-
-        JsonArray jsonArray = new JsonArray();
-
-        Gson gson = new Gson();
-        jsonArray.add(gson.toJsonTree(atualAplicBean, atualAplicBean.getClass()));
-
-        JsonObject json = new JsonObject();
-        json.add("dados", jsonArray);
-
-        Log.i("PMM", "LISTA = " + json.toString());
-
-        String[] url = {urlsConexaoHttp.urlVerifica(tipo)};
-        Map<String, Object> parametrosPost = new HashMap<String, Object>();
-        parametrosPost.put("dado", json.toString());
-
-        postVerGenerico = new PostVerGenerico();
-        postVerGenerico.setParametrosPost(parametrosPost);
-        postVerGenerico.execute(url);
-
-    }
-
-    public void cancelVer() {
-        verTerm = true;
+    public void cancel() {
+        status = 3;
         if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
             postVerGenerico.cancel(true);
         }
@@ -156,44 +105,31 @@ public class VerifDadosServ {
         AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
         alerta.setTitle("ATENÇÃO");
         alerta.setMessage(texto);
-        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+        alerta.setPositiveButton("OK", (dialog, which) -> {
         });
         alerta.show();
     }
 
     public void pulaTelaComTerm(){
-        if(!verTerm){
+        if(status < 3){
+            status = 3;
             this.progressDialog.dismiss();
-            this.verTerm = true;
             Intent it = new Intent(telaAtual, telaProx);
             telaAtual.startActivity(it);
         }
     }
 
     public void msgComTerm(String texto){
-        if(!verTerm){
+        if(status < 3){
+            status = 3;
             this.progressDialog.dismiss();
-            this.verTerm = true;
             AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
             alerta.setTitle("ATENÇÃO");
             alerta.setMessage(texto);
-            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
+            alerta.setPositiveButton("OK", (dialog, which) -> {
             });
             alerta.show();
         }
     }
 
-    public boolean isVerTerm() {
-        return verTerm;
-    }
-
-    public void setVerTerm(boolean verTerm) {
-        this.verTerm = verTerm;
-    }
 }

@@ -3,10 +3,7 @@ package br.com.usinasantafe.pru;
 import android.app.Application;
 
 import br.com.usinasantafe.pru.control.ConfigCTR;
-import br.com.usinasantafe.pru.control.FitoCTR;
-import br.com.usinasantafe.pru.control.PerdaCTR;
 import br.com.usinasantafe.pru.control.RuricolaCTR;
-import br.com.usinasantafe.pru.control.SoqueiraCTR;
 
 public class PRUContext extends Application {
 
@@ -32,15 +29,11 @@ public class PRUContext extends Application {
     //18 - Relatorio Perda
     //19 - Relatorio Soqueira
     private RuricolaCTR ruricolaCTR;
-    private FitoCTR fitoCTR;
-    private PerdaCTR perdaCTR;
-    private SoqueiraCTR soqueiraCTR;
     private Long posPontoAmostra;
     private int posQuestao;
     private int posCabec;
     private Long id;
 
-    public static String versaoAPP = "3.03";
     public static String versaoWS = "3.03";
 
     @Override
@@ -58,24 +51,6 @@ public class PRUContext extends Application {
         if (ruricolaCTR == null)
             ruricolaCTR = new RuricolaCTR();
         return ruricolaCTR;
-    }
-
-    public FitoCTR getFitoCTR(){
-        if (fitoCTR == null)
-            fitoCTR = new FitoCTR();
-        return fitoCTR;
-    }
-
-    public PerdaCTR getPerdaCTR() {
-        if (perdaCTR == null)
-            perdaCTR = new PerdaCTR();
-        return perdaCTR;
-    }
-
-    public SoqueiraCTR getSoqueiraCTR() {
-        if (soqueiraCTR == null)
-            soqueiraCTR = new SoqueiraCTR();
-        return soqueiraCTR;
     }
 
     public int getVerPosTela() {

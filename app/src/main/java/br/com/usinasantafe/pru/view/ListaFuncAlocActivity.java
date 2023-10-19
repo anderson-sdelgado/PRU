@@ -2,11 +2,8 @@ package br.com.usinasantafe.pru.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -48,8 +45,7 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             if(funcBean.getTipoAlocaFunc() == 1){
                 viewHolderChoice.setSelected(true);
-            }
-            else if(funcBean.getTipoAlocaFunc() == 2){
+            } else if(funcBean.getTipoAlocaFunc() == 2){
                 viewHolderChoice.setSelected(false);
             }
             qtde++;
@@ -57,159 +53,126 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
             itens.add(viewHolderChoice);
         }
 
-        buttonAtualFuncAloc.setOnClickListener(new View.OnClickListener() {
+        buttonAtualFuncAloc.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if(pruContext.getVerPosTela() == 1) {
 
-                if(pruContext.getVerPosTela() == 1) {
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("Atualizando Funcionários...");
+                progressBar.show();
 
-                    progressBar = new ProgressDialog(v.getContext());
-                    progressBar.setCancelable(true);
-                    progressBar.setMessage("Atualizando Funcionários...");
-                    progressBar.show();
+                pruContext.getConfigCTR().atualDadosAlocFunc( ListaFuncAlocActivity.this, ListaFuncAlocActivity.class, progressBar);
 
-                    pruContext.getConfigCTR().atualDadosAlocFunc( ListaFuncAlocActivity.this, ListaFuncAlocActivity.class, progressBar);
+            } else if(pruContext.getVerPosTela() == 4) {
 
-                }
-                else if(pruContext.getVerPosTela() == 4) {
-
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaFuncAlocActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("ATUALIZAÇÃO DOS FUNCIONÁRIOS SÓ PODEM SER REALIZADA NO INÍCIO DO BOLETIM.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    alerta.show();
-
-                }
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaFuncAlocActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("ATUALIZAÇÃO DOS FUNCIONÁRIOS SÓ PODEM SER REALIZADA NO INÍCIO DO BOLETIM.");
+                alerta.setPositiveButton("OK", (dialog, which) -> {
+                });
+                alerta.show();
 
             }
+
         });
 
         adapterListChoice = new AdapterListChoice(this, itens);
         funcListView = (ListView) findViewById(R.id.listFuncAloc);
         funcListView.setAdapter(adapterListChoice);
 
-        buttonDesmarcarTodosFuncAloc.setOnClickListener(new View.OnClickListener() {
+        buttonDesmarcarTodosFuncAloc.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                itens.clear();
-                int qtde = 0;
-                for (FuncBean funcBean : funcList) {
-                    funcBean.setTipoAlocaFunc(2L);
-                    ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
-                    viewHolderChoice.setSelected(false);
-                    qtde++;
-                    viewHolderChoice.setDescrCheckBox(qtde + " - " + funcBean.getNomeFunc());
-                    itens.add(viewHolderChoice);
-                }
-
-                adapterListChoice = new AdapterListChoice(ListaFuncAlocActivity.this, itens);
-                funcListView = (ListView) findViewById(R.id.listFuncAloc);
-                funcListView.setAdapter(adapterListChoice);
-
+            itens.clear();
+            int qtde1 = 0;
+            for (FuncBean funcBean : funcList) {
+                funcBean.setTipoAlocaFunc(2L);
+                ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
+                viewHolderChoice.setSelected(false);
+                qtde1++;
+                viewHolderChoice.setDescrCheckBox(qtde1 + " - " + funcBean.getNomeFunc());
+                itens.add(viewHolderChoice);
             }
+
+            adapterListChoice = new AdapterListChoice(ListaFuncAlocActivity.this, itens);
+            funcListView = (ListView) findViewById(R.id.listFuncAloc);
+            funcListView.setAdapter(adapterListChoice);
+
         });
 
-        buttonMarcarTodosFuncAloc.setOnClickListener(new View.OnClickListener() {
+        buttonMarcarTodosFuncAloc.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            itens.clear();
+            int qtde12 = 0;
+            for (FuncBean funcBean : funcList) {
+                funcBean.setTipoAlocaFunc(1L);
+                ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
+                viewHolderChoice.setSelected(true);
+                qtde12++;
+                viewHolderChoice.setDescrCheckBox(qtde12 + " - " + funcBean.getNomeFunc());
+                itens.add(viewHolderChoice);
+            }
 
-                itens.clear();
-                int qtde = 0;
-                for (FuncBean funcBean : funcList) {
+            adapterListChoice = new AdapterListChoice(ListaFuncAlocActivity.this, itens);
+            funcListView = (ListView) findViewById(R.id.listFuncAloc);
+            funcListView.setAdapter(adapterListChoice);
+
+        });
+
+        buttonRetFuncAloc.setOnClickListener(v -> {
+
+            if(pruContext.getVerPosTela() == 1) {
+                Intent it = new Intent(ListaFuncAlocActivity.this, ListaAtividadeActivity.class);
+                startActivity(it);
+                finish();
+            } else if(pruContext.getVerPosTela() == 4) {
+                Intent it = new Intent(ListaFuncAlocActivity.this, MenuApontActivity.class);
+                startActivity(it);
+                finish();
+            }
+
+        });
+
+        buttonSalvarFuncAloc.setOnClickListener(v -> {
+
+            boolean verSelecao = false;
+
+            for (int i = 0; i < itens.size(); i++) {
+                ViewHolderChoice viewHolderChoice = itens.get(i);
+                FuncBean funcBean = funcList.get(i);
+                if(viewHolderChoice.isSelected()){
                     funcBean.setTipoAlocaFunc(1L);
-                    ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
-                    viewHolderChoice.setSelected(true);
-                    qtde++;
-                    viewHolderChoice.setDescrCheckBox(qtde + " - " + funcBean.getNomeFunc());
-                    itens.add(viewHolderChoice);
+                    verSelecao = true;
+                } else {
+                    funcBean.setTipoAlocaFunc(2L);
                 }
 
-                adapterListChoice = new AdapterListChoice(ListaFuncAlocActivity.this, itens);
-                funcListView = (ListView) findViewById(R.id.listFuncAloc);
-                funcListView.setAdapter(adapterListChoice);
-
             }
-        });
 
-        buttonRetFuncAloc.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
+            if (verSelecao) {
 
                 if(pruContext.getVerPosTela() == 1) {
-                    Intent it = new Intent(ListaFuncAlocActivity.this, ListaAtividadeActivity.class);
-                    startActivity(it);
-                    finish();
+                    pruContext.getRuricolaCTR().salvarBolAberto(funcList);
+                } else if(pruContext.getVerPosTela() == 4) {
+                    pruContext.getRuricolaCTR().alocaFunc(funcList);
                 }
-                else if(pruContext.getVerPosTela() == 4) {
-                    Intent it = new Intent(ListaFuncAlocActivity.this, MenuMotoMecActivity.class);
-                    startActivity(it);
-                    finish();
-                }
+
+                funcList.clear();
+                Intent it = new Intent(ListaFuncAlocActivity.this, MenuApontActivity.class);
+                startActivity(it);
+                finish();
+
+            } else {
+
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaFuncAlocActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("POR FAVOR! SELECIONE O(S) COLABORADOR(ES) DA TURMA.");
+                alerta.setPositiveButton("OK", (dialog, which) -> {
+                });
+                alerta.show();
 
             }
-        });
 
-        buttonSalvarFuncAloc.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                boolean verSelecao = false;
-
-                for (int i = 0; i < itens.size(); i++) {
-                    ViewHolderChoice viewHolderChoice = itens.get(i);
-                    FuncBean funcBean = funcList.get(i);
-                    if(viewHolderChoice.isSelected()){
-                        funcBean.setTipoAlocaFunc(1L);
-                        verSelecao = true;
-                    }
-                    else{
-                        funcBean.setTipoAlocaFunc(2L);
-                    }
-
-                }
-
-                if(verSelecao){
-
-                    if(pruContext.getVerPosTela() == 1) {
-                        pruContext.getRuricolaCTR().salvarBolAberto(funcList);
-                    }
-                    else if(pruContext.getVerPosTela() == 4) {
-                        pruContext.getRuricolaCTR().alocaFunc(funcList);
-                    }
-
-                    funcList.clear();
-                    Intent it = new Intent(ListaFuncAlocActivity.this, MenuMotoMecActivity.class);
-                    startActivity(it);
-                    finish();
-
-                }
-                else{
-
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaFuncAlocActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("POR FAVOR! SELECIONE O(S) COLABORADOR(ES) DA TURMA.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    alerta.show();
-
-                }
-
-            }
         });
 
     }

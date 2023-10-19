@@ -24,7 +24,7 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private String dtUltApontConfig;
     @DatabaseField
-    private Long numLinhaConfig;
+    private Long nroAparelhoConfig;
     @DatabaseField
     private String senhaConfig;
     @DatabaseField
@@ -33,8 +33,6 @@ public class ConfigBean extends Entidade {
     private Long idAtivConfig;
     @DatabaseField
     private Long statusConConfig;  //0 - Offline; 1 - Online
-    @DatabaseField
-    private String dtServConfig;
     @DatabaseField
     private Long pontoAmostraConfig;
 
@@ -73,12 +71,12 @@ public class ConfigBean extends Entidade {
         this.dtUltApontConfig = dtUltApontConfig;
     }
 
-    public Long getNumLinhaConfig() {
-        return numLinhaConfig;
+    public Long getNroAparelhoConfig() {
+        return nroAparelhoConfig;
     }
 
-    public void setNumLinhaConfig(Long numLinhaConfig) {
-        this.numLinhaConfig = numLinhaConfig;
+    public void setNroAparelhoConfig(Long nroAparelhoConfig) {
+        this.nroAparelhoConfig = nroAparelhoConfig;
     }
 
     public String getSenhaConfig() {
@@ -111,14 +109,6 @@ public class ConfigBean extends Entidade {
 
     public void setStatusConConfig(Long statusConConfig) {
         this.statusConConfig = statusConConfig;
-    }
-
-    public String getDtServConfig() {
-        return dtServConfig;
-    }
-
-    public void setDtServConfig(String dtServConfig) {
-        this.dtServConfig = dtServConfig;
     }
 
     public Long getPontoAmostraConfig() {

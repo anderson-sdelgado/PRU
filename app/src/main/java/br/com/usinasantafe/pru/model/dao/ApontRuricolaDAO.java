@@ -77,6 +77,7 @@ public class ApontRuricolaDAO {
         apontRuricolaBean.setParadaApont(idParada);
         apontRuricolaBean.setDthrApont(dataHora);
         apontRuricolaBean.setMatricFuncApont(boletimRuricolaBean.getMatricLiderBol());
+        apontRuricolaBean.setStatusApont(1L);
         apontRuricolaBean.insert();
     }
 
@@ -90,6 +91,7 @@ public class ApontRuricolaDAO {
             apontRuricolaBean.setParadaApont(idParada);
             apontRuricolaBean.setDthrApont(dataHora);
             apontRuricolaBean.setMatricFuncApont(funcBean.getMatricFunc());
+            apontRuricolaBean.setStatusApont(1L);
             apontRuricolaBean.insert();
         }
     }

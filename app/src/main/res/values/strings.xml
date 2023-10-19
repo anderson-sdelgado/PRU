@@ -15,7 +15,7 @@
     <string name="texto_num00">00</string>
     <string name="texto_virg">,</string>
     <string name="texto_padrao_ok">OK</string>
-    <string name="texto_menu_principal">PRINCIPAL - V 3.02</string>
+    <string name="texto_menu_principal">PRINCIPAL - V 3.03</string>
     <string name="texto_lider">MATRIC. COLABORADOR:</string>
     <string name="texto_atualizar_dados">ATUALIZAR DADOS</string>
     <string name="texto_padrao_retornar">RETORNAR</string>
@@ -75,4 +75,5 @@
     <string name="texto_padrao_anterior">ANTERIOR</string>
     <string name="texto_padrao_proximo">PROXIMO</string>
     <string name="texto_relatorio">RELATÓRIO</string>
+    <string name="texto_inicio">INICIANDO O APLICATIVO...</string>
 </resources>

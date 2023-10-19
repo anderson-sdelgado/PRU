@@ -4,7 +4,6 @@ import java.util.List;
 
 import br.com.usinasantafe.pru.model.bean.variaveis.ConfigBean;
 
-
 public class ConfigDAO {
 
     public ConfigDAO() {
@@ -23,8 +22,18 @@ public class ConfigDAO {
         return configBean;
     }
 
-    public void salvarConfig(ConfigBean configBean){
+    public void salvarConfig(Long nroAparelho){
+        ConfigBean configBean = new ConfigBean();
         configBean.deleteAll();
+        configBean.setNroAparelhoConfig(nroAparelho);
+        configBean.insert();
+        configBean.commit();
+    }
+
+    public void salvarConfig(ConfigBean configBean){
+        ConfigBean configBeanBD = getConfig();
+        configBean.deleteAll();
+        configBean.setNroAparelhoConfig(configBeanBD.getNroAparelhoConfig());
         configBean.setDtUltApontConfig("");
         configBean.insert();
         configBean.commit();
@@ -39,12 +48,6 @@ public class ConfigDAO {
     public void setDtUltApontConfig(String data){
         ConfigBean configBean = getConfig();
         configBean.setDtUltApontConfig(data);
-        configBean.update();
-    }
-
-    public void setDtServConfig(String data){
-        ConfigBean configBean = getConfig();
-        configBean.setDtServConfig(data);
         configBean.update();
     }
 
@@ -74,8 +77,5 @@ public class ConfigDAO {
         configBean.update();
     }
 
-    public Long getOsConfig(){
-        return getConfig().getNroOSConfig();
-    }
 
 }

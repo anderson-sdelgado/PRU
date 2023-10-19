@@ -59,18 +59,15 @@ public class AdapterListChoice extends BaseAdapter {
         viewHolder.checkBox.setChecked(itens.get(position).isSelected());
         viewHolder.checkBox.setTag(position);
 
-        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.checkBox.setOnClickListener(v -> {
 
-                Integer pos = (Integer)  viewHolder.checkBox.getTag();
-                if(itens.get(pos).isSelected()){
-                    itens.get(pos).setSelected(false);
-                }else {
-                    itens.get(pos).setSelected(true);
-                }
-
+            Integer pos = (Integer)  viewHolder.checkBox.getTag();
+            if(itens.get(pos).isSelected()){
+                itens.get(pos).setSelected(false);
+            }else {
+                itens.get(pos).setSelected(true);
             }
+
         });
 
         return convertView;

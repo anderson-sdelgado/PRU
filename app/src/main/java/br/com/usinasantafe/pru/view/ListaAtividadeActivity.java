@@ -2,11 +2,8 @@ package br.com.usinasantafe.pru.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 import br.com.usinasantafe.pru.PRUContext;
 import br.com.usinasantafe.pru.R;
 import br.com.usinasantafe.pru.model.bean.estaticas.AtividadeBean;
-import br.com.usinasantafe.pru.util.ConexaoWeb;
 
 public class ListaAtividadeActivity extends ActivityGeneric {
 
@@ -34,39 +30,30 @@ public class ListaAtividadeActivity extends ActivityGeneric {
         Button buttonAtualAtividade = (Button) findViewById(R.id.buttonAtualAtividade);
         Button buttonRetAtividade = (Button) findViewById(R.id.buttonRetAtividade);
 
-        buttonAtualAtividade.setOnClickListener(new View.OnClickListener() {
+        buttonAtualAtividade.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if(connectNetwork){
 
-                ConexaoWeb conexaoWeb = new ConexaoWeb();
+                progressBar = new ProgressDialog(v.getContext());
+                progressBar.setCancelable(true);
+                progressBar.setMessage("ATUALIZANDO ATIVIDADES...");
+                progressBar.show();
 
-                if (conexaoWeb.verificaConexao(ListaAtividadeActivity.this)) {
-
-                    progressBar = new ProgressDialog(v.getContext());
-                    progressBar.setCancelable(true);
-                    progressBar.setMessage("ATUALIZANDO ATIVIDADES...");
-                    progressBar.show();
-
-                    pruContext.getConfigCTR().verOS(String.valueOf(pruContext.getConfigCTR().getConfig().getNroOSConfig())
-                            , ListaAtividadeActivity.this, ListaAtividadeActivity.class, progressBar);
-
-                }
+                pruContext.getConfigCTR().verOS(String.valueOf(pruContext.getConfigCTR().getConfig().getNroOSConfig())
+                        , ListaAtividadeActivity.this, ListaAtividadeActivity.class, progressBar);
 
             }
+
         });
 
-        buttonRetAtividade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(ListaAtividadeActivity.this, OSActivity.class);
-                startActivity(it);
-            }
+        buttonRetAtividade.setOnClickListener(v -> {
+            Intent it = new Intent(ListaAtividadeActivity.this, OSActivity.class);
+            startActivity(it);
         });
 
         ativArrayList = pruContext.getRuricolaCTR().getAtivArrayList(pruContext.getConfigCTR().getConfig().getNroOSConfig());
 
-        ArrayList<String> itens = new ArrayList<String>();
+        ArrayList<String> itens = new ArrayList<>();
         for (int i = 0; i < ativArrayList.size(); i++) {
             AtividadeBean atividadeBean = (AtividadeBean) ativArrayList.get(i);
             itens.add(atividadeBean.getCodAtiv() + " - " + atividadeBean.getDescrAtiv());
@@ -76,80 +63,70 @@ public class ListaAtividadeActivity extends ActivityGeneric {
         ativListView = (ListView) findViewById(R.id.listAtividade);
         ativListView.setAdapter(adapterList);
 
-        ativListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ativListView.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            AtividadeBean atividadeBean = (AtividadeBean) ativArrayList.get(position);
 
-                AtividadeBean atividadeBean = (AtividadeBean) ativArrayList.get(position);
+            pruContext.getConfigCTR().setAtivConfig(atividadeBean.getIdAtiv());
 
-                pruContext.getConfigCTR().setAtivConfig(atividadeBean.getIdAtiv());
+            Intent it;
 
-                Intent it;
+            if(pruContext.getVerPosTela() == 1){
 
-                if(pruContext.getVerPosTela() == 1){
-
-                    switch ((int) pruContext.getConfigCTR().getConfig().getIdTipoConfig().longValue()) {
-                        case 1:
-                            it = new Intent(ListaAtividadeActivity.this, ListaFuncAlocActivity.class);
-                            break;
-                        case 2:
-                            pruContext.getRuricolaCTR().salvarBolAberto();
-                            it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
-                            break;
-                        default:
-                            it = new Intent(ListaAtividadeActivity.this, FuncActivity.class);
-                            break;
+                switch ((int) pruContext.getConfigCTR().getConfig().getIdTipoConfig().longValue()) {
+                    case 1: {
+                        it = new Intent(ListaAtividadeActivity.this, ListaFuncAlocActivity.class);
+                        break;
                     }
+                    case 2: {
+                        pruContext.getRuricolaCTR().salvarBolAberto();
+                        it = new Intent(ListaAtividadeActivity.this, MenuApontActivity.class);
+                        break;
+                    }
+                    default: {
+                        it = new Intent(ListaAtividadeActivity.this, FuncActivity.class);
+                        break;
+                    }
+                }
 
+                ativArrayList.clear();
+                startActivity(it);
+                finish();
+
+            }
+            else if (pruContext.getVerPosTela() == 2) {
+
+                pruContext.getRuricolaCTR().setIdParada(0L);
+
+                if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1){
                     ativArrayList.clear();
+                    it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
                     startActivity(it);
                     finish();
+                } else {
 
-                }
-                else if (pruContext.getVerPosTela() == 2) {
-
-                    pruContext.getRuricolaCTR().setIdParada(0L);
-
-                    if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1){
+                    if(pruContext.getRuricolaCTR().verApont()){
+                        pruContext.getRuricolaCTR().salvaApont();
                         ativArrayList.clear();
-                        it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
+                        it = new Intent(ListaAtividadeActivity.this, MenuApontActivity.class);
                         startActivity(it);
                         finish();
-                    }
-                    else{
-
-                        if(pruContext.getRuricolaCTR().verApont()){
-                            pruContext.getRuricolaCTR().salvaApont();
-                            ativArrayList.clear();
-                            it = new Intent(ListaAtividadeActivity.this, MenuMotoMecActivity.class);
-                            startActivity(it);
-                            finish();
-                        }
-                        else{
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( ListaAtividadeActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("OPERAÇÃO JÁ APONTADA PARA O COLABORADOR!");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            });
-                            alerta.show();
-                        }
-
+                    } else {
+                        AlertDialog.Builder alerta = new AlertDialog.Builder( ListaAtividadeActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage("OPERAÇÃO JÁ APONTADA PARA O COLABORADOR!");
+                        alerta.setPositiveButton("OK", (dialog, which) -> {
+                        });
+                        alerta.show();
                     }
 
                 }
-                else
-                {
-                    ativArrayList.clear();
-                    it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
-                    startActivity(it);
-                    finish();
-                }
 
+            } else {
+                ativArrayList.clear();
+                it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
+                startActivity(it);
+                finish();
             }
 
         });

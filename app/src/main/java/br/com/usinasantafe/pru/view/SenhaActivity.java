@@ -19,48 +19,32 @@ public class SenhaActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_senha);
 
-        editTextSenha = (EditText)  findViewById(R.id.editTextSenha);
-        Button btOkSenha =  (Button) findViewById(R.id.buttonOkSenha);
-        Button btCancSenha = (Button) findViewById(R.id.buttonCancSenha);
+        editTextSenha = findViewById(R.id.editTextSenha);
+        Button btOkSenha =  findViewById(R.id.buttonOkSenha);
+        Button btCancSenha = findViewById(R.id.buttonCancSenha);
 
         pruContext = (PRUContext) getApplication();
 
-        btOkSenha.setOnClickListener(new View.OnClickListener() {
+        btOkSenha.setOnClickListener(v -> {
 
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onClick(View v) {
-
-                if (!pruContext.getConfigCTR().hasElements()) {
-
+            if (!pruContext.getConfigCTR().hasElemConfig()) {
+                Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);
+                startActivity(it);
+                finish();
+            } else {
+                if (pruContext.getConfigCTR().getConfigSenha(editTextSenha.getText().toString())) {
                     Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);
                     startActivity(it);
                     finish();
-
-                } else {
-
-                    if (pruContext.getConfigCTR().getConfigSenha(editTextSenha.getText().toString())) {
-
-                        Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);
-                        startActivity(it);
-                        finish();
-
-                    }
-
                 }
-
             }
+
         });
 
-        btCancSenha.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(SenhaActivity.this, MenuInicialActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        btCancSenha.setOnClickListener(v -> {
+            Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

@@ -43,7 +43,7 @@
         android:text="@string/texto_num_linha_config" />
 
     <EditText
-        android:id="@+id/editTextNLinhaConfig"
+        android:id="@+id/editTextNroAparelhoConfig"
         style="@style/EditView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

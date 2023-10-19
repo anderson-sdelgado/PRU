@@ -3,25 +3,19 @@ package br.com.usinasantafe.pru.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.content.Context;
 import android.util.Log;
 
 import br.com.usinasantafe.pru.control.ConfigCTR;
-import br.com.usinasantafe.pru.control.FitoCTR;
-import br.com.usinasantafe.pru.control.PerdaCTR;
 import br.com.usinasantafe.pru.control.RuricolaCTR;
-import br.com.usinasantafe.pru.control.SoqueiraCTR;
 import br.com.usinasantafe.pru.util.connHttp.PostCadGenerico;
 import br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp;
+import br.com.usinasantafe.pru.view.ActivityGeneric;
 
 public class EnvioDadosServ {
 
     private static EnvioDadosServ instance = null;
     private UrlsConexaoHttp urlsConexaoHttp;
-
-    private int statusEnvio; //1 - Enviando; 2 - Existe Dados para Enviar; 3 - Todos os Dados Enviados
-    private int posEnvio;
-    private Context context;
+    public static int status; //1 - Enviando; 2 - Existe Dados para Enviar; 3 - Todos os Dados Enviados
 
     public EnvioDadosServ() {
         urlsConexaoHttp = new UrlsConexaoHttp();
@@ -36,207 +30,59 @@ public class EnvioDadosServ {
 
     public void enviarDadosRuricola() {
 
-        ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(context)) {
+        Log.i("PRU", "AKI 7");
 
-            ConfigCTR configCTR = new ConfigCTR();
-            String dados = configCTR.dadosEnvioRuricola();
+        ConfigCTR configCTR = new ConfigCTR();
+        String dados = configCTR.dadosEnvioRuricola();
 
-            Log.i("PMM", "BOLETIM RURICOLA = " + dados);
+        Log.i("PMM", "BOLETIM RURICOLA = " + dados);
 
-            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
+        UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
 
-            String[] url = {urlsConexaoHttp.getsInserirRuricola()};
-            Map<String, Object> parametrosPost = new HashMap<String, Object>();
-            parametrosPost.put("dado", dados);
+        String[] url = {urlsConexaoHttp.getsInserirRuricola()};
+        Map<String, Object> parametrosPost = new HashMap<>();
+        parametrosPost.put("dado", dados);
 
-            PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
-            conHttpPostGenerico.setParametrosPost(parametrosPost);
-            conHttpPostGenerico.execute(url);
-        }
-        else{
-            posEnvio = -1;
-        }
+        PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
+        conHttpPostGenerico.setParametrosPost(parametrosPost);
+        conHttpPostGenerico.execute(url);
 
     }
 
-    public void enviarDadosFito() {
-
-        ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(context)) {
-
-            posEnvio = 2;
-
-            ConfigCTR configCTR = new ConfigCTR();
-            String dados = configCTR.dadosEnvioFito();
-
-            Log.i("PMM", "BOLETIM FITO = " + dados);
-
-            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
-
-            String[] url = {urlsConexaoHttp.getsInserirFito()};
-            Map<String, Object> parametrosPost = new HashMap<String, Object>();
-            parametrosPost.put("dado", dados);
-
-            PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
-            conHttpPostGenerico.setParametrosPost(parametrosPost);
-            conHttpPostGenerico.execute(url);
-
-        }
-        else{
-            posEnvio = -1;
-        }
-
-    }
-
-    public void enviarDadosPerda() {
-
-        ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(context)) {
-
-            posEnvio = 3;
-
-            ConfigCTR configCTR = new ConfigCTR();
-            String dados = configCTR.dadosEnvioPerda();
-
-            Log.i("PMM", "BOLETIM PERDA = " + dados);
-
-            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
-
-            String[] url = {urlsConexaoHttp.getsInserirPerda()};
-            Map<String, Object> parametrosPost = new HashMap<String, Object>();
-            parametrosPost.put("dado", dados);
-
-            PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
-            conHttpPostGenerico.setParametrosPost(parametrosPost);
-            conHttpPostGenerico.execute(url);
-
-        }
-        else{
-            posEnvio = -1;
-        }
-
-    }
-
-    public void enviarDadosSoqueira() {
-
-        ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(context)) {
-
-            posEnvio = 4;
-
-            ConfigCTR configCTR = new ConfigCTR();
-            String dados = configCTR.dadosEnvioSoqueira();
-
-            Log.i("PMM", "BOLETIM SOQUEIRA = " + dados);
-
-            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
-
-            String[] url = {urlsConexaoHttp.getsInserirSoqueira()};
-            Map<String, Object> parametrosPost = new HashMap<String, Object>();
-            parametrosPost.put("dado", dados);
-
-            PostCadGenerico conHttpPostGenerico = new PostCadGenerico();
-            conHttpPostGenerico.setParametrosPost(parametrosPost);
-            conHttpPostGenerico.execute(url);
-
-        }
-        else{
-            posEnvio = -1;
-        }
-
-    }
-
-    public boolean verifDados() {
+    public boolean verifDadosRuricola() {
         ConfigCTR configCTR = new ConfigCTR();
         return configCTR.verifDadosRuricola();
     }
 
-    public void envioDados(Context context) {
-        this.context = context;
-        if (verifDados()) {
-            posEnvio = 1;
-            enviarDadosRuricola();
-        }
-        else{
-            posEnvio = 0;
+    public void envioDados() {
+        status = 1;
+        if(ActivityGeneric.connectNetwork) {
+            status = 2;
+            if (verifDadosRuricola()) {
+                enviarDadosRuricola();
+            } else {
+                status = 3;
+            }
         }
     }
 
-    public int getStatusEnvio() {
-        if (verifDados()) {
-            statusEnvio = 1;
+    public boolean verifDadosEnvio() {
+        if ((!verifDadosRuricola())){
+            return false;
         } else {
-            statusEnvio = 2;
+            return true;
         }
-        return statusEnvio;
     }
 
     ////////////////////////////////////MECANISMO RECEBIMENTO/////////////////////////////////////////
 
     public void recDados(String result){
-        ConfigCTR configCTR = new ConfigCTR();
         if(result.trim().startsWith("GRAVOU-RURICOLA")){
             RuricolaCTR ruricolaCTR = new RuricolaCTR();
             ruricolaCTR.updateDados(result);
-            if(configCTR.verifDadosFito()){
-                posEnvio = 2;
-                enviarDadosFito();
-            }
-            else if(configCTR.verifDadosPerda()){
-                posEnvio = 3;
-                enviarDadosPerda();
-            }
-            else if(configCTR.verifDadosSoqueira()){
-                posEnvio = 4;
-                enviarDadosSoqueira();
-            }
-            else{
-                posEnvio = 5;
-            }
-        } else if (result.trim().startsWith("GRAVOU-FITO")) {
-            FitoCTR fitoCTR = new FitoCTR();
-            fitoCTR.updateDados(result);
-            if(configCTR.verifDadosPerda()){
-                posEnvio = 3;
-                enviarDadosPerda();
-            }
-            else if(configCTR.verifDadosSoqueira()){
-                posEnvio = 4;
-                enviarDadosSoqueira();
-            }
-            else{
-                posEnvio = 5;
-            }
-        } else if (result.trim().contains("GRAVOU-PERDA")) {
-            PerdaCTR perdaCTR = new PerdaCTR();
-            perdaCTR.updateDados(result);
-            if(configCTR.verifDadosSoqueira()){
-                posEnvio = 4;
-                enviarDadosSoqueira();
-            }
-            else{
-                posEnvio = 5;
-            }
-        } else if (result.trim().contains("GRAVOU-SOQUEIRA")) {
-            SoqueiraCTR soqueiraCTR = new SoqueiraCTR();
-            soqueiraCTR.updateDados(result);
-            posEnvio = 5 ;
+        } else {
+            status = 1;
         }
-
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    public void setStatusEnvio(int statusEnvio) {
-        this.statusEnvio = statusEnvio;
-    }
-
-    public int getPosEnvio() {
-        return posEnvio;
-    }
-
-    public void setPosEnvio(int posEnvio) {
-        this.posEnvio = posEnvio;
-    }
 }
