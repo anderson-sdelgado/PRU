@@ -32,13 +32,18 @@ public class SenhaActivity extends ActivityGeneric {
                 startActivity(it);
                 finish();
             } else {
-                if (pruContext.getConfigCTR().getConfigSenha(editTextSenha.getText().toString())) {
+                if(pruContext.getConfigCTR().getConfig().getSenhaConfig() == null){
                     Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);
                     startActivity(it);
                     finish();
+                } else {
+                    if (pruContext.getConfigCTR().getConfigSenha(editTextSenha.getText().toString())) {
+                        Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
                 }
             }
-
         });
 
         btCancSenha.setOnClickListener(v -> {

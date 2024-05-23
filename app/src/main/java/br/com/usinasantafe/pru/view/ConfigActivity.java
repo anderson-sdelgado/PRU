@@ -33,7 +33,8 @@ public class ConfigActivity extends ActivityGeneric {
     private EditText editTextNroAparelhoConfig;
     private EditText editTextSenhaConfig;
     private PRUContext pruContext;
-    private ConfigBean configBean;
+    private Long idTipo;
+    private Long idTurma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,51 +53,61 @@ public class ConfigActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        configBean = new ConfigBean();
-
         if(!pruContext.getConfigCTR().hasElemConfig()) {
 
             textViewFuncConfig.setText("");
             textViewFuncConfig.setEnabled(false);
             editTextFuncConfig.setEnabled(false);
-            configBean.setIdTipoConfig(0L);
-            configBean.setIdTurmaConfig(0L);
 
         } else {
 
-            configBean = pruContext.getConfigCTR().getConfig();
+            if(pruContext.getConfigCTR().getConfig().getSenhaConfig() == null){
 
-            TipoApontBean tipoApontBean = pruContext.getConfigCTR().getTipoApont(configBean.getIdTipoConfig());
-            textViewTipoConfig.setText(tipoApontBean.getIdTipo() + " - " + tipoApontBean.getDescrTipo());
+                textViewFuncConfig.setText("");
+                textViewFuncConfig.setEnabled(false);
+                editTextFuncConfig.setEnabled(false);
+                ConfigBean configBean = pruContext.getConfigCTR().getConfig();
+                editTextNroAparelhoConfig.setText(String.valueOf(configBean.getNroAparelhoConfig()));
 
-            TurmaBean turmaBean = pruContext.getConfigCTR().getTurma(configBean.getIdTurmaConfig());
-            textViewTurmaConfig.setText(turmaBean.getCodTurma() + " - " + turmaBean.getDescrTurma());
+            } else {
 
-            editTextNroAparelhoConfig.setText(String.valueOf(configBean.getNroAparelhoConfig()));
-            editTextSenhaConfig.setText(configBean.getSenhaConfig());
+                ConfigBean configBean = pruContext.getConfigCTR().getConfig();
 
-            switch ((int) configBean.getIdTipoConfig().longValue()) {
-                case 1: {
-                    textViewFuncConfig.setText("LÍDER:");
-                    editTextFuncConfig.setText(String.valueOf(configBean.getMatricFuncConfig()));
-                    textViewFuncConfig.setEnabled(true);
-                    editTextFuncConfig.setEnabled(true);
-                    break;
+                TipoApontBean tipoApontBean = pruContext.getConfigCTR().getTipoApont(configBean.getIdTipoConfig());
+                textViewTipoConfig.setText(tipoApontBean.getIdTipo() + " - " + tipoApontBean.getDescrTipo());
+                idTipo = tipoApontBean.getIdTipo();
+
+                TurmaBean turmaBean = pruContext.getConfigCTR().getTurma(configBean.getIdTurmaConfig());
+                textViewTurmaConfig.setText(turmaBean.getCodTurma() + " - " + turmaBean.getDescrTurma());
+                idTurma = turmaBean.getIdTurma();
+
+                editTextNroAparelhoConfig.setText(String.valueOf(configBean.getNroAparelhoConfig()));
+                editTextSenhaConfig.setText(configBean.getSenhaConfig());
+
+                switch ((int) configBean.getIdTipoConfig().longValue()) {
+                    case 1: {
+                        textViewFuncConfig.setText("LÍDER:");
+                        editTextFuncConfig.setText(String.valueOf(configBean.getMatricFuncConfig()));
+                        textViewFuncConfig.setEnabled(true);
+                        editTextFuncConfig.setEnabled(true);
+                        break;
+                    }
+                    case 2: {
+                        textViewFuncConfig.setText("COLAB.:");
+                        editTextFuncConfig.setText(String.valueOf(configBean.getMatricFuncConfig()));
+                        textViewFuncConfig.setEnabled(true);
+                        editTextFuncConfig.setEnabled(true);
+                        break;
+                    }
+                    case 3: {
+                        textViewFuncConfig.setText("");
+                        editTextFuncConfig.setText("");
+                        textViewFuncConfig.setEnabled(false);
+                        editTextFuncConfig.setEnabled(false);
+                        break;
+                    }
                 }
-                case 2: {
-                    textViewFuncConfig.setText("COLAB.:");
-                    editTextFuncConfig.setText(String.valueOf(configBean.getMatricFuncConfig()));
-                    textViewFuncConfig.setEnabled(true);
-                    editTextFuncConfig.setEnabled(true);
-                    break;
-                }
-                case 3: {
-                    textViewFuncConfig.setText("");
-                    editTextFuncConfig.setText("");
-                    textViewFuncConfig.setEnabled(false);
-                    editTextFuncConfig.setEnabled(false);
-                    break;
-                }
+
             }
 
         }
@@ -121,7 +132,7 @@ public class ConfigActivity extends ActivityGeneric {
                     editTextFuncConfig.setText("");
                     TipoApontBean tipoApontBean = tipoApontList.get(arg1);
                     textViewTipoConfig.setText(tipoApontBean.getIdTipo() + " - " + tipoApontBean.getDescrTipo());
-                    configBean.setIdTipoConfig(tipoApontBean.getIdTipo());
+                    idTipo = tipoApontBean.getIdTipo();
 
                     switch ((int) tipoApontBean.getIdTipo().longValue()) {
                         case 1: {
@@ -174,7 +185,7 @@ public class ConfigActivity extends ActivityGeneric {
 
                     TurmaBean turmaBean = turmaList.get(arg1);
                     textViewTurmaConfig.setText(turmaBean.getCodTurma() + " - " + turmaBean.getDescrTurma());
-                    configBean.setIdTurmaConfig(turmaBean.getIdTurma());
+                    idTurma = turmaBean.getIdTurma();
 
                     alerta.dismiss();
                 });
@@ -217,7 +228,7 @@ public class ConfigActivity extends ActivityGeneric {
 
             if(!editTextNroAparelhoConfig.getText().toString().equals("")){
 
-                if(!pruContext.getRuricolaCTR().hasTurma()){
+                if(verifToken()){
 
                     progressBar = new ProgressDialog(v.getContext());
                     progressBar.setCancelable(true);
@@ -228,109 +239,94 @@ public class ConfigActivity extends ActivityGeneric {
 
                 } else {
 
-                    if(configBean.getIdTurmaConfig() > 0) {
+                    if(!textViewTipoConfig.getText().toString().equals("TIPO")
+                            && !textViewTurmaConfig.getText().toString().equals("TURMA")
+                            && !editTextNroAparelhoConfig.getText().toString().equals("")
+                            && !editTextSenhaConfig.getText().toString().equals("")) {
+
+                        ConfigBean configBean = new ConfigBean();
+                        configBean.setIdTipoConfig(idTipo);
+                        configBean.setIdTurmaConfig(idTurma);
+                        configBean.setSenhaConfig(editTextSenhaConfig.getText().toString());
 
                         AlertDialog.Builder alerta;
+                        boolean ver = true;
 
-                        if(!editTextNroAparelhoConfig.getText().toString().equals("")
-                                && !editTextSenhaConfig.getText().toString().equals("")) {
+                        switch (idTipo.intValue()) {
+                            case 1: {
+                                if (!editTextFuncConfig.getText().toString().equals("")) {
+                                    if (pruContext.getConfigCTR().verLider(Long.valueOf(editTextFuncConfig.getText().toString()))) {
+                                        configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
+                                    } else {
+                                        ver = false;
+                                        alerta = new AlertDialog.Builder(ConfigActivity.this);
+                                        alerta.setTitle("ATENÇÃO");
+                                        alerta.setMessage("POR FAVOR! VERIFIQUE O CRACHÁ DO COLABORADOR DIGITADO.");
+                                        alerta.setPositiveButton("OK", (dialog, which) -> {
+                                        });
+                                        alerta.show();
+                                    }
 
-                            boolean ver = true;
-
-                            switch ((int) configBean.getIdTipoConfig().longValue()) {
-                                case 0: {
+                                } else {
                                     ver = false;
                                     alerta = new AlertDialog.Builder(ConfigActivity.this);
                                     alerta.setTitle("ATENÇÃO");
-                                    alerta.setMessage("POR FAVOR! SELECIONE ALGUM TIPO.");
+                                    alerta.setMessage("POR FAVOR! DIGITE O NUMERO DA LINHA.");
                                     alerta.setPositiveButton("OK", (dialog, which) -> {
                                     });
                                     alerta.show();
-                                    break;
                                 }
-                                case 1: {
-                                    if (!editTextFuncConfig.getText().toString().equals("")) {
-                                        if (pruContext.getConfigCTR().verLider(Long.valueOf(editTextFuncConfig.getText().toString()))) {
-                                            configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
-                                        } else {
-                                            ver = false;
-                                            alerta = new AlertDialog.Builder(ConfigActivity.this);
-                                            alerta.setTitle("ATENÇÃO");
-                                            alerta.setMessage("POR FAVOR! VERIFIQUE O CRACHÁ DO COLABORADOR DIGITADO.");
-                                            alerta.setPositiveButton("OK", (dialog, which) -> {
-                                            });
-                                            alerta.show();
-                                        }
-
+                                break;
+                            }
+                            case 2: {
+                                if (!editTextFuncConfig.getText().toString().equals("")) {
+                                    if (pruContext.getConfigCTR().verFunc(Long.valueOf(editTextFuncConfig.getText().toString()))) {
+                                        configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
                                     } else {
                                         ver = false;
                                         alerta = new AlertDialog.Builder(ConfigActivity.this);
                                         alerta.setTitle("ATENÇÃO");
-                                        alerta.setMessage("POR FAVOR! DIGITE O NUMERO DA LINHA.");
+                                        alerta.setMessage("POR FAVOR! VERIFIQUE O CRACHÁ DO COLABORADOR DIGITADO.");
                                         alerta.setPositiveButton("OK", (dialog, which) -> {
                                         });
                                         alerta.show();
                                     }
-                                    break;
+                                } else {
+                                    ver = false;
+                                    alerta = new AlertDialog.Builder(ConfigActivity.this);
+                                    alerta.setTitle("ATENÇÃO");
+                                    alerta.setMessage("POR FAVOR! DIGITE O CRACHA DO LÍDER.");
+                                    alerta.setPositiveButton("OK", (dialog, which) -> {
+                                    });
+                                    alerta.show();
                                 }
-                                case 2: {
-                                    if (!editTextFuncConfig.getText().toString().equals("")) {
-                                        if (pruContext.getConfigCTR().verFunc(Long.valueOf(editTextFuncConfig.getText().toString()))) {
-                                            configBean.setMatricFuncConfig(Long.valueOf(editTextFuncConfig.getText().toString()));
-                                        } else {
-                                            ver = false;
-                                            alerta = new AlertDialog.Builder(ConfigActivity.this);
-                                            alerta.setTitle("ATENÇÃO");
-                                            alerta.setMessage("POR FAVOR! VERIFIQUE O CRACHÁ DO COLABORADOR DIGITADO.");
-                                            alerta.setPositiveButton("OK", (dialog, which) -> {
-                                            });
-                                            alerta.show();
-                                        }
-                                    } else {
-                                        ver = false;
-                                        alerta = new AlertDialog.Builder(ConfigActivity.this);
-                                        alerta.setTitle("ATENÇÃO");
-                                        alerta.setMessage("POR FAVOR! DIGITE O CRACHA DO LÍDER.");
-                                        alerta.setPositiveButton("OK", (dialog, which) -> {
-                                        });
-                                        alerta.show();
-                                    }
-                                    break;
-                                }
-                                case 3: {
-                                    configBean.setMatricFuncConfig(0L);
-                                    break;
-                                }
+                                break;
                             }
-
-                            if(ver){
-
-                                pruContext.getConfigCTR().salvarConfig(configBean);
-
-                                Intent it = new Intent(ConfigActivity.this, TelaInicialActivity.class);
-                                startActivity(it);
-                                finish();
-
+                            case 3: {
+                                configBean.setMatricFuncConfig(0L);
+                                break;
                             }
+                        }
 
-                        } else {
+                        if(ver){
 
-                            alerta = new AlertDialog.Builder(ConfigActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("POR FAVOR! DIGITE O NUMERO DA LINHA DO TELEFONE E A SENHA.");
-                            alerta.setPositiveButton("OK", (dialog, which) -> {
-                            });
-                            alerta.show();
+                            pruContext.getConfigCTR().salvarConfig(configBean);
+
+                            Intent it = new Intent(ConfigActivity.this, TelaInicialActivity.class);
+                            startActivity(it);
+                            finish();
 
                         }
 
                     } else {
+
                         AlertDialog.Builder alerta = new AlertDialog.Builder(ConfigActivity.this);
                         alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("POR FAVOR! SELECIONE ALGUMA TURMA.");
+                        alerta.setMessage("POR FAVOR! PREENCHA TODOS OS CAMPOS PARA FINALIZAR A CONFIGURAÇÃO");
                         alerta.setPositiveButton("OK", (dialog, which) -> {
                         });
                         alerta.show();
+
                     }
 
                 }
@@ -348,6 +344,14 @@ public class ConfigActivity extends ActivityGeneric {
     }
 
     public void onBackPressed()  {
+    }
+
+    private boolean verifToken(){
+        if(!pruContext.getRuricolaCTR().hasTurma())
+            return true;
+        if(!pruContext.getConfigCTR().hasElemConfig())
+            return true;
+        return !pruContext.getConfigCTR().getConfig().getNroAparelhoConfig().equals(Long.valueOf(editTextNroAparelhoConfig.getText().toString()));
     }
 
 }

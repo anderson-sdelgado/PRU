@@ -30,11 +30,11 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
 
         pruContext = (PRUContext) getApplication();
 
-        Button buttonDesmarcarTodosFuncAloc = (Button) findViewById(R.id.buttonDesmarcarTodosFuncAloc);
-        Button buttonMarcarTodosFuncAloc = (Button) findViewById(R.id.buttonMarcarTodosFuncAloc);
-        Button buttonRetFuncAloc = (Button) findViewById(R.id.buttonRetFuncAloc);
-        Button buttonSalvarFuncAloc = (Button) findViewById(R.id.buttonSalvarFuncAloc);
-        Button buttonAtualFuncAloc = (Button) findViewById(R.id.buttonAtualFuncAloc);
+        Button buttonDesmarcarTodosFuncAloc = findViewById(R.id.buttonDesmarcarTodosFuncAloc);
+        Button buttonMarcarTodosFuncAloc = findViewById(R.id.buttonMarcarTodosFuncAloc);
+        Button buttonRetFuncAloc = findViewById(R.id.buttonRetFuncAloc);
+        Button buttonSalvarFuncAloc = findViewById(R.id.buttonSalvarFuncAloc);
+        Button buttonAtualFuncAloc = findViewById(R.id.buttonAtualFuncAloc);
 
         itens = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
         });
 
         adapterListChoice = new AdapterListChoice(this, itens);
-        funcListView = (ListView) findViewById(R.id.listFuncAloc);
+        funcListView = findViewById(R.id.listFuncAloc);
         funcListView.setAdapter(adapterListChoice);
 
         buttonDesmarcarTodosFuncAloc.setOnClickListener(v -> {
@@ -157,7 +157,6 @@ public class ListaFuncAlocActivity extends ActivityGeneric {
                     pruContext.getRuricolaCTR().alocaFunc(funcList);
                 }
 
-                funcList.clear();
                 Intent it = new Intent(ListaFuncAlocActivity.this, MenuApontActivity.class);
                 startActivity(it);
                 finish();

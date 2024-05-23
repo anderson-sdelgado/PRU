@@ -49,14 +49,14 @@ public class VerifDadosServ {
 
     }
 
-    public void verDados(String dado, String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
+    public void verifDados(String dado, String classe, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
 
         urlsConexaoHttp = new UrlsConexaoHttp();
         this.telaAtual = telaAtual;
         this.telaProx = telaProx;
         this.progressDialog = progressDialog;
         this.dado = dado;
-        this.classe = tipo;
+        this.classe = classe;
 
         envioVerif();
 
@@ -92,12 +92,6 @@ public class VerifDadosServ {
         if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
             postVerGenerico.cancel(true);
         }
-    }
-
-    public void pulaTelaSemTerm(){
-        this.progressDialog.dismiss();
-        Intent it = new Intent(telaAtual, telaProx);
-        telaAtual.startActivity(it);
     }
 
     public void msgSemTerm(String texto){

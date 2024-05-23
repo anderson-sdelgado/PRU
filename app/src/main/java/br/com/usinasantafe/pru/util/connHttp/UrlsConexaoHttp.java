@@ -6,9 +6,9 @@ public class UrlsConexaoHttp {
 
     public static String versao = "versao_" + PRUContext.versaoWS.replace(".", "_");
 
-    public static String url = "https://www.usinasantafe.com.br/prudev/view/";
+//    public static String url = "https://www.usinasantafe.com.br/prudev/view/";
 //    public static String url = "https://www.usinasantafe.com.br/pruqa/view/";
-//    public static String url = "https://www.usinasantafe.com.br/pruprod/" + versao + "/view/";
+    public static String url = "https://www.usinasantafe.com.br/pruprod/" + versao + "/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pru.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pru.util.connHttp.UrlsConexaoHttp";
@@ -23,7 +23,6 @@ public class UrlsConexaoHttp {
 
     public UrlsConexaoHttp() {
     }
-
     public String getsInserirRuricola() {
         return url + "inserirruricola.php";
     }
@@ -32,8 +31,6 @@ public class UrlsConexaoHttp {
         String retorno = "";
         if (classe.equals("OS")) {
             retorno = url + "os.php";
-        } else if (classe.equals("Ativ")) {
-            retorno = url + "atualosativ.php";
         } else if (classe.equals("Atualiza")) {
             retorno = url + "atualaplic.php";
         } else if (classe.equals("Token")) {

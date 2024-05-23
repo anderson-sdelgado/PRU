@@ -32,17 +32,13 @@ public class ListaAtividadeActivity extends ActivityGeneric {
 
         buttonAtualAtividade.setOnClickListener(v -> {
 
-            if(connectNetwork){
+            progressBar = new ProgressDialog(v.getContext());
+            progressBar.setCancelable(true);
+            progressBar.setMessage("ATUALIZANDO ATIVIDADES...");
+            progressBar.show();
 
-                progressBar = new ProgressDialog(v.getContext());
-                progressBar.setCancelable(true);
-                progressBar.setMessage("ATUALIZANDO ATIVIDADES...");
-                progressBar.show();
-
-                pruContext.getConfigCTR().verOS(String.valueOf(pruContext.getConfigCTR().getConfig().getNroOSConfig())
-                        , ListaAtividadeActivity.this, ListaAtividadeActivity.class, progressBar);
-
-            }
+            pruContext.getConfigCTR().verOS(String.valueOf(pruContext.getConfigCTR().getConfig().getNroOSConfig())
+                    , ListaAtividadeActivity.this, ListaAtividadeActivity.class, progressBar);
 
         });
 
@@ -89,7 +85,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                     }
                 }
 
-                ativArrayList.clear();
                 startActivity(it);
                 finish();
 
@@ -99,7 +94,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                 pruContext.getRuricolaCTR().setIdParada(0L);
 
                 if(pruContext.getConfigCTR().getConfig().getIdTipoConfig() == 1){
-                    ativArrayList.clear();
                     it = new Intent(ListaAtividadeActivity.this, ListaFuncApontActivity.class);
                     startActivity(it);
                     finish();
@@ -107,7 +101,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
 
                     if(pruContext.getRuricolaCTR().verApont()){
                         pruContext.getRuricolaCTR().salvaApont();
-                        ativArrayList.clear();
                         it = new Intent(ListaAtividadeActivity.this, MenuApontActivity.class);
                         startActivity(it);
                         finish();
@@ -123,7 +116,6 @@ public class ListaAtividadeActivity extends ActivityGeneric {
                 }
 
             } else {
-                ativArrayList.clear();
                 it = new Intent(ListaAtividadeActivity.this, ListaParadaActivity.class);
                 startActivity(it);
                 finish();

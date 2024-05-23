@@ -34,7 +34,7 @@ public class PRUContext extends Application {
     private int posCabec;
     private Long id;
 
-    public static String versaoWS = "3.03";
+    public static String versaoWS = "3.04";
 
     @Override
     public void onCreate() {

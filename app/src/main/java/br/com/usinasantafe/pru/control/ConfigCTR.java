@@ -76,11 +76,6 @@ public class ConfigCTR {
         return configDAO.getConfig();
     }
 
-    public OSBean getOS(){
-        OSDAO osDAO = new OSDAO();
-        return osDAO.getOS(getConfig().getNroOSConfig());
-    }
-
     public boolean getConfigSenha(String senha){
         ConfigDAO configDAO = new ConfigDAO();
         return configDAO.getConfigSenha(senha);

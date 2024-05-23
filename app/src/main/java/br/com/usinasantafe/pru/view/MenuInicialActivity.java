@@ -102,6 +102,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                         });
                         alerta.show();
                     }
+                    break;
                 }
                 case "SAIR": {
                     Intent intent = new Intent(Intent.ACTION_MAIN);

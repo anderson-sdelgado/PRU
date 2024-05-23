@@ -21,7 +21,7 @@ public class OSDAO {
     }
 
     public void verOS(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog){
-        VerifDadosServ.getInstance().verDados(dado, "OS", telaAtual, telaProx, progressDialog);
+        VerifDadosServ.getInstance().verifDados(dado, "OS", telaAtual, telaProx, progressDialog);
     }
 
     public void recDadosOS(String result){

@@ -75,7 +75,6 @@ public class ListaParadaActivity extends ActivityGeneric {
                 startActivity(it);
                 finish();
 
-                listParada.clear();
 
             } else {
                 if(pruContext.getRuricolaCTR().verApont()){
@@ -84,7 +83,6 @@ public class ListaParadaActivity extends ActivityGeneric {
                     startActivity(it);
                     finish();
 
-                    listParada.clear();
 
                 } else {
                     AlertDialog.Builder alerta = new AlertDialog.Builder( ListaParadaActivity.this);
